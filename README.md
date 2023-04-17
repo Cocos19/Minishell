@@ -1,1 +1,25 @@
 # Minishell
+
+Features to implement:
+
+1. Signals & terminal management - Completed (Marco)
+2. Lexer - Completed (Marco)
+  - History - Completed (Marco)
+3. Tokenizer - Completed (Marco)
+4. Parser - Ongoing (Marco)
+  - environnement variables - Ongoing (Marco)
+  - heredoc - Completed (Marco)
+  - other redirections - Ongoing (Marco)
+6. Expander - Ongoing (Marco)
+  - quotes - Ongoing (Marco)
+  - dollar expander - Ongoing (Marco)
+8. Executer - Not started (Coralie?)
+  - Environnement variables - Not started (Coralie?)
+10. Built-in - Not started (Coralie?)
+  - echo -n - Not started (Coralie?)
+  - cd absolute and relative - Not started (Coralie?)
+  - pwd - Not started (Coralie?)
+  - export - Not started (Coralie?)
+  - unset - Not started (Coralie?)
+  - env - Not started (Coralie?)
+  - exit - Not started (Coralie?)

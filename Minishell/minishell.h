@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/17 09:56:35 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:12:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_local_variable
 typedef struct s_token
 {
 	char				*value;
+	struct s_token		*last;
 	struct s_token		*next;
 }	t_token;
 
@@ -87,24 +88,32 @@ typedef struct s_input_file_infos
 {
 	char						*name;
 	int							fd;
-	struct s_input_node_infos	*next;
+	struct s_input_file_infos	*next;
 } t_input_file;
 
 typedef struct s_output_file_infos
 {
 	char						*name;
+	int							fd;
 	int							in_happend_mode;
 	struct s_output_file_infos	*next;
 } t_output_file;
 
+//input and output will be setup at -1 if there is no input or output
+
 typedef struct s_pipe_node
 {
-	char				**arguments;
-	t_local_var			*temp_varlist;
-	t_input_file		*input_file_lst;
-	t_input_file		*output_file_lst;
-	struct s_pipe_node	*next;
+	char						**arguments;
+	t_local_var					*temp_varlist; //not usefull for execution
+	t_input_file				*input_file_lst;
+	t_output_file				*output_file_lst;
+	struct s_pipe_node			*next;
 }	t_pipe_node;
+
+// example with a command:
+// input: echo a >file1 | cat
+// t_pipe_node *: arguments[0] = echo,  argument[1] = a, argument[2] = NULL, output_file_lst->fd = 6
+// t_pipe_node->next: argument[0] = cat, argument[1] = NULL - pas oublier le resultat du pipe precedent est un input
 
 /* SHELL INFO */
 
@@ -117,6 +126,7 @@ typedef struct s_shell_infos
 	char				*name;
 	char				*input;
 	t_token				*token_lst;
+	t_pipe_node			*pipe_lst;
 }	t_shell;
 
 /* ENV */
@@ -152,7 +162,9 @@ int		input_is_valid(t_shell *shell);
 void	add_new_locale_variable(t_shell *shell, char *name, char *value);
 void	update_exit_status_variable(t_shell *shell);
 
-/* PIPE NODE LIST */
+/* PARSING */
+
+t_pipe_node *parse(t_shell *shell);
 
 /* SIGNALS HANDLING */
 
@@ -170,14 +182,16 @@ void	desactivate_vquit(t_shell *shell);
 /* TOKENS */
 
 t_token	*tokenize(t_shell *shell, char *input);
+int		token_list_is_valid(t_shell *shell);
 char	*tokenize_pipe_operator(t_shell *shell, char *input, t_token *current, char *start);
 char	*tokenize_redirection_operator(t_shell *shell, char *input, t_token *current, char *start);
 char	*tokenize_quotes(t_shell *shell, char *input, t_token *current, char *start);
+void	complete_token(t_shell *shell);
 
 /* UTILS */
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-
+int		free_input_and_exit(char *input);
 /* TEMP FUNCTIONS */
 
 //Thoses functions are here for debugging, they should be suppressed when the project is over
@@ -185,5 +199,6 @@ char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
 void	init_some_locales_variables(t_shell *shell);
 void	print_token_list_infos(t_token *lst);
 void	print_fd_content(int fd);
+void	print_pipe_lst_content(t_pipe_node *pipe_lst);
 
 #endif

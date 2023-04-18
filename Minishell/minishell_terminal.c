@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 13:47:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:29:57 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ void	init_terminal(t_shell *shell)
 	shell->input = NULL;
 	shell->token_lst = NULL;
 	shell->varloc_list = NULL;
+	shell->pipe_lst = NULL;
 	add_new_locale_variable(shell, ft_strdup("?"), ft_strdup("0"));
 	if (shell->varloc_list->name == NULL || shell->varloc_list->value == NULL)
 		free_and_print_strerror(shell);

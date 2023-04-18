@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 14:47:51 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/18 11:03:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,56 @@ void	print_fd_content(int fd)
 	close(fd);
 }
 
+void	print_pipe_lst_content(t_pipe_node *pipe_lst)
+{
+	t_pipe_node 	*current;
+	t_input_file 	*current_input_file_lst;
+	t_output_file 	*current_output_file_lst;
+	t_local_var 	*current_temp_var_lst;
+	int			i;
+
+	current = pipe_lst;
+	i = -1;
+	printf("la ca va\n");
+	while (current)
+	{
+		if (current->arguments)
+		{
+			while(current->arguments[++i])
+				printf("argv[%d]: %s\n", i, current->arguments[i]);
+			i = -1;
+		}
+		current_input_file_lst = current->input_file_lst;
+		while (current_input_file_lst)
+		{
+			++i;
+			if (current_input_file_lst->name)
+				printf("input_file %d name: %s. Fd: %d\n", i, current_input_file_lst->name, current_input_file_lst->fd);
+			else
+				printf("input_file %d is heredoc. Fd: %d\n", i, current_input_file_lst->fd);
+			current_input_file_lst = current_input_file_lst->next;
+		}
+		i = -1;
+		current_output_file_lst = current->output_file_lst;
+		while (current_output_file_lst)
+		{
+			++i;
+			printf("output_file %d name: %s. is in happen mode: %d\n", i, current_output_file_lst->name, current_output_file_lst->in_happend_mode);
+			current_output_file_lst = current_output_file_lst->next;
+		}
+		i = -1;
+		current_temp_var_lst = current->temp_varlist;
+		while (current_temp_var_lst)
+		{
+			++i;
+			printf("temp_var %d name: %s. var value is: %s\n", i, current_temp_var_lst->name, current_temp_var_lst->value);
+			current_temp_var_lst = current_temp_var_lst->next;
+		}
+		i = -1;
+		current = current->next;
+	}
+}
+
 void	init_some_locales_variables(t_shell *shell)
 {
 	add_new_locale_variable(shell, ft_strdup("var2"), ft_strdup("second locale variable"));
@@ -46,42 +96,3 @@ void	init_some_locales_variables(t_shell *shell)
 	add_new_locale_variable(shell, ft_strdup("var4"), ft_strdup("fourth locale variable"));
 	add_new_locale_variable(shell, ft_strdup("var5"), ft_strdup("fifth locale variable"));
 }
-
-// parsing
-
-// si < ou << enregistre les input en ecrasant toujours le dernier
-// si > ou >> cree les files avec open si necessaire mais n'ecrira dans le dernier que s'il y a une command
-// enregistre les implentations de variables mais ne les implementera que s'il n'y a pas de command et pas d'autres command dans le pipe
-// tous les autres cas sont des arguments
-// si | ouvre un pipe enfant
-
-// expand les variables et suppression des quotes (si rien entre les quotes, l'argument est une string vide)
-
-// le premier argument qui n'est pas un de ces cas de figure sera considere comme la command
-// les autres suivent
-// si pas d'autres argument, on prend le dernier input comme second argument
-
-// s'il y a des argument, on lance execve
-// si pas on verifie s'il y a des implementation de variable et on les enregistre dans l'ordre
-
-// base:
-// Si syntax error, on arrete la recolte de token, on free et on rend le prompt
-// if ' ' pas entre quotes on zappe les espaces. Si on est en train de recuperer un token, on le recupere puis on zappe.
-// if '\0' si on est en train de recuperer un token, on le recupere. Sinon fin de la collecte d'arguments.
-// if '<' ou '<<' pas entre quotes, le prochain token va dans la variable input et ecrase le contenu. Si on est en train de recuperer un token, on le recupere.
-// if '>' ou '>>' pas entre quotes, le prochain token cree un fichier va dans la variable output et ecrase le contenu. Si on est en train de recuperer un token, on le recupere.
-// if '=' pas entre quotes on finit de recuperer le token et on le garde dans une chaine listee de variable a implementer si les conditions sont reunies a la fin. Si pas encore d'arg, on stock, si deja un arg, ca devient juste un arg. Si on rencontre un arg plus tard, on free tout ce qui ete stocke
-// if '\' ou '\"' pas entre quotes on recupere le token: il ira soit comme input, comme output, comme prochaine variable, comme argument
-// if '*' pas entre quotes on finit de recuperer le token et on expand direct le * car le result va s'inserer dans la liste d'argument: le mieux est de recuper un array d'argument et de join le tableau d'args
-// if '|' pas entre quotes on cloture le pipe et on ouvre le suivant. Si on est en train de recuperer un token, on le recupere.
-
-// A la fin d'un pipe, qu'il se cloture par un '\0' ou un '|', Si on attendais un input ou un output, on affiche une syntax error near unexpected token 'newline' ou '|' // trouver un moyen de savoir qu'on attend un input ou output. Si on attend une variable a implenter, elle est egale a une string vide
-
-// Priorité d'execution des inputs:
-
-// Si argv[1] ou +, les args ont toujours la priorité
-// Sinon le dernier argument entre l'output du node precedent, les inputs ou les heredoc.
-
-//le heredoc Expand seulement le dollar
-// faire une liste d'input avec nom, le fd et une variable s'il est open ou deja close
-

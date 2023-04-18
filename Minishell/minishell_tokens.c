@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 14:47:39 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/17 12:10:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,22 @@ t_token	*tokenize(t_shell *shell, char *input)
 
 	token_lst = init_token(shell);
 	current = token_lst;
-	while (input)
+	input = ft_skip_character(input, ' ');
+	while (input && *input)
 	{
-		input = ft_skip_character(input, ' ');
 		token_start = input;
 		if (is_special_character(*token_start) == 1)
 			input = tokenize_special_char(shell, input, current, token_start);
 		else
 			input = get_token_end(shell, input, current, token_start);
-		current->next = init_token(shell);
-		current = current->next;
+		input = ft_skip_character(input, ' ');
+		if (input && *input)
+		{
+			current->next = init_token(shell);
+			current = current->next;
+		}
 	}
+	token_lst->last = current;
 	if (g_exit_status != 0)
 	{
 		free_token_lst(token_lst);

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 13:50:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/17 15:48:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,27 @@ void	read_prompt(t_shell *shell)
 		free_and_print_custom_message(shell, "\bexit\n");
 	if (input_is_valid(shell) == 0)
 	{
-		activate_sigint_handler(shell, &sigint_handler_off);
-		activate_vquit(shell);
 		add_history(user_input);
 		shell->token_lst = tokenize(shell, user_input);
-		/* PARSE TOKEN FUNCTION MISSING - A function which will if shell->token lst return a t_pipe_node list will be there */
-		/* TEMPORARY SHOULD BE REPLACED BY if(t_pipe_node *result) ->execution function*/
-		if (shell->token_lst)
-		{
-			print_token_list_infos(shell->token_lst);
-			free_token_lst(shell->token_lst);
-			shell->token_lst = NULL;
-		}
-		/* TEMPORARY SHOULD BE REPLACED BY if(result) ->execution function*/
+		while (g_exit_status == 0 && token_list_is_valid(shell) != 0)
+				complete_token(shell);
+
+		//temporary
+
+		// if (g_exit_status == 0 && shell->token_lst)
+		// {
+		// 	print_token_list_infos(shell->token_lst);
+		// 	free_token_lst(shell->token_lst);
+		// 	shell->token_lst = NULL;
+		// }
+
+		//temporary
+
+		activate_sigint_handler(shell, &sigint_handler_off);
+		activate_vquit(shell);
+		shell->pipe_lst = parse(shell);
+		if (shell->pipe_lst)
+			print_pipe_lst_content(shell->pipe_lst); /* TEMPORARY SHOULD BE REPLACED BY if(t_pipe_node *result) ->execution function*/
 		activate_sigint_handler(shell, &sigint_shell_handler);
 		desactivate_vquit(shell);
 	}

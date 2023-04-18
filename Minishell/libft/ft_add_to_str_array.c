@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:51:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 15:04:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/18 10:19:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**ft_add_to_str_array(char **src, char *str_to_add)
 	if(!result)
 		return (NULL);
 	i = 0;
-	while (src && *(src + i))
+	while (src && *(src + i) != NULL)
 	{
 		result[i] = *(src + i);
 		++i;

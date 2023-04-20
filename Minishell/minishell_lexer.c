@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_tokens.c                                 :+:      :+:    :+:   */
+/*   minishell_lexer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/17 12:10:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/20 14:59:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,9 @@ t_token *init_token(t_shell *shell)
 	if (!new)
 		free_and_print_strerror(shell);
 	new->value = NULL;
+	new->last = NULL;
 	new->next = NULL;
 	return (new);
-}
-
-int	is_special_character(char c)
-{
-	if (c == '|' || c == '<' || c == '>' || c == '\'' || c == '\"'
-		|| c == ' ' || c == '\0')
-		return (1);
-	return (0);
 }
 
 char	*get_token_end(t_shell *shell, char *input, t_token *current, char *token_start)
@@ -80,9 +73,13 @@ t_token	*tokenize(t_shell *shell, char *input)
 	}
 	token_lst->last = current;
 	if (g_exit_status != 0)
-	{
-		free_token_lst(token_lst);
-		token_lst = NULL;
-	}
+		free_token_lst(shell);
 	return (token_lst);
+}
+
+void	lexer(t_shell *shell, char *user_input)
+{
+	shell->token_lst = tokenize(shell, user_input);
+	while (g_exit_status == 0 && token_list_is_valid(shell) != 0)
+		complete_token(shell);
 }

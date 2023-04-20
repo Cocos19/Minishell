@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:42:52 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/13 18:11:40 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/20 17:06:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ void	sigint_shell_handler(int signal_id, siginfo_t *sig_info, void *context)
 	(void) context;
 }
 
+void	sigquit_shell_handler(int signal_id, siginfo_t *sig_info, void *context)
+{
+	(void) signal_id;
+	(void) sig_info;
+	(void) context;
+}
+
 void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context)
 {
 	if (signal_id == SIGINT)
@@ -34,16 +41,16 @@ void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context)
 	(void) context;
 }
 
-void	sigint_handler_off(int signal_id, siginfo_t *sig_info, void *context)
-{
-	(void) signal_id;
-	(void) sig_info;
-	(void) context;
-}
-
 void	activate_sigint_handler(t_shell *shell, void f(int, siginfo_t *, void *))
 {
-	shell->signal_processing->sa_sigaction = f;
-	if (sigaction(SIGINT, shell->signal_processing, NULL) == -1)
+	shell->sigint_processing->sa_sigaction = f;
+	if (sigaction(SIGINT, shell->sigint_processing, NULL) == -1)
+		exit (EXIT_FAILURE);
+}
+
+void	desactivate_sigint_handler(t_shell *shell)
+{
+	shell->sigint_processing->sa_handler = SIG_DFL;
+	if (sigaction(SIGINT, NULL, NULL) == -1)
 		exit (EXIT_FAILURE);
 }

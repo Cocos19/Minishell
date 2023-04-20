@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 14:51:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/18 10:19:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/19 17:32:07 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@ char	**ft_add_to_str_array(char **src, char *str_to_add)
 	int		i;
 
 	str_array_len = ft_strarraylen(src);
-	result = malloc(sizeof(char **) * str_array_len + 2);
+	result = malloc(sizeof(char *) * str_array_len + 2);
 	if(!result)
 		return (NULL);
 	i = 0;
-	while (src && *(src + i) != NULL)
+	while (i < str_array_len)
 	{
-		result[i] = *(src + i);
+		result[i] = ft_strdup(*(src + i));
 		++i;
 	}
 	if (str_to_add)
-		result[i++] = str_to_add;
-	result[i] = NULL;
+		result[i] = ft_strdup(str_to_add);
+	result[++i] = NULL;
 	return (result);
 }

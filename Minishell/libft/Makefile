@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 14:04:13 by mprofett          #+#    #+#              #
-#    Updated: 2023/04/14 15:06:15 by mprofett         ###   ########.fr        #
+#    Updated: 2023/04/19 14:39:09 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,7 @@ SRCSB	= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 		ft_expand.c ft_strjoin_and_free_srcs.c ft_substr_delimited.c \
 		ft_is_empty_or_with_only_spaces.c ft_strarraylen.c \
 		ft_strarrayjoin_and_free_srcs.c ft_skip_character.c \
-		ft_add_to_str_array.c
+		ft_add_to_str_array.c ft_strdup_array.c ft_print_str_array.c \
 
 OBJS	= ${SRCS:.c=.o}
 

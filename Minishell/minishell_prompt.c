@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_input_validity.c                         :+:      :+:    :+:   */
+/*   minishell_prompt.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 13:06:31 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/20 15:09:46 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,25 @@ int	input_is_valid(t_shell *shell)
 	char	*str;
 
 	str = shell->input;
-	if (!(ft_strlen(str) > 0))
+	if (!(ft_strlen(shell->input) > 0))
 		return (-1);
 	else if (check_quotes_validity(shell, str) != 0)
 		return (g_exit_status);
 	return (0);
+}
+
+char	*give_prompt(t_shell *shell)
+{
+	char	*user_input;
+
+	user_input = readline(shell->name);
+	if (g_exit_status != 0)
+	{
+		export(shell, "?=130");
+		g_exit_status = 0;
+	}
+	shell->input = user_input;
+	if (!user_input)
+		free_and_print_custom_message(shell, "\bexit\n");
+	return (user_input);
 }

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/18 14:34:45 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:13:46 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ typedef struct s_output_file_infos
 typedef struct s_pipe_node
 {
 	char						**arguments;
+	char						*path;	// initilaliser a null
 	t_local_var					*temp_varlist; //not usefull for execution
 	t_input_file				*input_file_lst;
 	t_output_file				*output_file_lst;
@@ -131,6 +132,12 @@ typedef struct s_shell_infos
 
 /* ENV */
 
+char	**get_envp_paths(char **envp);
+
+/* CMDS */
+
+char	*cmd_exist(char **envp, char **arg);
+
 /* ERROR HANDLING */
 
 void	free_and_print_strerror(t_shell *shell);
@@ -138,12 +145,18 @@ void	free_and_print_custom_error(t_shell *shell, char *minishell_error);
 
 /*EXECUTION*/
 
+int		ft_fork(t_shell *shell);
+void	ft_pipe(t_shell *shell, int *fd);
+void	ft_dup2(t_shell *shell, int fd, int input);
+
+
 /*EXPAND*/
 
 /*FREE MEMORY*/
 
 void	free_shell(t_shell *shell);
 void	free_token_lst(t_token *lst);
+void	free_all_tab(char **p_tab, int len);
 void	free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
@@ -191,7 +204,11 @@ void	complete_token(t_shell *shell);
 /* UTILS */
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
+int		ft_lstsize_pipe(t_pipe_node *lst);
 int		free_input_and_exit(char *input);
+int		*create_pids(t_pipe_node *pipe);
+int		len_tab(char **tb);
+void	ft_close(int fd);
 /* TEMP FUNCTIONS */
 
 //Thoses functions are here for debugging, they should be suppressed when the project is over

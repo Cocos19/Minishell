@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 14:48:05 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/27 10:57:30 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,4 +97,19 @@ void	free_and_print_custom_message(t_shell *shell, char *message)
 	write(1, message, ft_strlen(message));
 	free_shell(shell);
 	exit (g_exit_status);
+}
+
+void	free_all_tab(char **p_tab, int len)
+{
+	int	i;
+
+	i = 0;
+	while (p_tab && i < len && p_tab[i])
+	{
+		free(p_tab[i]);
+		p_tab[i] = NULL;
+		++i;
+	}
+	free(p_tab);
+	p_tab = NULL;
 }

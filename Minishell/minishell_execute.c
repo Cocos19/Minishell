@@ -6,21 +6,11 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/20 14:53:01 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/18 15:35:12 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/04/27 11:31:03 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	*ft_pipe(t_shell *shell)
-{
-	(void)shell;
-	int	fd[2];
-
-	pipe(fd);
-	if (fd[0] == -1 || fd[1] == -1)
-		exit(EXIT_FAILURE);
-}
 
 int	is_buitlins(char **arguments)
 {
@@ -44,11 +34,4 @@ int	is_buitlins(char **arguments)
 	else if (ft_strcmp(arguments[0], "exit"))
 		return (7);
 	return (0);
-}
-
-void	execution_pipe(t_shell *shell)
-{
-	int	*fd;
-
-	fd = ft_pipe(shell);
 }

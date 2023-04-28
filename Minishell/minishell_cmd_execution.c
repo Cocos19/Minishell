@@ -6,82 +6,73 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/04/24 14:50:58 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/04/28 10:52:36 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*create_pids(t_pipe_node *pipe)
-{
-	int	pids;
-
-	pids = ft_calloc(sizeof(int), ft_lstsize(pipe));
-	if (!pids)
-		exit(EXIT_FAILURE);
-	return (pids);
-}
-
-void	ft_close(int fd)
-{
-	if (close(fd) == -1)
-		perror(__func__);
-	// donner le nom du fichier ??? 
-}
-
-void	ft_pipe(t_shell *shell, int *fd)
-{
-	pipe(fd);
-	if (fd[0] == -1 || fd[1] == -1)
-		exit(EXIT_FAILURE);
-	(void)shell;
-}
-
-int	ft_fork(t_shell *shell)
-{
-	int	result;
-
-	result = fork();
-	if (result == -1)
-		exit(EXIT_FAILURE);
-	(void)shell;
-	return (result);
-}
-
-char	*cmd_exist(char **envp, char **arg)
-{
-	if (access(arg[0], X_OK) == 0)
-		return (arg[0]);
-	else
-	{
-		// search + access each
-	}
-	return (NULL);
-}
-
 void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe)
 {
 	char	*cmd;
 
-	cmd = cmd_exist(shell->envp, pipe->arguments);
-	execve(cmd, pipe->arguments, shell->envp);
+	pipe->path = cmd_exist(shell->envp, pipe->arguments);
+	execve(pipe->path, pipe->arguments, shell->envp);
 	exit(EXIT_FAILURE);
 }
 
-void	first_cmd(t_shell *shell, t_pipe_node *pipe, int *pids)
+void	first_cmd(t_shell *shell, t_pipe_node *pipe, int *pids, int *fd)
 {
+	pipe->path = cmd_exist(shell->envp, pipe->arguments);
 	pids[0] = ft_fork(shell);
-	(void)shell;
+	if (pids[0] == 0)
+	{
+		if (pipe->input_file_lst == -1 || !pipe->arguments[0])
+			exit(EXIT_FAILURE);
+		ft_dup2(shell, pipe->input_file_lst, STDIN_FILENO);
+		ft_close(pipe->input_file_lst);
+		ft_dup2(shell, fd[1],  STDOUT_FILENO);
+		ft_close(fd[1]);
+		ft_close(fd[0]);
+		execve(pipe->arguments, pipe->path, shell->envp);
+		exit(EXIT_FAILURE);
+	}
 }
 
-void	middle_cmd(t_shell *shell, t_pipe_node *pipe)
+void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int *pids, int *fd)
 {
-	(void)shell;
+	pipe->path = cmd_exist(shell->envp, pipe->arguments);
+	pids[0] = ft_fork(shell);
+	if (pids[0] == 0)
+	{
+		if (!!pipe->arguments[0])
+			exit(EXIT_FAILURE);
+		ft_dup2(shell, pipe->input_file_lst, STDIN_FILENO);
+		ft_close(pipe->input_file_lst);
+		ft_close(pipe->output_file_lst);
+		ft_dup2(shell, fd[1], STDOUT_FILENO);
+		ft_close(fd[0]);
+		ft_close(fd[1]);
+		execve(pipe->arguments, pipe->path, shell->envp);
+		exit(EXIT_FAILURE);
+	}
 }
 
-void	last_cmd(t_shell *shell, t_pipe_node *pipe)
+void	last_cmd(t_shell *shell, t_pipe_node *pipe, int *pids, int *fd)
 {
-	(void)shell;
+	pipe->path = cmd_exist(shell->envp, pipe->arguments);
+	pids[0] = ft_fork(shell);
+	if (pids[0] == 0)
+	{
+		if (!!pipe->arguments[0])
+			exit(EXIT_FAILURE);
+		ft_dup2(shell, fd[0], STDIN_FILENO);
+		ft_close(fd[0]);
+		ft_dup2(shell, pipe->output_file_lst, STDIN_FILENO);
+		ft_close(pipe->output_file_lst);
+		execve(pipe->arguments, pipe->path, shell->envp);
+		exit(EXIT_FAILURE);
+	}
 }
 
 void	ft_waitpids(t_shell *shell, t_pipe_node *pipe, int *pids)
@@ -109,21 +100,23 @@ void	execution_several_cmds(t_shell *shell, t_pipe_node *pipe)
 {
 	int			fd[2];
 	int			*pids;
+	int			*temp_pid;
 
 	pids = create_pids(pipe);
 	ft_pipe(shell, fd);
-	first_cmd(shell, pipe, pids);
+	first_cmd(shell, pipe, pids, fd);
 	if (pipe->input_file_lst != 0)
 		ft_close(pipe->input_file_lst);
-	ft_close(pipe->output_file_lst);
+	ft_close(fd[1]);
+	temp_pid = pids;
 	while (pipe->next)
 	{
 		pipe->input_file_lst = fd[1];
-		middle_cmd(shell, pipe);
+		middle_cmd(shell, pipe, *temp_pid++, fd);
 		ft_close(pipe->output_file_lst);
 		ft_close(fd[1]);
 	}
-	last_cmd(shell, pipe);
+	last_cmd(shell, pipe, *temp_pid++, fd);
 	ft_close(pipe->input_file_lst);
 	ft_close(fd[1]);
 	ft_waitpids(shell, pipe, pids);

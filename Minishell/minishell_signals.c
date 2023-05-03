@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:42:52 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/13 18:11:40 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:22:38 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,24 +26,17 @@ void	sigint_shell_handler(int signal_id, siginfo_t *sig_info, void *context)
 	(void) context;
 }
 
-void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context)
-{
-	if (signal_id == SIGINT)
-		exit(130);
-	(void) sig_info;
-	(void) context;
-}
-
-void	sigint_handler_off(int signal_id, siginfo_t *sig_info, void *context)
+void	sigquit_shell_handler(int signal_id, siginfo_t *sig_info, void *context)
 {
 	(void) signal_id;
 	(void) sig_info;
 	(void) context;
 }
 
-void	activate_sigint_handler(t_shell *shell, void f(int, siginfo_t *, void *))
+void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context)
 {
-	shell->signal_processing->sa_sigaction = f;
-	if (sigaction(SIGINT, shell->signal_processing, NULL) == -1)
-		exit (EXIT_FAILURE);
+	if (signal_id == SIGINT)
+		exit(130);
+	(void) sig_info;
+	(void) context;
 }

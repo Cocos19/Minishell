@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/28 10:13:46 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:24:21 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,9 @@ int	g_exit_status;
 
 /* ERROR MACROS */
 
+# define ERR_NO_FILE_OR_DIR 1
 # define ERR_SYNTAX 2
 
-/* TYPEDEF VARIABLES */
-
-typedef struct s_local_variable
-{
-	char					*name;
-	char					*value;
-	struct s_local_variable	*last;
-	struct s_local_variable	*next;
-}	t_local_var;
 
 typedef struct s_token
 {
@@ -59,73 +51,37 @@ typedef struct s_token
 
 /* PIPE NODES */
 
-//The command structure is stored in a chained list of pipe_node
-// A pipe node have several variables usefull for the execution
-// - an argument list that will be given to the execve function
-// - a tempvarlist that will stored all the token that should register a new local variable for the t_shell
-// 	* this list will be used for registering local variable only at certain conditions;
-// 		- there is only one node to execute (ex: a="variable" b="variable ...") but not this a="variable" | b="variable")
-// 		- the content of the node is only made of locale variable to register have no input_file_list, no output_file_list, no argument
-// - an input_list that will content all the input_file given to the command. Here are some spec:
-// 	* The input_file given by heredoc have a char *name = NULL and will always have his fd already opened.
-// 	* Bash will try to read any input_file given but it will only use the last of the list as input for the command. So he will try to open it even it wont use it
-// 	* if an input_file doesnt exist, it will trow an error message (No such file or directory) and move on to the next pipe node
-// 	The execution priority for input are:
-// 	* So the execution will be:
-// 		- check if there is an input from the fd from an parent pipe.
-// 			if there is input_files in input_files_list, it will close the fd and dont use the content
-// 		- check the input_file_list, try to open every named file it encounter
-// 			each time there is an input_file->next, it will close the fd (wich was opened with the open function or already opened if there a NULL char *name (it's a heredoc result))
-// 		- check if there is argument in argv[1] and more.
-// 			if there is argument is there char **argv, it will close the last input_file too and use the argument in the char *argv)
-// 			if there is arguments in char **argv, It will use all of them one after the other not juste the last
-// - an output_list. Here are the priorities:
-// 	- The exection will create any file needed to write output but will only write output in the last one. It will overwrite the content if the in_happend_mode == 0 or in happend_mode if == 1
-// 	- If the output_list is empty, it will send the output in a pipe for the next pipe node
-// 	- If there no new pipe_node, it will write the output in sdtout
-
-typedef struct s_input_file_infos
-{
-	char						*name;
-	int							fd;
-	struct s_input_file_infos	*next;
-} t_input_file;
-
-typedef struct s_output_file_infos
-{
-	char						*name;
-	int							fd;
-	int							in_happend_mode;
-	struct s_output_file_infos	*next;
-} t_output_file;
-
 //input and output will be setup at -1 if there is no input or output
+
+typedef struct s_file_datas
+{
+	int					mode;
+	char				*value;
+	struct s_file_datas	*last;
+	struct s_file_datas	*next;
+}	t_file_datas;
+
 
 typedef struct s_pipe_node
 {
 	char						**arguments;
-	char						*path;	// initilaliser a null
 	t_local_var					*temp_varlist; //not usefull for execution
 	t_input_file				*input_file_lst;
 	t_output_file				*output_file_lst;
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
-// example with a command:
-// input: echo a >file1 | cat
-// t_pipe_node *: arguments[0] = echo,  argument[1] = a, argument[2] = NULL, output_file_lst->fd = 6
-// t_pipe_node->next: argument[0] = cat, argument[1] = NULL - pas oublier le resultat du pipe precedent est un input
-
 /* SHELL INFO */
 
 typedef struct s_shell_infos
 {
 	struct termios		*term;
-	struct sigaction	*signal_processing;
-	t_local_var			*varloc_list;
+	struct sigaction	*sigint_processing;
+	struct sigaction	*sigquit_processing;
 	char				**envp;
 	char				*name;
 	char				*input;
+	int					fd_opened;
 	t_token				*token_lst;
 	t_pipe_node			*pipe_lst;
 }	t_shell;
@@ -152,11 +108,17 @@ void	ft_dup2(t_shell *shell, int fd, int input);
 
 /*EXPAND*/
 
+char	*expander(t_shell *shell, char *str);
+char	*search_and_expand_env_var(t_shell *shell, char *str);
+
+/*EXPORT*/
+
+int	export(t_shell *shell, char *var);
+
 /*FREE MEMORY*/
 
 void	free_shell(t_shell *shell);
 void	free_token_lst(t_token *lst);
-void	free_all_tab(char **p_tab, int len);
 void	free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
@@ -166,54 +128,59 @@ int get_heredoc(t_shell *shell, char *delimiter);
 //If SIGINT is triggered, the function still return a fd ready to read. It must be checked and closed if this happened
 //The error should be handled, the exit status stored and then g_exit_status should be setup at 0 again
 
-/* INPUT VALIDITY */
-
-int		input_is_valid(t_shell *shell);
-
 /* LOCALE VARIABLE */
-
-void	add_new_locale_variable(t_shell *shell, char *name, char *value);
-void	update_exit_status_variable(t_shell *shell);
 
 /* PARSING */
 
-t_pipe_node *parse(t_shell *shell);
+void 		parser(t_shell *shell);
+t_pipe_node	*init_pipe_node(t_shell *shell);
+t_token		*get_arg(t_shell *shell, t_token *arg_list, t_token *token);
+char		**init_argument_array(t_shell *shell, t_token *arg_list);
+int			next_token_is_valid(t_shell *shell, t_token *token);
+t_token *get_input(t_shell *shell, t_pipe_node *current_node, t_token *current_token);
+t_token *get_output(t_shell *shell, t_pipe_node *current_node, t_token *current_token);
+
+/* PROMPT */
+
+char	*give_prompt(t_shell *shell);
+int		input_is_valid(t_shell *shell);
 
 /* SIGNALS HANDLING */
 
 void	sigint_shell_handler(int signal_id, siginfo_t *sig_info, void *context);
 void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context);
-void	sigint_handler_off(int signal_id, siginfo_t *sig_info, void *context);
-void	activate_sigint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
+void	sigquit_shell_handler(int signal_id, siginfo_t *sig_info, void *context);
+void	activate_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
+void	desactivate_sint_handler(t_shell *shell);
+void	activate_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *));
+void	desactivate_squit_handler(t_shell *shell);
 
 /* TERMINAL */
 
-void	init_terminal(t_shell *shell);
+void	init_terminal(t_shell *shell, char **envp);
 void	activate_vquit(t_shell *shell);
 void	desactivate_vquit(t_shell *shell);
 
 /* TOKENS */
 
+void	lexer(t_shell *shell, char *user_input);
+int		is_special_character(char c);
+t_token	*init_token(t_shell *shell);
 t_token	*tokenize(t_shell *shell, char *input);
 int		token_list_is_valid(t_shell *shell);
-char	*tokenize_pipe_operator(t_shell *shell, char *input, t_token *current, char *start);
-char	*tokenize_redirection_operator(t_shell *shell, char *input, t_token *current, char *start);
-char	*tokenize_quotes(t_shell *shell, char *input, t_token *current, char *start);
+char	*get_pipe(t_shell *shell, char *input, t_token *current, char *start);
+char	*get_redir(t_shell *shell, char *input, t_token *current, char *start);
+char	*tokenize_simples_quotes(t_shell *shell, char *input, t_token *current, char *start);
 void	complete_token(t_shell *shell);
 
 /* UTILS */
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-int		ft_lstsize_pipe(t_pipe_node *lst);
 int		free_input_and_exit(char *input);
-int		*create_pids(t_pipe_node *pipe);
-int		len_tab(char **tb);
-void	ft_close(int fd);
 /* TEMP FUNCTIONS */
 
 //Thoses functions are here for debugging, they should be suppressed when the project is over
 
-void	init_some_locales_variables(t_shell *shell);
 void	print_token_list_infos(t_token *lst);
 void	print_fd_content(int fd);
 void	print_pipe_lst_content(t_pipe_node *pipe_lst);

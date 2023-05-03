@@ -6,18 +6,21 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/04/17 10:38:16 by mprofett         ###   ########.fr        #
+#    Updated: 2023/04/24 15:21:00 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-SRC			= minishell.c minishell_env.c minishell_execute.c minishell_free.c \
-			minishell_input_validity.c minishell_heredoc.c \
-			minishell_local_variables.c minishell_parser.c \
-			minishell_parser_utils.c minishell_signals.c \
+SRC			= minishell.c minishell_execute.c minishell_free.c \
+			minishell_prompt.c minishell_parser_heredoc.c \
+			minishell_expander.c minishell_parser.c \
+			minishell_parser_arguments.c minishell_signals.c \
 			minishell_utils.c minishell_temp.c minishell_terminal.c \
-			minishell_tokens.c minishell_tokenize_special_characters.c \
+			minishell_lexer_special_tokens.c \
+			minishell_lexer_checker.c minishell_builtin_export.c minishell_lexer.c \
+			minishell_parser_redirections.c minishell_expander_env_var.c \
+			minishell_signals_activation.c \
 
 SRC_BONUS	=
 

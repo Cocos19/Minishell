@@ -1,102 +1,96 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_pipe_node_list.c                         :+:      :+:    :+:   */
+/*   minishell_parser.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 15:37:28 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:30:50 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipe_node *init_pipe_node(t_shell *shell)
+t_pipe_node	*init_pipe_node(t_shell *shell)
 {
-	t_pipe_node *result;
+	t_pipe_node	*result;
 
-	result = init_pipe_node(shell);
+	result = malloc(sizeof(t_pipe_node));
 	if (!result)
 		free_and_print_strerror(shell);
-	result->arguments = malloc(sizeof(char **));
-	if (!result->arguments)
-		free_and_print_strerror(shell);
-	result->arguments[0] = NULL;
-	result->temp_varlist = NULL;
-	result->input_file_lst = NULL;
-	result->output_file_lst = NULL;
+	result->arguments = NULL;
+	result->input_lst = NULL;
+	result->output_lst = NULL;
 	result->next = NULL;
 	return (result);
 }
 
-t_pipe_node *get_next_node(t_shell *shell, t_pipe_node *current_node, t_token *token)
+int	next_token_is_valid(t_shell *shell, t_token *token)
 {
-	if (!token->next)
-	{
-		//give back prompt;
-			//if user ctrl D -> exit minishell and trow syntax error: unexpected end of file
-			//if user ctrl C -> exit parsing
-			//if user return nothing, give back prompt until there is some arg
-		//tokenize result;
-		//add to tokenlist;
-		// current_node->next = init_pipe_node(shell);
-		// return (current_node->next);
-	}
-	else if (token->next->value[0] == '|')
+	if (token->next && (token->next->value[0] == '>'
+			|| token->next->value[0] == '|' || token->next->value[0] == '<'))
 	{
 		printf("minishell: syntax error near unexpected token `|'");
-		g_exit_status = ERR_SYNTAX;
-		update_exit_status_variable(shell);
-		g_exit_status = 0;
-		return (NULL);
+		export(shell, "?=2");
+		return (1);
 	}
-	else
-	{
-		current_node->next = init_pipe_node(shell);
-		return (current_node->next);
-	}
+	return (0);
 }
 
-void	get_next_argument(t_shell *shell, t_pipe_node *node, t_token *token)
+t_pipe_node	*next(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
 {
-	char	**result;
-	char	*str_to_add;
-
-	str_to_add = ft_strdup(token->value);
-	if (!str_to_add)
-		free_and_print_strerror(shell);
-	result = ft_add_to_str_array(node->arguments, str_to_add);
-	if (!result)
-		free_and_print_strerror(shell);
-	free(node->arguments);
-	node->arguments = result;
+	if (!arg)
+	{
+		printf("minishell: syntax error near unexpected token `newline'");
+		export(shell, "?=2");
+		free_pipe_lst(shell);
+	}
+	if (next_token_is_valid(shell, tok) != 0)
+		free_pipe_lst(shell);
+	nod->arguments = init_argument_array(shell, arg);
+	nod->next = init_pipe_node(shell);
+	nod = nod->next;
+	return (nod);
 }
 
-t_pipe_node *parse(t_shell *shell)
+void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 {
-	t_pipe_node *result;
-	t_pipe_node	*current_node;
-	t_token *current_token;
+	t_token	*arg_list;
 
-	result = init_pipe_node(shell);
-	current_node = result;
-	current_token = shell->token_lst;
-	while(current_token)
+	arg_list = NULL;
+	while (token && shell->pipe_lst)
 	{
-		if (current_token->value[0] == '<')
-			current_token = get_input(shell, current_node, current_token);
-		else if (current_token->value[0] == '>')
-			current_token = get_output(shell, current_node, current_token);
-		else if (current_token->value[0] == '|')
+		if (token->value[0] == '<')
+			token = get_input(shell, node, token);
+		else if (token->value[0] == '>')
+			token = get_output(shell, node, token);
+		else if (token->value[0] == '|')
 		{
-			current_node = get_next_node((shell, current_node, current_token));
-			if (!current_node)
-				return (NULL);
+			node = next(shell, node, token, arg_list);
+			arg_list = free_token_lst_without_content(arg_list);
 		}
 		else
-			get_next_argument(shell, current_node, current_token);
-		current->token = current_token->next;
+			arg_list = get_arg(shell, arg_list, token);
+		if (!token)
+			free_pipe_lst(shell);
+		else
+			token = token->next;
 	}
-	return (result);
+	if (g_exit_status == 0)
+		node->arguments = init_argument_array(shell, arg_list);
+	arg_list = free_token_lst_without_content(arg_list);
+}
+
+void	parser(t_shell *shell)
+{
+	t_pipe_node	*first_node;
+	t_token		*first_token;
+
+	shell->pipe_lst = init_pipe_node(shell);
+	first_node = shell->pipe_lst;
+	first_token = shell->token_lst;
+	get_pipes(shell, first_node, first_token);
+	g_exit_status = 0;
+	free_token_lst(shell);
 }

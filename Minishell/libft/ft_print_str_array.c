@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_env.c                                    :+:      :+:    :+:   */
+/*   ft_print_str_array.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:13:43 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/27 11:09:44 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:36:07 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
 char	**get_envp_paths(char **envp)
 {
@@ -27,4 +27,13 @@ char	**get_envp_paths(char **envp)
 			paths = ft_split(&envp[i][5], ':');
 	}
 	return (paths);
+}
+
+void	ft_print_str_array(char **str_array)
+{
+	int	i;
+
+	i = -1;
+	while (str_array && str_array[++i])
+		ft_printf("%s\n", str_array[i]);
 }

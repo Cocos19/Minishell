@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_tokenize_special_characters.c            :+:      :+:    :+:   */
+/*   minishell_lexer_special_tokens.c					:+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/12 11:08:40 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 14:47:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/20 14:55:48 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*tokenize_pipe_operator(t_shell *shell, char *input, t_token *current, char *start)
+int	is_special_character(char c)
+{
+	if (c == '|' || c == '<' || c == '>' || c == ' ' || c == '\0')
+		return (1);
+	return (0);
+}
+
+char	*get_pipe(t_shell *shell, char *input, t_token *current, char *start)
 {
 	current->value = ft_substr_delimited(start, start);
 	if (!current->value)
@@ -20,7 +27,7 @@ char	*tokenize_pipe_operator(t_shell *shell, char *input, t_token *current, char
 	return (++input);
 }
 
-char	*tokenize_redirection_operator(t_shell *shell, char *input, t_token *current, char *start)
+char	*get_redir(t_shell *shell, char *input, t_token *current, char *start)
 {
 	if (*(input + 1) != *start)
 	{
@@ -36,14 +43,4 @@ char	*tokenize_redirection_operator(t_shell *shell, char *input, t_token *curren
 			free_and_print_strerror(shell);
 		return (input + 2);
 	}
-}
-
-char	*tokenize_quotes(t_shell *shell, char *input, t_token *current, char *start)
-{
-	++input;
-	input = ft_strchr(input, *start);
-	current->value = ft_substr_delimited(start, input);
-	if (!current->value)
-		free_and_print_strerror(shell);
-	return (++input);
 }

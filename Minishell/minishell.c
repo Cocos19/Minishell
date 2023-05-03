@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 13:50:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 10:34:02 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,27 @@ void	read_prompt(t_shell *shell)
 {
 	char	*user_input;
 
-	user_input = readline(shell->name);
-	shell->input = user_input;
-	if (!user_input)
-		free_and_print_custom_message(shell, "\bexit\n");
+	user_input = give_prompt(shell);
 	if (input_is_valid(shell) == 0)
 	{
-		activate_sigint_handler(shell, &sigint_handler_off);
+		desactivate_sint_handler(shell);
+		desactivate_squit_handler(shell);
 		activate_vquit(shell);
 		add_history(user_input);
-		shell->token_lst = tokenize(shell, user_input);
-		/* PARSE TOKEN FUNCTION MISSING - A function which will if shell->token lst return a t_pipe_node list will be there */
-		/* TEMPORARY SHOULD BE REPLACED BY if(t_pipe_node *result) ->execution function*/
-		if (shell->token_lst)
-		{
-			print_token_list_infos(shell->token_lst);
-			free_token_lst(shell->token_lst);
-			shell->token_lst = NULL;
-		}
-		/* TEMPORARY SHOULD BE REPLACED BY if(result) ->execution function*/
-		activate_sigint_handler(shell, &sigint_shell_handler);
+		lexer(shell, user_input);
+		parser(shell);
+		if (shell->pipe_lst)
+			print_pipe_lst_content(shell->pipe_lst); /* TEMPORARY SHOULD BE REPLACED BY if(t_pipe_node *result) ->execution function that return an exit code*/
+		free_pipe_lst(shell);
+		activate_sint_handler(shell, &sigint_shell_handler);
+		activate_squit_handler(shell, &sigquit_shell_handler);
 		desactivate_vquit(shell);
 	}
-	update_exit_status_variable(shell);
 	g_exit_status = 0;
 	free(shell->input);
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*shell;
 
@@ -51,10 +44,16 @@ int	main(void)
 	if (!shell)
 		free_and_print_strerror(shell);
 	g_exit_status = 0;
-	init_terminal(shell);
-	/* A GET ENVIRONNEMENT VARIABLE FUNCTION IS MISSING*/
+	init_terminal(shell, envp);
+	export (shell, "a=coucou");
+	export (shell, "a+=salut");
+	export (shell, "b");
+	export (shell, "hola=coucou");
+	export (shell, "hola+=salut");
 	while (1)
 		read_prompt(shell);
 	free_shell(shell);
+	(void) argc;
+	(void) argv;
 	return (0);
 }

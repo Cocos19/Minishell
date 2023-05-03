@@ -6,41 +6,27 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/27 10:57:30 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:39:28 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_locales_variables_list(t_local_var *lst)
-{
-	t_local_var	*temp;
-
-	temp = lst->next;
-	while (lst)
-	{
-		free(lst);
-		lst = temp;
-		if (lst)
-			temp = lst->next;
-	}
-}
-
 void	free_shell(t_shell *shell)
 {
 	if (shell->envp)
-		shell->envp= ft_free_str_array(shell->envp);
-	if (shell->varloc_list)
-		free_locales_variables_list(shell->varloc_list);
+		ft_free_str_array(shell->envp);
 	if (shell->token_lst)
-		free_token_lst(shell->token_lst);
+		free_token_lst(shell);
 	if (shell->term)
 	{
 		activate_vquit(shell);
 		free(shell->term);
 	}
-	if (shell->signal_processing)
-		free(shell->signal_processing);
+	if (shell->sigint_processing)
+		free(shell->sigint_processing);
+	if (shell->sigquit_processing)
+		free(shell->sigquit_processing);
 	if (shell->name)
 		free(shell->name);
 	if (shell->input)
@@ -49,40 +35,69 @@ void	free_shell(t_shell *shell)
 		free(shell);
 }
 
-void	free_node(t_pipe_node *node)
+void	free_file_datas_list(t_file_datas *lst)
 {
-	t_pipe_node *temp;
+	t_file_datas *temp;
 
-	temp = node->next;
-	while (node)
+	while (lst)
 	{
-		if (node->arguments)
-			ft_free_str_array(node->arguments);
-		if (node->temp_varlist)
-			free_locales_variables_list(node->temp_varlist);
-		free(node);
-		node = temp;
-		if (node)
-			temp = node->next;
+		temp = lst->next;
+		if (lst->value)
+			free(lst->value);
+		lst = temp;
 	}
 }
 
-void	free_token_lst(t_token *lst)
+void	free_pipe_lst(t_shell *shell)
+{
+	t_pipe_node *temp;
+
+	while (shell->pipe_lst)
+	{
+		if (shell->pipe_lst->arguments)
+			shell->pipe_lst->arguments = ft_free_str_array(shell->pipe_lst->arguments);
+		if (shell->pipe_lst->input_lst)
+			free_file_datas_list(shell->pipe_lst->input_lst);
+		if (shell->pipe_lst->output_lst)
+			free_file_datas_list(shell->pipe_lst->output_lst);
+		temp = shell->pipe_lst->next;
+		free(shell->pipe_lst);
+		shell->pipe_lst = temp;
+	}
+}
+
+void	free_token_lst(t_shell *shell)
+{
+	t_token *temp;
+
+	if (shell->token_lst)
+	{
+		while (shell->token_lst)
+		{
+			if (shell->token_lst->value)
+				free(shell->token_lst->value);
+			temp = shell->token_lst->next;
+			free(shell->token_lst);
+			shell->token_lst = temp;
+		}
+		shell->token_lst = NULL;
+	}
+}
+
+t_token	*free_token_lst_without_content(t_token *lst)
 {
 	t_token *temp;
 
 	if (lst)
 	{
-		temp = lst;
 		while (lst)
 		{
-			if (lst->value)
-				free(lst->value);
 			temp = lst->next;
 			free(lst);
 			lst = temp;
 		}
 	}
+	return (NULL);
 }
 
 void	free_and_print_strerror(t_shell *shell)

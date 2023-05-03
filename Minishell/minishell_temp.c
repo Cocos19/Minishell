@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 14:47:51 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:29:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	print_token_list_infos(t_token *lst)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	temp = lst;
 	while (temp)
@@ -27,7 +27,7 @@ void	print_token_list_infos(t_token *lst)
 
 void	print_fd_content(int fd)
 {
-	char *str;
+	char	*str;
 
 	str = get_next_line(fd, 10);
 	while (str)
@@ -39,49 +39,95 @@ void	print_fd_content(int fd)
 	close(fd);
 }
 
-void	init_some_locales_variables(t_shell *shell)
+void	print_file_datas_lst(t_file_datas *datas_lst)
 {
-	add_new_locale_variable(shell, ft_strdup("var2"), ft_strdup("second locale variable"));
-	add_new_locale_variable(shell, ft_strdup("var3"), ft_strdup("third locale variable"));
-	add_new_locale_variable(shell, ft_strdup("var4"), ft_strdup("fourth locale variable"));
-	add_new_locale_variable(shell, ft_strdup("var5"), ft_strdup("fifth locale variable"));
+	t_file_datas *lst;
+	int	i;
+
+	lst = datas_lst;
+	i = 0;
+	while (lst)
+	{
+		printf("File %d\n mode: %d\n value: %s\n", ++i, lst->mode, lst->value);
+		lst = lst->next;
+	}
 }
 
-// parsing
+void	print_pipe_lst_content(t_pipe_node *pipe_lst)
+{
+	t_pipe_node	*current;
+	int			i;
 
-// si < ou << enregistre les input en ecrasant toujours le dernier
-// si > ou >> cree les files avec open si necessaire mais n'ecrira dans le dernier que s'il y a une command
-// enregistre les implentations de variables mais ne les implementera que s'il n'y a pas de command et pas d'autres command dans le pipe
-// tous les autres cas sont des arguments
-// si | ouvre un pipe enfant
+	current = pipe_lst;
+	i = -1;
+	while (current)
+	{
+		if (current->arguments)
+		{
+			while (current->arguments[++i])
+				printf("argv[%d]: %s\n", i, current->arguments[i]);
+			i = -1;
+		}
+		if (current->input_lst)
+		{
+			printf("Input file list:\n");
+			print_file_datas_lst(current->input_lst);
+		}
+		if (current->output_lst)
+		{
+			printf("Output file list:\n");
+			print_file_datas_lst(current->output_lst);
+		}
+		current = current->next;
+	}
+}
 
-// expand les variables et suppression des quotes (si rien entre les quotes, l'argument est une string vide)
+// int	open_input_file(t_shell *shell, t_token *current_token)
+// {
+// 	int	fd;
 
-// le premier argument qui n'est pas un de ces cas de figure sera considere comme la command
-// les autres suivent
-// si pas d'autres argument, on prend le dernier input comme second argument
+// 	fd = open(current_token->next->value, O_RDONLY);
+// 	if (fd == -1)
+// 		update_exit_status_with_errno(shell);
+// 	else
+// 		shell_fd_control(shell, '+', 1);
+// 	return (fd);
+// }
 
-// s'il y a des argument, on lance execve
-// si pas on verifie s'il y a des implementation de variable et on les enregistre dans l'ordre
+// int	open_output_file(t_shell *shell, t_token *current_token)
+// {
+// 	int	fd;
 
-// base:
-// Si syntax error, on arrete la recolte de token, on free et on rend le prompt
-// if ' ' pas entre quotes on zappe les espaces. Si on est en train de recuperer un token, on le recupere puis on zappe.
-// if '\0' si on est en train de recuperer un token, on le recupere. Sinon fin de la collecte d'arguments.
-// if '<' ou '<<' pas entre quotes, le prochain token va dans la variable input et ecrase le contenu. Si on est en train de recuperer un token, on le recupere.
-// if '>' ou '>>' pas entre quotes, le prochain token cree un fichier va dans la variable output et ecrase le contenu. Si on est en train de recuperer un token, on le recupere.
-// if '=' pas entre quotes on finit de recuperer le token et on le garde dans une chaine listee de variable a implementer si les conditions sont reunies a la fin. Si pas encore d'arg, on stock, si deja un arg, ca devient juste un arg. Si on rencontre un arg plus tard, on free tout ce qui ete stocke
-// if '\' ou '\"' pas entre quotes on recupere le token: il ira soit comme input, comme output, comme prochaine variable, comme argument
-// if '*' pas entre quotes on finit de recuperer le token et on expand direct le * car le result va s'inserer dans la liste d'argument: le mieux est de recuper un array d'argument et de join le tableau d'args
-// if '|' pas entre quotes on cloture le pipe et on ouvre le suivant. Si on est en train de recuperer un token, on le recupere.
+// 	if (current_token->value[1] == '\0')
+// 	{
+// 		shell_fd_control(shell, '+', 1);
+// 		fd = open(current_token->next->value, O_WRONLY | O_APPEND | O_CREAT,
+// 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+// 		if (fd == -1)
+// 			update_exit_status_with_errno(shell);
+// 	}
+// 	else
+// 	{
+// 		shell_fd_control(shell, '+', 1);
+// 		fd = open(current_token->next->value, O_WRONLY | O_APPEND | O_CREAT,
+// 				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+// 		if (fd == -1)
+// 			update_exit_status_with_errno(shell);
+// 	}
+// 	return (fd);
+// }
 
-// A la fin d'un pipe, qu'il se cloture par un '\0' ou un '|', Si on attendais un input ou un output, on affiche une syntax error near unexpected token 'newline' ou '|' // trouver un moyen de savoir qu'on attend un input ou output. Si on attend une variable a implenter, elle est egale a une string vide
-
-// Priorité d'execution des inputs:
-
-// Si argv[1] ou +, les args ont toujours la priorité
-// Sinon le dernier argument entre l'output du node precedent, les inputs ou les heredoc.
-
-//le heredoc Expand seulement le dollar
-// faire une liste d'input avec nom, le fd et une variable s'il est open ou deja close
-
+	// if (token->value[1] == '\0')
+	// 	fd = open_input_file(shell, token);
+	// else
+	// {
+	// 	fd = get_heredoc(shell, token->next->value);
+	// 	if (g_exit_status != 0)
+	// 	{
+	// 		export(shell, "?=130");
+	// 		return (NULL);
+	// 	}
+	// }
+	// if (node->input_file_fd != -1)
+	// 	close_fd(shell, node->input_file_fd);
+	// node->input_file_fd = fd;

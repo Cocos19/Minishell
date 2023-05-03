@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 17:00:34 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/26 12:03:02 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:26:41 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ size_t	ft_strlen(const char *s)
 	size_t	i;
 
 	i = 0;
-	if (!s)
-		return (i);
-	while (s[i])
+	while (s && s[i])
 		i++;
 	return (i);
 }

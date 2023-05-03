@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_heredoc.c                                :+:      :+:    :+:   */
+/*   minishell_parser_heredoc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:43:03 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/14 15:39:13 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:29:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_user_input(t_shell *shell, int count_line, char *keyword, int fd)
 {
 	char	*input;
 
-	activate_sigint_handler(shell, &sigint_hered_handler);
+	activate_sint_handler(shell, &sigint_hered_handler);
 	while (1)
 	{
 		input = readline("> ");
@@ -36,7 +36,7 @@ void	get_user_input(t_shell *shell, int count_line, char *keyword, int fd)
 		}
 		if (ft_strcmp(keyword, input) != 0)
 		{
-			//input = expand locale variables in input
+			input = search_and_expand_env_var(shell, input);
 			write(fd, input, ft_strlen(input));
 			write(fd, "\n", 1);
 			free(input);
@@ -47,22 +47,24 @@ void	get_user_input(t_shell *shell, int count_line, char *keyword, int fd)
 	free_input_and_exit(input);
 }
 
-void	get_child_process_result_and_free_pipe(int *pipe_fds)
+void	get_child_process_result_and_free_pipe(t_shell *shell, int *pipe_fds)
 {
 	int	wstatus;
 
 	wait(&wstatus);
 	g_exit_status = WEXITSTATUS(wstatus);
+	shell_fd_control(shell, '-', 1);
 	close(pipe_fds[1]);
 	free(pipe_fds);
 }
 
-int get_heredoc(t_shell *shell, char *delimiter)
+int	get_heredoc(t_shell *shell, char *delimiter)
 {
-	int *pipe_fds;
+	int	*pipe_fds;
 	int	id;
-	int fd;
+	int	fd;
 
+	shell_fd_control(shell, '+', 2);
 	pipe_fds = malloc(sizeof(int) * 2);
 	if (!pipe_fds)
 		free_and_print_strerror(shell);
@@ -75,6 +77,6 @@ int get_heredoc(t_shell *shell, char *delimiter)
 	if (id == 0)
 		get_user_input(shell, 0, delimiter, pipe_fds[1]);
 	else
-		get_child_process_result_and_free_pipe(pipe_fds);
+		get_child_process_result_and_free_pipe(shell, pipe_fds);
 	return (fd);
 }

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:55:28 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/18 16:10:28 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:25:52 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,7 @@ int				ft_strarraylen(char **strarray);
 char			**ft_strarrayjoin_and_free_srcs(char **sarr1, char **sarr2);
 char			*ft_skip_character(char *str, char c);
 char			**ft_add_to_str_array(char **src, char *str_to_add);
+char			**ft_strdup_array(char **str_array);
+void			ft_print_str_array(char **str_array);
 
 #endif

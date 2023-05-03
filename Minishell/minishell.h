@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:36:18 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:47:07 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ typedef struct s_file_datas
 typedef struct s_pipe_node
 {
 	char						**arguments;
-	t_file_datas				*input_lst;
-	t_file_datas				*output_lst;
+	t_file_datas				*input_file_lst;
+	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
@@ -78,12 +78,19 @@ typedef struct s_shell_infos
 	t_pipe_node			*pipe_lst;
 }	t_shell;
 
+/* ENV */
+
 /* ERROR HANDLING */
 
 void		free_and_print_strerror(t_shell *shell);
 void		free_and_print_custom_error(t_shell *shell, char *minishell_error);
 
 /*EXECUTION*/
+
+int		ft_fork(t_shell *shell);
+void	ft_pipe(t_shell *shell, int *fd);
+void	ft_dup2(t_shell *shell, int fd, int input);
+
 
 /*EXPAND*/
 
@@ -100,11 +107,11 @@ char		*get_value_to_append(t_shell *shell, char *var);
 
 /*FREE MEMORY*/
 
-void		free_shell(t_shell *shell);
-void		free_pipe_lst(t_shell *shell);
-void		free_token_lst(t_shell *shell);
-t_token		*free_token_lst_without_content(t_token *lst);
-void		free_and_print_custom_message(t_shell *shell, char *message);
+void	free_shell(t_shell *shell);
+void	free_pipe_lst(t_shell *shell);
+void	free_token_lst(t_shell *shell);
+t_token	*free_token_lst_without_content(t_token *lst);
+void	free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
 
@@ -159,11 +166,11 @@ void		complete_token(t_shell *shell);
 
 /* UTILS */
 
-char		*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-char		*get_string_from_fd(t_shell *shell, int fd);
-void		close_fd(t_shell *shell, int fd);
-void		shell_fd_control(t_shell *shell, char operation, int i);
-void		update_exit_status_with_errno(t_shell *shell);
+char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
+char	*get_string_from_fd(t_shell *shell, int fd);
+void	close_fd(t_shell *shell, int fd);
+void	shell_fd_control(t_shell *shell, char operation, int i);
+void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */
 

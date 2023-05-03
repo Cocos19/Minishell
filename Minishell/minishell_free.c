@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:27:21 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:43:16 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,18 @@ t_token	*free_token_lst_without_content(t_token *lst)
 		}
 	}
 	return (NULL);
+}
+
+void	free_and_print_strerror(t_shell *shell)
+{
+	printf("%s\n", strerror(errno));
+	free_shell(shell);
+	exit (errno);
+}
+
+void	free_and_print_custom_message(t_shell *shell, char *message)
+{
+	write(1, message, ft_strlen(message));
+	free_shell(shell);
+	exit (g_exit_status);
 }

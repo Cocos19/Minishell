@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/02 15:59:56 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:24:21 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,9 @@ typedef struct s_file_datas
 typedef struct s_pipe_node
 {
 	char						**arguments;
-	t_file_datas				*input_lst;
-	t_file_datas				*output_lst;
+	t_local_var					*temp_varlist; //not usefull for execution
+	t_input_file				*input_file_lst;
+	t_output_file				*output_file_lst;
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
@@ -87,12 +88,23 @@ typedef struct s_shell_infos
 
 /* ENV */
 
+char	**get_envp_paths(char **envp);
+
+/* CMDS */
+
+char	*cmd_exist(char **envp, char **arg);
+
 /* ERROR HANDLING */
 
 void	free_and_print_strerror(t_shell *shell);
 void	free_and_print_custom_error(t_shell *shell, char *minishell_error);
 
 /*EXECUTION*/
+
+int		ft_fork(t_shell *shell);
+void	ft_pipe(t_shell *shell, int *fd);
+void	ft_dup2(t_shell *shell, int fd, int input);
+
 
 /*EXPAND*/
 
@@ -106,9 +118,7 @@ int	export(t_shell *shell, char *var);
 /*FREE MEMORY*/
 
 void	free_shell(t_shell *shell);
-void	free_pipe_lst(t_shell *shell);
-void	free_token_lst(t_shell *shell);
-t_token	*free_token_lst_without_content(t_token *lst);
+void	free_token_lst(t_token *lst);
 void	free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
@@ -166,11 +176,7 @@ void	complete_token(t_shell *shell);
 /* UTILS */
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-char	*get_string_from_fd(t_shell *shell, int fd);
-void	close_fd(t_shell *shell, int fd);
-void	shell_fd_control(t_shell *shell, char operation, int i);
-void	update_exit_status_with_errno(t_shell *shell);
-
+int		free_input_and_exit(char *input);
 /* TEMP FUNCTIONS */
 
 //Thoses functions are here for debugging, they should be suppressed when the project is over

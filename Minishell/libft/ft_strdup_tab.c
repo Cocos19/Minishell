@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup_tab.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:45:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/04/18 16:06:06 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:10:31 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_len_tab(const char **tab)
 	return (len);
 }
 
-char	*ft_strdup(const char **tab)
+char	**ft_strdup_tab(const char **tab)
 {
 	char	**result;
 	int		i;

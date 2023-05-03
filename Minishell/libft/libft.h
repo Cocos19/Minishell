@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:55:28 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:42:47 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:10:39 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char			*ft_strnstr(const char *haystack,
 int				ft_atoi(const char *str);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
-char			*ft_strdup_tab(const char **tab);
+char			**ft_strdup_tab(const char **tab);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);

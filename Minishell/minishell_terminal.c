@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_terminal.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 11:39:32 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:44:18 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	activate_vquit(t_shell *shell)
+void	act_vquit(t_shell *shell)
 {
 	if (tcgetattr(0, shell->term) < 0)
 		free_and_print_strerror(shell);
@@ -21,7 +21,7 @@ void	activate_vquit(t_shell *shell)
 		free_and_print_strerror(shell);
 }
 
-void	desactivate_vquit(t_shell *shell)
+void	desact_vquit(t_shell *shell)
 {
 	if (tcgetattr(0, shell->term) < 0)
 		free_and_print_strerror(shell);
@@ -46,8 +46,8 @@ void	init_shell_signals(t_shell *shell)
 	shell->sigquit_processing = malloc(sizeof(struct sigaction));
 	if (!shell->sigquit_processing)
 		free_and_print_strerror(shell);
-	activate_sint_handler(shell, &sigint_shell_handler);
-	activate_squit_handler(shell, &sigquit_shell_handler);
+	act_sint_handler(shell, &sigint_shell_h);
+	act_squit_handler(shell, &sigquit_shell_h);
 }
 
 void	init_terminal(t_shell *shell, char **envp)
@@ -65,6 +65,6 @@ void	init_terminal(t_shell *shell, char **envp)
 		free_and_print_strerror(shell);
 	init_shell_environnement(shell, envp);
 	init_shell_signals(shell);
-	activate_vquit(shell);
+	act_vquit(shell);
 	(void) envp;
 }

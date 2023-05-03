@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 10:43:49 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 12:15:14 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*is_an_envp_var(t_shell *shell, char *str)
 		if (ft_strncmp(shell->envp[i], str, var_len) == 0)
 		{
 			result = ft_substr(shell->envp[i], var_len,
-				ft_strlen(shell->envp[i]) - var_len);
+					ft_strlen(shell->envp[i]) - var_len);
 			return (result);
 		}
 	}
@@ -37,9 +37,10 @@ int	get_var_to_search_size(char *str, int i)
 	int	size;
 
 	size = i;
-	while(str[++i])
+	while (str[++i])
 	{
-		if (str[i] == '\'' || str[i] == '\"' || str[i] == ' ')
+		if (str[i] == '\'' || str[i] == '\"' || str[i] == ' '
+			|| str[i] == '=' || str[i] == '+')
 			return (i - size - 1);
 	}
 	return (i - size - 1);
@@ -67,18 +68,17 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 		free(var_to_search);
 		free(var_to_expand);
 		free(str);
-		return(result);
+		return (result);
 	}
-	return(str);
+	return (str);
 }
 
 char	*search_and_expand_env_var(t_shell *shell, char *str)
 {
-
 	int		i;
 
 	i = -1;
-	while(str && str[++i])
+	while (str && str[++i])
 	{
 		if (str[i] == '$')
 			str = search_and_remplace_var(shell, str, &i);

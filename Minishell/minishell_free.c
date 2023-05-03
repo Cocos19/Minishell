@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 11:39:28 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:11:10 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	free_shell(t_shell *shell)
 		free_token_lst(shell);
 	if (shell->term)
 	{
-		activate_vquit(shell);
+		act_vquit(shell);
 		free(shell->term);
 	}
 	if (shell->sigint_processing)
@@ -37,7 +37,7 @@ void	free_shell(t_shell *shell)
 
 void	free_file_datas_list(t_file_datas *lst)
 {
-	t_file_datas *temp;
+	t_file_datas	*temp;
 
 	while (lst)
 	{
@@ -50,16 +50,17 @@ void	free_file_datas_list(t_file_datas *lst)
 
 void	free_pipe_lst(t_shell *shell)
 {
-	t_pipe_node *temp;
+	t_pipe_node	*temp;
 
 	while (shell->pipe_lst)
 	{
 		if (shell->pipe_lst->arguments)
-			shell->pipe_lst->arguments = ft_free_str_array(shell->pipe_lst->arguments);
-		if (shell->pipe_lst->input_lst)
-			free_file_datas_list(shell->pipe_lst->input_lst);
-		if (shell->pipe_lst->output_lst)
-			free_file_datas_list(shell->pipe_lst->output_lst);
+			shell->pipe_lst->arguments
+				= ft_free_str_array(shell->pipe_lst->arguments);
+		if (shell->pipe_lst->input_file_lst)
+			free_file_datas_list(shell->pipe_lst->input_file_lst);
+		if (shell->pipe_lst->output_file_lst)
+			free_file_datas_list(shell->pipe_lst->output_file_lst);
 		temp = shell->pipe_lst->next;
 		free(shell->pipe_lst);
 		shell->pipe_lst = temp;
@@ -68,7 +69,7 @@ void	free_pipe_lst(t_shell *shell)
 
 void	free_token_lst(t_shell *shell)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	if (shell->token_lst)
 	{
@@ -86,7 +87,7 @@ void	free_token_lst(t_shell *shell)
 
 t_token	*free_token_lst_without_content(t_token *lst)
 {
-	t_token *temp;
+	t_token	*temp;
 
 	if (lst)
 	{
@@ -98,33 +99,4 @@ t_token	*free_token_lst_without_content(t_token *lst)
 		}
 	}
 	return (NULL);
-}
-
-void	free_and_print_strerror(t_shell *shell)
-{
-	printf("%s\n", strerror(errno));
-	free_shell(shell);
-	exit (errno);
-}
-
-void	free_and_print_custom_message(t_shell *shell, char *message)
-{
-	write(1, message, ft_strlen(message));
-	free_shell(shell);
-	exit (g_exit_status);
-}
-
-void	free_all_tab(char **p_tab, int len)
-{
-	int	i;
-
-	i = 0;
-	while (p_tab && i < len && p_tab[i])
-	{
-		free(p_tab[i]);
-		p_tab[i] = NULL;
-		++i;
-	}
-	free(p_tab);
-	p_tab = NULL;
 }

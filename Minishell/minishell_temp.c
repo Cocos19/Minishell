@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/02 14:29:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:07:19 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	print_fd_content(int fd)
 
 void	print_file_datas_lst(t_file_datas *datas_lst)
 {
-	t_file_datas *lst;
-	int	i;
+	t_file_datas	*lst;
+	int				i;
 
 	lst = datas_lst;
 	i = 0;
@@ -68,15 +68,15 @@ void	print_pipe_lst_content(t_pipe_node *pipe_lst)
 				printf("argv[%d]: %s\n", i, current->arguments[i]);
 			i = -1;
 		}
-		if (current->input_lst)
+		if (current->input_file_lst)
 		{
 			printf("Input file list:\n");
-			print_file_datas_lst(current->input_lst);
+			print_file_datas_lst(current->input_file_lst);
 		}
-		if (current->output_lst)
+		if (current->output_file_lst)
 		{
 			printf("Output file list:\n");
-			print_file_datas_lst(current->output_lst);
+			print_file_datas_lst(current->output_file_lst);
 		}
 		current = current->next;
 	}

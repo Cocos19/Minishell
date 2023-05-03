@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:55:28 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 11:25:52 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/03 15:10:39 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char			*ft_strnstr(const char *haystack,
 int				ft_atoi(const char *str);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
-char			*ft_strdup_tab(const char **tab);
+char			**ft_strdup_tab(const char **tab);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);
@@ -88,5 +88,7 @@ char			*ft_skip_character(char *str, char c);
 char			**ft_add_to_str_array(char **src, char *str_to_add);
 char			**ft_strdup_array(char **str_array);
 void			ft_print_str_array(char **str_array);
+char			*ft_strndup(const char *s1, int end_index);
+char			*ft_skip_all_but_character(char	*str, char c);
 
 #endif

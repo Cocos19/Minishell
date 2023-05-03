@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
+#    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 14:04:13 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/03 11:24:59 by cmartino         ###   ########.fr        #
+#    Updated: 2023/05/03 14:45:33 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCSB	= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 		ft_is_empty_or_with_only_spaces.c ft_strarraylen.c \
 		ft_strarrayjoin_and_free_srcs.c ft_skip_character.c \
 		ft_add_to_str_array.c ft_strdup_array.c ft_print_str_array.c \
+		ft_strndup.c ft_skip_all_but_character.c \
 
 OBJS	= ${SRCS:.c=.o}
 

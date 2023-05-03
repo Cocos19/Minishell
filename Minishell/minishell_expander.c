@@ -14,7 +14,7 @@
 
 int	get_substr_len(char *str, int *str_i, char c)
 {
-	int result_len;
+	int	result_len;
 	int	i;
 
 	result_len = 0;
@@ -72,15 +72,15 @@ char	*expander(t_shell *shell, char *str)
 	{
 		if (str[str_i] == '\'')
 			result = ft_strjoin_and_free_srcs(result,
-				get_next_substr(shell, str, &str_i, '\''));
+					get_next_substr(shell, str, &str_i, '\''));
 		else if (str[str_i] == '\"')
 			result = ft_strjoin_and_free_srcs(result,
-				get_next_substr(shell, str, &str_i, '\"'));
+					get_next_substr(shell, str, &str_i, '\"'));
 		else
 			result = ft_strjoin_and_free_srcs(result,
-				get_next_substr(shell, str, &str_i, '\0'));
+					get_next_substr(shell, str, &str_i, '\0'));
 		if (!result)
-				free_and_print_strerror(shell);
+			free_and_print_strerror(shell);
 	}
 	return (result);
 }

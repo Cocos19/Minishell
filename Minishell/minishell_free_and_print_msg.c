@@ -1,31 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   minishell_free_and_print_msg.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/04 17:06:39 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 11:11:11 by mprofett         ###   ########.fr       */
+/*   Created: 2023/05/03 12:12:43 by mprofett          #+#    #+#             */
+/*   Updated: 2023/05/03 12:13:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strdup(const char *s1)
+void	free_and_print_strerror(t_shell *shell)
 {
-	char	*result;
-	int		i;
+	printf("%s\n", strerror(errno));
+	free_shell(shell);
+	exit (errno);
+}
 
-	result = (char *)malloc(sizeof(char) * ft_strlen(s1) + 1);
-	if (!result)
-		return (NULL);
-	i = 0;
-	while (s1[i])
-	{
-		result[i] = s1[i];
-		i++;
-	}
-	result[i] = '\0';
-	return (result);
+void	free_and_print_custom_message(t_shell *shell, char *message)
+{
+	write(1, message, ft_strlen(message));
+	free_shell(shell);
+	exit (g_exit_status);
 }

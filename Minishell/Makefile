@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/04/24 15:21:00 by mprofett         ###   ########.fr        #
+#    Updated: 2023/05/03 12:24:25 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,8 @@ SRC			= minishell.c minishell_execute.c minishell_free.c \
 			minishell_lexer_special_tokens.c \
 			minishell_lexer_checker.c minishell_builtin_export.c minishell_lexer.c \
 			minishell_parser_redirections.c minishell_expander_env_var.c \
-			minishell_signals_activation.c \
+			minishell_signals_activation.c minishell_free_and_print_msg.c\
+			minishell_builtin_export_utils.c
 
 SRC_BONUS	=
 

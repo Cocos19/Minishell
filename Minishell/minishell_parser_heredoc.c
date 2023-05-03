@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:43:03 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/24 15:29:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:31:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	get_user_input(t_shell *shell, int count_line, char *keyword, int fd)
 {
 	char	*input;
 
-	activate_sint_handler(shell, &sigint_hered_handler);
+	act_sint_handler(shell, &sigint_hered_h);
 	while (1)
 	{
 		input = readline("> ");

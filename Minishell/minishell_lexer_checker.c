@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:12:58 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/02 13:37:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 14:31:12 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	give_pipe_prompt(t_shell *shell, int fd)
 {
 	char	*input;
 
-	activate_sint_handler(shell, &sigint_hered_handler);
+	act_sint_handler(shell, &sigint_hered_h);
 	input = readline("pipe> ");
 	if (!input)
 		exit(130);
@@ -43,11 +43,11 @@ void	get_pipe_prompt_result_and_free_pipe(t_shell *shell, int *pipe_fds)
 	free(pipe_fds);
 }
 
-int get_pipe_input(t_shell *shell)
+int	get_pipe_input(t_shell *shell)
 {
-	int *pipe_fds;
+	int	*pipe_fds;
 	int	id;
-	int fd;
+	int	fd;
 
 	shell_fd_control(shell, '+', 2);
 	pipe_fds = malloc(sizeof(int) * 2);
@@ -74,9 +74,9 @@ int get_pipe_input(t_shell *shell)
 
 void	complete_token(t_shell *shell)
 {
-	char 	*new_input;
+	char	*new_input;
 	int		fd;
-	t_token *add_to_token_lst;
+	t_token	*add_to_token_lst;
 
 	fd = get_pipe_input(shell);
 	if (fd != -1)

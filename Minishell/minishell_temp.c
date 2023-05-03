@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/02 14:29:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:54:04 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ void	print_fd_content(int fd)
 
 void	print_file_datas_lst(t_file_datas *datas_lst)
 {
-	t_file_datas *lst;
-	int	i;
+	t_file_datas	*lst;
+	int				i;
 
 	lst = datas_lst;
 	i = 0;

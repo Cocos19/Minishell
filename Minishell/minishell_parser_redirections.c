@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:15 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/02 14:27:29 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/03 11:54:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ t_token	*get_input(t_shell *shell, t_pipe_node *node, t_token *token)
 	}
 	else
 	{
-		node->input_lst->last->next =
-			init_file_datas(shell, token->next->value, mode);
+		node->input_lst->last->next
+			= init_file_datas(shell, token->next->value, mode);
 		node->input_lst->last = node->input_lst->last->next;
 	}
 	return (token->next);
@@ -56,7 +56,7 @@ t_token	*get_input(t_shell *shell, t_pipe_node *node, t_token *token)
 
 t_token	*get_output(t_shell *shell, t_pipe_node *node, t_token *token)
 {
-	int mode;
+	int	mode;
 
 	if (!token->next)
 	{
@@ -75,8 +75,8 @@ t_token	*get_output(t_shell *shell, t_pipe_node *node, t_token *token)
 	}
 	else
 	{
-		node->output_lst->last->next =
-			init_file_datas(shell, token->next->value, mode);
+		node->output_lst->last->next
+			= init_file_datas(shell, token->next->value, mode);
 		node->output_lst->last = node->output_lst->last->next;
 	}
 	return (token->next);

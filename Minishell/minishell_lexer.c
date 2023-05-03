@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 14:59:24 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:33:03 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,42 @@ t_token *init_token(t_shell *shell)
 
 char	*get_token_end(t_shell *shell, char *input, t_token *current, char *token_start)
 {
-	while (is_special_character(*(input + 1)) == 0)
-		++input;
-	current->value = ft_substr_delimited(token_start, input);
+	char	*return_val;
+
+	while (input)
+	{
+		if (*input == '\'')
+		{
+			++input;
+			while (input && *input != '\'')
+				++input;
+		}
+		else if (*input == '\"')
+		{
+			++input;
+			while (input && *input != '\"')
+				++input;
+		}
+		if (is_special_character(*input))
+		{
+			return_val = input - 1;
+			input = NULL;
+		}
+		if (input)
+			++input;
+	}
+	current->value = ft_substr_delimited(token_start, return_val);
 	if (!current->value)
 		free_and_print_strerror(shell);
-	return (++input);
+	return (++return_val);
 }
 
 char	*tokenize_special_char(t_shell *shell, char *input, t_token *current, char *start)
 {
 	if (*(start) == '|')
-		return (tokenize_pipe_operator(shell, input, current, start));
+		return (get_pipe(shell, input, current, start));
 	else if (*(start) == '<' || *(start) == '>')
-		return (tokenize_redirection_operator(shell, input, current, start));
-	else if (*(start) == '\'' || *(start) == '\"')
-		return (tokenize_quotes(shell, input, current, start));
+		return (get_redir(shell, input, current, start));
 	current->value = NULL;
 	current->next = NULL;
 	return (NULL);

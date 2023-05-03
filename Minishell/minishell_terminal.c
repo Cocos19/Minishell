@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 11:55:33 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:24:59 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ void	init_shell_signals(t_shell *shell)
 	shell->sigquit_processing = malloc(sizeof(struct sigaction));
 	if (!shell->sigquit_processing)
 		free_and_print_strerror(shell);
-	activate_sigint_handler(shell, &sigint_shell_handler);
-	shell->sigquit_processing->sa_sigaction = &sigquit_shell_handler;
-	if (sigaction(SIGINT, shell->sigquit_processing, NULL) == -1)
-		exit (EXIT_FAILURE);
+	activate_sint_handler(shell, &sigint_shell_handler);
+	activate_squit_handler(shell, &sigquit_shell_handler);
 }
 
 void	init_terminal(t_shell *shell, char **envp)

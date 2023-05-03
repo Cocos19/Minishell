@@ -6,22 +6,22 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 15:04:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:30:50 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipe_node *init_pipe_node(t_shell *shell)
+t_pipe_node	*init_pipe_node(t_shell *shell)
 {
-	t_pipe_node *result;
+	t_pipe_node	*result;
 
 	result = malloc(sizeof(t_pipe_node));
 	if (!result)
 		free_and_print_strerror(shell);
 	result->arguments = NULL;
-	result->input_file_fd = -1;
-	result->output_file_fd = -1;
+	result->input_lst = NULL;
+	result->output_lst = NULL;
 	result->next = NULL;
 	return (result);
 }
@@ -29,7 +29,7 @@ t_pipe_node *init_pipe_node(t_shell *shell)
 int	next_token_is_valid(t_shell *shell, t_token *token)
 {
 	if (token->next && (token->next->value[0] == '>'
-		|| token->next->value[0] == '|' || token->next->value[0] == '<'))
+			|| token->next->value[0] == '|' || token->next->value[0] == '<'))
 	{
 		printf("minishell: syntax error near unexpected token `|'");
 		export(shell, "?=2");
@@ -38,7 +38,7 @@ int	next_token_is_valid(t_shell *shell, t_token *token)
 	return (0);
 }
 
-t_pipe_node	*new_node(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
+t_pipe_node	*next(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
 {
 	if (!arg)
 	{
@@ -59,7 +59,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 	t_token	*arg_list;
 
 	arg_list = NULL;
-	while(token && shell->pipe_lst)
+	while (token && shell->pipe_lst)
 	{
 		if (token->value[0] == '<')
 			token = get_input(shell, node, token);
@@ -67,7 +67,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 			token = get_output(shell, node, token);
 		else if (token->value[0] == '|')
 		{
-			node = new_node(shell, node, token, arg_list);
+			node = next(shell, node, token, arg_list);
 			arg_list = free_token_lst_without_content(arg_list);
 		}
 		else
@@ -82,7 +82,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 	arg_list = free_token_lst_without_content(arg_list);
 }
 
-void parser(t_shell *shell)
+void	parser(t_shell *shell)
 {
 	t_pipe_node	*first_node;
 	t_token		*first_token;

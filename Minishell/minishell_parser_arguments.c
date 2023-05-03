@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 11:17:49 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 15:06:40 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/04/24 15:29:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*get_arg(t_shell *shell, t_token *arg_list, t_token *token)
 	t_token	*result;
 
 	result = init_token(shell);
-	result->value = token->value;
+	result->value = expander(shell, token->value);
 	if (!arg_list)
 	{
 		arg_list = result;
@@ -31,14 +31,14 @@ t_token	*get_arg(t_shell *shell, t_token *arg_list, t_token *token)
 	return (arg_list);
 }
 
-int		get_token_list_size(t_token *lst)
+int	get_token_list_size(t_token *lst)
 {
 	t_token	*temp;
 	int		i;
 
 	temp = lst;
 	i = 0;
-	while(temp)
+	while (temp)
 	{
 		++i;
 		temp = temp->next;

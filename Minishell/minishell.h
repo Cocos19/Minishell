@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 16:03:34 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 15:59:56 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,20 @@ typedef struct s_token
 
 //input and output will be setup at -1 if there is no input or output
 
+typedef struct s_file_datas
+{
+	int					mode;
+	char				*value;
+	struct s_file_datas	*last;
+	struct s_file_datas	*next;
+}	t_file_datas;
+
+
 typedef struct s_pipe_node
 {
 	char						**arguments;
-	int							input_file_fd;
-	int							output_file_fd;
+	t_file_datas				*input_lst;
+	t_file_datas				*output_lst;
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
@@ -87,11 +96,12 @@ void	free_and_print_custom_error(t_shell *shell, char *minishell_error);
 
 /*EXPAND*/
 
-void	expander(t_shell *shell);
+char	*expander(t_shell *shell, char *str);
+char	*search_and_expand_env_var(t_shell *shell, char *str);
 
 /*EXPORT*/
 
-void	export(t_shell *shell, char *var);
+int	export(t_shell *shell, char *var);
 
 /*FREE MEMORY*/
 
@@ -109,7 +119,6 @@ int get_heredoc(t_shell *shell, char *delimiter);
 //The error should be handled, the exit status stored and then g_exit_status should be setup at 0 again
 
 /* LOCALE VARIABLE */
-
 
 /* PARSING */
 
@@ -131,9 +140,10 @@ int		input_is_valid(t_shell *shell);
 void	sigint_shell_handler(int signal_id, siginfo_t *sig_info, void *context);
 void	sigint_hered_handler(int signal_id, siginfo_t *sig_info, void *context);
 void	sigquit_shell_handler(int signal_id, siginfo_t *sig_info, void *context);
-// void	sigint_handler_off(int signal_id, siginfo_t *sig_info, void *context);
-void	activate_sigint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
-void	desactivate_sigint_handler(t_shell *shell);
+void	activate_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
+void	desactivate_sint_handler(t_shell *shell);
+void	activate_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *));
+void	desactivate_squit_handler(t_shell *shell);
 
 /* TERMINAL */
 
@@ -148,18 +158,19 @@ int		is_special_character(char c);
 t_token	*init_token(t_shell *shell);
 t_token	*tokenize(t_shell *shell, char *input);
 int		token_list_is_valid(t_shell *shell);
-char	*tokenize_pipe_operator(t_shell *shell, char *input, t_token *current, char *start);
-char	*tokenize_redirection_operator(t_shell *shell, char *input, t_token *current, char *start);
-char	*tokenize_quotes(t_shell *shell, char *input, t_token *current, char *start);
+char	*get_pipe(t_shell *shell, char *input, t_token *current, char *start);
+char	*get_redir(t_shell *shell, char *input, t_token *current, char *start);
+char	*tokenize_simples_quotes(t_shell *shell, char *input, t_token *current, char *start);
 void	complete_token(t_shell *shell);
 
 /* UTILS */
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
 char	*get_string_from_fd(t_shell *shell, int fd);
-int		free_input_and_exit(char *input);
 void	close_fd(t_shell *shell, int fd);
 void	shell_fd_control(t_shell *shell, char operation, int i);
+void	update_exit_status_with_errno(t_shell *shell);
+
 /* TEMP FUNCTIONS */
 
 //Thoses functions are here for debugging, they should be suppressed when the project is over

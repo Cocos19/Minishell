@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 13:46:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 11:16:12 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,20 +44,31 @@ void	close_fd(t_shell *shell, int fd)
 
 char	*get_string_from_fd(t_shell *shell, int fd)
 {
-		char	*str;
-		char	*temp;
-		char	*result;
+	char	*str;
+	char	*temp;
+	char	*result;
 
+	str = get_next_line(fd, 100);
+	result = NULL;
+	while (str)
+	{
+		temp = ft_strjoin_protected(shell, result, str);
+		free(str);
+		if (result)
+			free(result);
+		result = temp;
 		str = get_next_line(fd, 100);
-		result = NULL;
-		while (str)
-		{
-			temp = ft_strjoin_protected(shell, result, str);
-			free(str);
-			if (result)
-				free(result);
-			result = temp;
-			str = get_next_line(fd, 100);
-		}
-		return (result);
+	}
+	return (result);
+}
+
+void	update_exit_status_with_errno(t_shell *shell)
+{
+	char	*result;
+	char	*errno_value;
+
+	errno_value = ft_itoa(errno);
+	result = ft_strjoin_protected(shell, "?=", errno_value);
+	free(errno_value);
+	export(shell, result);
 }

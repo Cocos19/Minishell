@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:12:58 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 15:00:53 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 13:37:26 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ void	give_pipe_prompt(t_shell *shell, int fd)
 {
 	char	*input;
 
-	activate_sigint_handler(shell, &sigint_hered_handler);
+	activate_sint_handler(shell, &sigint_hered_handler);
 	input = readline("pipe> ");
 	if (!input)
 		exit(130);
 	write(fd, input, ft_strlen(input));
-	free_input_and_exit(input);
+	free(input);
+	exit (EXIT_SUCCESS);
 }
 
 void	get_pipe_prompt_result_and_free_pipe(t_shell *shell, int *pipe_fds)

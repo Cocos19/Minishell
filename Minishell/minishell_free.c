@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/04/20 11:53:36 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/02 14:34:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,19 @@ void	free_shell(t_shell *shell)
 		free(shell);
 }
 
+void	free_file_datas_list(t_file_datas *lst)
+{
+	t_file_datas *temp;
+
+	while (lst)
+	{
+		temp = lst->next;
+		if (lst->value)
+			free(lst->value);
+		lst = temp;
+	}
+}
+
 void	free_pipe_lst(t_shell *shell)
 {
 	t_pipe_node *temp;
@@ -42,17 +55,11 @@ void	free_pipe_lst(t_shell *shell)
 	while (shell->pipe_lst)
 	{
 		if (shell->pipe_lst->arguments)
-			ft_free_str_array(shell->pipe_lst->arguments);
-		if (shell->pipe_lst->input_file_fd != -1)
-		{
-			shell_fd_control(shell, '-', 1);
-			close(shell->pipe_lst->input_file_fd);
-		}
-		if (shell->pipe_lst->output_file_fd != -1)
-		{
-			shell_fd_control(shell, '-', 1);
-			close(shell->pipe_lst->output_file_fd);
-		}
+			shell->pipe_lst->arguments = ft_free_str_array(shell->pipe_lst->arguments);
+		if (shell->pipe_lst->input_lst)
+			free_file_datas_list(shell->pipe_lst->input_lst);
+		if (shell->pipe_lst->output_lst)
+			free_file_datas_list(shell->pipe_lst->output_lst);
 		temp = shell->pipe_lst->next;
 		free(shell->pipe_lst);
 		shell->pipe_lst = temp;

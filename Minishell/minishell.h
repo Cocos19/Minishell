@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 10:26:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:41:43 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_file_datas
 typedef struct s_pipe_node
 {
 	char						**arguments;
+	char						*path;
 	t_file_datas				*input_file_lst;
 	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
@@ -110,6 +111,11 @@ void	ft_dup2(t_shell *shell, int fd, int input);
 void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
 void	open_close_outputs(t_file_datas *output_lst);
 int		write_to_outputs(char *result, t_file_datas *output_lst);
+
+char	*cmd_exist(char **envp, char **arg);
+void	execution(t_shell *shell);
+char	**get_envp_paths(char **envp);
+void	free_all_tab(char **p_tab, int len);
 
 /*EXPAND*/
 
@@ -189,6 +195,7 @@ void		complete_token(t_shell *shell);
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
 char	*get_string_from_fd(t_shell *shell, int fd);
+int		len_tab(char **tb);
 // void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */

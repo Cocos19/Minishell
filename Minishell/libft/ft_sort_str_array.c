@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_free_and_print_msg.c                     :+:      :+:    :+:   */
+/*   ft_sort_str_array.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 12:12:43 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 11:38:23 by mprofett         ###   ########.fr       */
+/*   Created: 2023/05/04 18:58:28 by mprofett          #+#    #+#             */
+/*   Updated: 2023/05/04 19:00:09 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	free_and_print_strerror(t_shell *shell)
+void	ft_sort_str_array(char **array)
 {
-	printf("%s\n", strerror(errno));
-	// free_shell(shell);
-	(void) shell;
-	exit (errno);
-}
+	char	*buffer;
+	int		array_len;
+	int		i;
+	int		j;
 
-void	free_and_print_custom_message(t_shell *shell, char *message)
-{
-	write(1, message, ft_strlen(message));
-	// free_shell(shell);
-	(void) shell;
-	exit (g_exit_status);
+	i = 0;
+	j = 0;
+	array_len = ft_strarraylen(array);
+	while (i < array_len)
+	{
+		j = i + 1;
+		while (j < array_len)
+		{
+			if (ft_strcmp(array[i], array[j]) > 0)
+			{
+				buffer = array[i];
+				array[i] = array[j];
+				array[j] = buffer;
+			}
+		j++;
+		}
+	i++;
+	}
 }

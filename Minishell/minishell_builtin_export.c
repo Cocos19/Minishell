@@ -6,17 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 12:23:25 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 19:07:59 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	remplace_envp_var(t_shell *shell, char *new_var, int index)
-{
-	free(shell->envp[index]);
-	shell->envp[index] = ft_strdup(new_var);
-}
 
 void	add_var_to_envp(t_shell *shell, char *var)
 {
@@ -35,7 +29,10 @@ void	export_variable(t_shell *shell, char *var)
 	if (envp_index == -1)
 		add_var_to_envp(shell, var);
 	else
-		remplace_envp_var(shell, var, envp_index);
+	{
+		free(shell->envp[envp_index]);
+		shell->envp[envp_index] = ft_strdup(var);
+	}
 }
 
 void	export_variable_in_append_mode(t_shell *shell, char *var)
@@ -51,7 +48,8 @@ void	export_variable_in_append_mode(t_shell *shell, char *var)
 		str_to_add = get_value_to_append(shell, var);
 		var = ft_strjoin_protected(shell, shell->envp[envp_index], str_to_add);
 		free(str_to_add);
-		remplace_envp_var(shell, var, envp_index);
+		free(shell->envp[envp_index]);
+		shell->envp[envp_index] = ft_strdup(var);
 	}
 }
 
@@ -64,7 +62,7 @@ int	export(t_shell *shell, char *var)
 		add_var_to_envp(shell, var);
 	else
 	{
-		if (check_export_variable_validity(var) == 0)
+		if (check_export_variable_validity(var) == 0 && mode != -2)
 		{
 			if (mode == 0)
 				export_variable(shell, var);
@@ -78,4 +76,29 @@ int	export(t_shell *shell, char *var)
 		}
 	}
 	return (0);
+}
+
+void	builtin_export(t_shell *shell, t_pipe_node *node)
+{
+	int		i;
+	int		exit_status;
+	char	**env;
+
+	i = 0;
+	exit_status = 0;
+	if (!node->arguments[1])
+	{
+		env = ft_strdup_array(shell->envp);
+		ft_sort_str_array(env);
+		ft_print_str_array(env);
+		ft_free_str_array(env);
+	}
+	else
+	{
+		open_close_inputs(shell, node->input_file_lst);
+		open_close_outputs(node->input_file_lst);
+		while (node->arguments[++i])
+			exit_status = export(shell, node->arguments[i]);
+	}
+	exit (exit_status);
 }

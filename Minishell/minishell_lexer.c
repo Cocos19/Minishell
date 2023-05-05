@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 12:08:08 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:43:02 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ t_token	*tokenize(t_shell *shell, char *input)
 		}
 	}
 	token_lst->last = current;
-	if (g_exit_status != 0)
-		free_token_lst(shell);
 	return (token_lst);
 }
 

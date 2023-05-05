@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:47:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 10:26:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@
 # include <dirent.h>
 # include <errno.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/ioctl.h>
@@ -35,8 +35,10 @@ int	g_exit_status;
 
 /* ERROR MACROS */
 
-# define ERR_NO_FILE_OR_DIR 1
-# define ERR_SYNTAX 2
+# define EPERM 1 // Operation not permitted
+# define ERR_SYNTAX 2 //ENOENT = No Such file or directory
+# define EMFILE 24 // Too may file open
+# define EOWNER_DEAD 130 //Owner died (SIGINT)
 
 typedef struct s_token
 {
@@ -63,6 +65,17 @@ typedef struct s_pipe_node
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
+// execution
+// if node->arguments[1] exist -> execute argv tab and nothing else (but you still have to open close inputs)
+// else if node->input_file_lst exist -> execute only last input (but you still have to open close all others inputs)
+// else if fd_in -> execute fd_in (fd_in = result of the pipe before)
+// else execute without arg
+// execution output
+// if node->node->output_file_lst -> write in last output_file but you have to open/create all files then write to the last one
+// else if node->next -> write in fd_out
+// else write in stdout
+// update shell->last_exit_status
+
 /* SHELL INFO */
 
 typedef struct s_shell_infos
@@ -73,10 +86,14 @@ typedef struct s_shell_infos
 	char				**envp;
 	char				*name;
 	char				*input;
-	int					fd_opened;
+	int					last_exit_status;
 	t_token				*token_lst;
 	t_pipe_node			*pipe_lst;
 }	t_shell;
+
+/*ECHO*/
+
+void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ENV */
 
@@ -90,7 +107,9 @@ void		free_and_print_custom_error(t_shell *shell, char *minishell_error);
 int		ft_fork(t_shell *shell);
 void	ft_pipe(t_shell *shell, int *fd);
 void	ft_dup2(t_shell *shell, int fd, int input);
-
+void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+void	open_close_outputs(t_file_datas *output_lst);
+int		write_to_outputs(char *result, t_file_datas *output_lst);
 
 /*EXPAND*/
 
@@ -104,6 +123,7 @@ int			get_export_mode(char *var);
 int			check_export_variable_validity(char *var);
 int			export_variable_is_in_envp(t_shell *shell, char *var, char c);
 char		*get_value_to_append(t_shell *shell, char *var);
+void		builtin_export(t_shell *shell, t_pipe_node *node);
 
 /*FREE MEMORY*/
 
@@ -140,6 +160,7 @@ int			input_is_valid(t_shell *shell);
 /* SIGNALS HANDLING */
 
 void		sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
+void		nosigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigint_hered_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		act_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
@@ -168,14 +189,12 @@ void		complete_token(t_shell *shell);
 
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
 char	*get_string_from_fd(t_shell *shell, int fd);
-void	close_fd(t_shell *shell, int fd);
-void	shell_fd_control(t_shell *shell, char operation, int i);
-void	update_exit_status_with_errno(t_shell *shell);
+// void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */
 
 void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
-void		print_pipe_lst_content(t_pipe_node *pipe_lst);
+void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
 
 #endif

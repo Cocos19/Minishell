@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:44:30 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:51:11 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,6 @@ void	ft_close(int fd)
 		perror(NULL);
 }
 
-void	shell_fd_control(t_shell *shell, char operation, int i)
-{
-	if (operation == '+')
-		shell->fd_opened += i;
-	else
-		shell->fd_opened -= i;
-	if (shell->fd_opened > FOPEN_MAX)
-	{
-		printf("minishell: Max opened fd limit reached\n");
-		free_shell(shell);
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	close_fd(t_shell *shell, int fd)
-{
-	shell_fd_control(shell, '-', 1);
-	close(fd);
-}
-
 char	*get_string_from_fd(t_shell *shell, int fd)
 {
 	char	*str;
@@ -93,15 +73,4 @@ char	*get_string_from_fd(t_shell *shell, int fd)
 		str = get_next_line(fd, 100);
 	}
 	return (result);
-}
-
-void	update_exit_status_with_errno(t_shell *shell)
-{
-	char	*result;
-	char	*errno_value;
-
-	errno_value = ft_itoa(errno);
-	result = ft_strjoin_protected(shell, "?=", errno_value);
-	free(errno_value);
-	export(shell, result);
 }

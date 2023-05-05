@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 15:06:53 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:45:50 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	next_token_is_valid(t_shell *shell, t_token *token)
 			|| token->next->value[0] == '|' || token->next->value[0] == '<'))
 	{
 		printf("minishell: syntax error near unexpected token `|'");
-		export(shell, "?=2");
+		shell->last_exit_status = 2;
 		return (1);
 	}
 	return (0);
@@ -43,7 +43,7 @@ t_pipe_node	*next(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
 	if (!arg)
 	{
 		printf("minishell: syntax error near unexpected token `newline'");
-		export(shell, "?=2");
+		shell->last_exit_status = 2;
 		free_pipe_lst(shell);
 	}
 	if (next_token_is_valid(shell, tok) != 0)

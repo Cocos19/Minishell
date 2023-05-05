@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:16:45 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 12:24:51 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 15:15:17 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	get_export_mode(char *var)
 	result = -1;
 	while (var && var[++i])
 	{
+		if (var[i] == '?')
+			return (-2);
 		if (var[i] == '+')
 		{
 			result = 1;

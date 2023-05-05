@@ -27,6 +27,7 @@
 		"istream": "c",
 		"locale": "c",
 		"utility": "c",
-		"atomic": "c"
+		"atomic": "c",
+		"string_view": "c"
 	}
 }

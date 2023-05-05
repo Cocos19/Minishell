@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:42:52 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:30:34 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:27:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ void	sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context)
 		rl_on_new_line();
 		rl_redisplay();
 	}
+	(void) sig_info;
+	(void) context;
+}
+
+void	nosigint_shell_h(int signal_id, siginfo_t *sig_info, void *context)
+{
+	(void) signal_id;
 	(void) sig_info;
 	(void) context;
 }

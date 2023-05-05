@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 14:44:18 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/04 17:48:23 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	shell->envp = ft_strdup_array(envp);
 	if (!shell->envp)
 		free_and_print_strerror(shell);
-	export(shell, "?=0");
 }
 
 void	init_shell_signals(t_shell *shell)
@@ -59,7 +58,7 @@ void	init_terminal(t_shell *shell, char **envp)
 	shell->input = NULL;
 	shell->token_lst = NULL;
 	shell->pipe_lst = NULL;
-	shell->fd_opened = 0;
+	shell->last_exit_status = 0;
 	shell->name = ft_strdup("minishell-1.0$ ");
 	if (!shell->name)
 		free_and_print_strerror(shell);

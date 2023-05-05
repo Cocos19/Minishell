@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:38:58 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:06:47 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,14 @@ void	read_prompt(t_shell *shell)
 		act_vquit(shell);
 		add_history(user_input);
 		lexer(shell, user_input);
-		print_token_list_infos(shell->token_lst);//
 		parser(shell);
 		if (shell->pipe_lst && !shell->pipe_lst->next)
 			// update "_=" env var with last argv in pipe_lst_argv
 		if (shell->pipe_lst)
+		{
+			// execution(shell);
 			print_pipe_lst_content(shell, shell->pipe_lst);
+		}
 		// TEMPORARY SHOULD BE REPLACED BY
 		//if(t_pipe_node *result) ->execution function that return an exit code
 		free_pipe_lst(shell);

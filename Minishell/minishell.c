@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:06:47 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:34:42 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	read_prompt(t_shell *shell)
 		add_history(user_input);
 		lexer(shell, user_input);
 		parser(shell);
-		if (shell->pipe_lst && !shell->pipe_lst->next)
+		// if (shell->pipe_lst && !shell->pipe_lst->next)
 			// update "_=" env var with last argv in pipe_lst_argv
 		if (shell->pipe_lst)
 		{
-			// execution(shell);
-			print_pipe_lst_content(shell, shell->pipe_lst);
+			execution(shell);
+			// print_pipe_lst_content(shell, shell->pipe_lst);
 		}
 		// TEMPORARY SHOULD BE REPLACED BY
 		//if(t_pipe_node *result) ->execution function that return an exit code

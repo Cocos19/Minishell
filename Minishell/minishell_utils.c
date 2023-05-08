@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:51:11 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/08 13:28:24 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,6 @@ int	ft_lstsize_pipe(t_pipe_node *lst)
 		result++;
 	}
 	return (result);
-}
-
-void	ft_close(int fd)
-{
-	if (close(fd) == -1)
-		perror(NULL);
 }
 
 char	*get_string_from_fd(t_shell *shell, int fd)

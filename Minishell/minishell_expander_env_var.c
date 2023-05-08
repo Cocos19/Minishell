@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 18:09:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:58:35 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ int	get_var_to_search_size(char *str, int i)
 	return (i - size - 1);
 }
 
+void	free_str_inputs(char *var_to_search, char *var_to_expand, char *input)
+{
+	free(var_to_search);
+	free(var_to_expand);
+	free(input);
+}
+
 char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 {
 	char	*result;
@@ -68,9 +75,7 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 		else
 			result = ft_expand(str, str + *i, var_to_search, "");
 		*i += ft_strlen(var_to_expand);
-		free(var_to_search);
-		free(var_to_expand);
-		free(str);
+		free_str_inputs(var_to_search, var_to_expand, str);
 		return (result);
 	}
 	return (str);

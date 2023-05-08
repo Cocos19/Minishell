@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_builtin_env.c                            :+:      :+:    :+:   */
+/*   ft_print_str_array_fd.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/03 15:15:31 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 11:38:07 by mprofett         ###   ########.fr       */
+/*   Created: 2023/05/05 11:25:29 by mprofett          #+#    #+#             */
+/*   Updated: 2023/05/08 10:47:36 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out)
+void	ft_print_str_array_fd(char **str_array, int fd)
 {
-	open_close_inputs(shell, node->input_file_lst);
-	if (write_array_to_outputs(shell->envp, node->output_file_lst) == 0)
-		ft_print_str_array_fd(shell->envp, fd_out);
-	if (fd_out != 1 && fd_out != 3)
-		close(fd_out);
-	exit(EXIT_SUCCESS);
+	int	i;
+
+	i = -1;
+	if (str_array)
+	{
+		while (str_array && str_array[++i])
+		{
+			write(fd, str_array[i], ft_strlen(str_array[i]));
+			write(fd, "\n", 1);
+		}
+	}
+	else
+		write(fd, "\n", 1);
 }

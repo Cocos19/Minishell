@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 10:26:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:06:58 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ char	*get_echo_result(t_shell *shell, char **argv)
 void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	char	*result;
-	int		as_outputs;
 
 	result = get_echo_result(shell, node->arguments);
 	open_close_inputs(shell, node->input_file_lst);
-	as_outputs = write_to_outputs(result, node->output_file_lst);
-	if (fd_out != -1 && as_outputs == 0)
+	if (write_to_outputs(result, node->output_file_lst) == 0)
 		write(fd_out, result, ft_strlen(result));
+	if (fd_out != 1 && fd_out != 3)
+		close(fd_out);
 	free(result);
 	exit(EXIT_SUCCESS);
 }

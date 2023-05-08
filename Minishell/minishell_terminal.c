@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:48:23 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 12:11:22 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,21 @@ void	desact_vquit(t_shell *shell)
 
 void	init_shell_environnement(t_shell *shell, char **envp)
 {
+	char	*temp;
+	char	*new_shlvl;
+	int		val;
+
 	shell->envp = ft_strdup_array(envp);
 	if (!shell->envp)
 		free_and_print_strerror(shell);
+	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
+	val = ft_atoi(temp);
+	free(temp);
+	temp = ft_itoa(++val);
+	new_shlvl = ft_strjoin_protected(shell, "SHLVL=", temp);
+	free(temp);
+	export(shell, new_shlvl);
+	free(new_shlvl);
 }
 
 void	init_shell_signals(t_shell *shell)

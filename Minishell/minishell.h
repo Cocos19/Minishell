@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 10:26:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:19:32 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ENV */
 
+void	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
+
 /* ERROR HANDLING */
 
 void		free_and_print_strerror(t_shell *shell);
@@ -110,11 +112,13 @@ void	ft_dup2(t_shell *shell, int fd, int input);
 void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
 void	open_close_outputs(t_file_datas *output_lst);
 int		write_to_outputs(char *result, t_file_datas *output_lst);
+int		write_array_to_outputs(char **result, t_file_datas *output_lst);
 
 /*EXPAND*/
 
 char		*expander(t_shell *shell, char *str);
 char		*search_and_expand_env_var(t_shell *shell, char *str);
+char		*is_an_envp_var(t_shell *shell, char *str);
 
 /*EXPORT*/
 
@@ -123,7 +127,12 @@ int			get_export_mode(char *var);
 int			check_export_variable_validity(char *var);
 int			export_variable_is_in_envp(t_shell *shell, char *var, char c);
 char		*get_value_to_append(t_shell *shell, char *var);
-void		builtin_export(t_shell *shell, t_pipe_node *node);
+void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
+
+/*EXIT*/
+
+void	builtin_exit(t_shell *shell, t_pipe_node *node);
+void	single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 
 /*FREE MEMORY*/
 
@@ -156,6 +165,10 @@ t_token		*get_output(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
 
 char		*give_prompt(t_shell *shell);
 int			input_is_valid(t_shell *shell);
+
+/*PWD*/
+
+void	builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* SIGNALS HANDLING */
 
@@ -196,5 +209,9 @@ char	*get_string_from_fd(t_shell *shell, int fd);
 void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
 void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
+
+/*UNSET*/
+
+void	builtin_unset(t_shell *shell, t_pipe_node *node);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/04 18:21:39 by mprofett         ###   ########.fr        #
+#    Updated: 2023/05/05 11:46:29 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRC			= minishell.c minishell_execute.c minishell_free.c \
 			minishell_builtin_echo.c minishell_builtin_env.c \
 			minishell_builtin_exit.c minishell_builtin_pwd.c \
 			minishell_builtin_unset.c minishell_execution_redirections.c \
+			minishell_builtin_export_exec.c
 
 SRC_BONUS	=
 

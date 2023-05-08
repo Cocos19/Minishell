@@ -6,79 +6,73 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 19:07:59 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:07:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	add_var_to_envp(t_shell *shell, char *var)
+void	ft_print_export_array_fd(char **str_array, int fd)
 {
-	char	**new_envp;
+	int	i;
+	int	j;
 
-	new_envp = ft_add_to_str_array(shell->envp, var);
-	ft_free_str_array(shell->envp);
-	shell->envp = new_envp;
-}
-
-void	export_variable(t_shell *shell, char *var)
-{
-	int		envp_index;
-
-	envp_index = export_variable_is_in_envp(shell, var, '=');
-	if (envp_index == -1)
-		add_var_to_envp(shell, var);
-	else
+	i = -1;
+	j = 0;
+	if (str_array)
 	{
-		free(shell->envp[envp_index]);
-		shell->envp[envp_index] = ft_strdup(var);
-	}
-}
-
-void	export_variable_in_append_mode(t_shell *shell, char *var)
-{
-	int		envp_index;
-	char	*str_to_add;
-
-	envp_index = export_variable_is_in_envp(shell, var, '+');
-	if (envp_index == -1)
-		add_var_to_envp(shell, var);
-	else
-	{
-		str_to_add = get_value_to_append(shell, var);
-		var = ft_strjoin_protected(shell, shell->envp[envp_index], str_to_add);
-		free(str_to_add);
-		free(shell->envp[envp_index]);
-		shell->envp[envp_index] = ft_strdup(var);
-	}
-}
-
-int	export(t_shell *shell, char *var)
-{
-	int		mode;
-
-	mode = get_export_mode(var);
-	if (mode == -1)
-		add_var_to_envp(shell, var);
-	else
-	{
-		if (check_export_variable_validity(var) == 0 && mode != -2)
+		while (str_array && str_array[++i])
 		{
-			if (mode == 0)
-				export_variable(shell, var);
-			else
-				export_variable_in_append_mode(shell, var);
+			if (!(str_array[i][0] == '_' && str_array[i][1] == '='))
+			{
+				write(fd, "declare -x ", 11);
+				while(str_array[i][j] != '=' && str_array[i][j] != '\0')
+					write(fd, &str_array[i][j++], 1);
+				write(fd, "=\"", 2);
+				++j;
+				while(str_array[i][j] != '=' && str_array[i][j] != '\0')
+					write(fd, &str_array[i][j++], 1);
+				write(fd, "\"\n", 2);
+				j = 0;
+			}
 		}
+	}
+	else
+		write(fd, "\n", 1);
+}
+
+int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
+{
+	t_file_datas	*current_output;
+	int				fd;
+
+	current_output = output_lst;
+	while (current_output)
+	{
+		if (current_output->mode == 1)
+			fd = open(current_output->value, O_WRONLY | O_CREAT | O_TRUNC,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		else
+			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		if (fd == -1)
 		{
-			printf("minishell: export: '%s': not a valid identifier\n", var);
+			printf("minishell: '%s': %s", current_output->value,
+				strerror(errno));
+			exit (errno);
+		}
+		if (!current_output->next)
+		{
+			ft_print_export_array_fd(result, fd);
 			return (1);
 		}
+		close(fd);
+		current_output = current_output->next;
 	}
 	return (0);
 }
 
-void	builtin_export(t_shell *shell, t_pipe_node *node)
+void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	int		i;
 	int		exit_status;
@@ -86,19 +80,23 @@ void	builtin_export(t_shell *shell, t_pipe_node *node)
 
 	i = 0;
 	exit_status = 0;
+	open_close_inputs(shell, node->input_file_lst);
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);
 		ft_sort_str_array(env);
-		ft_print_str_array(env);
+		if (write_export_array_to_outputs(env, node->output_file_lst) == 0)
+			ft_print_export_array_fd(env, fd_out);
 		ft_free_str_array(env);
 	}
 	else
 	{
-		open_close_inputs(shell, node->input_file_lst);
 		open_close_outputs(node->input_file_lst);
 		while (node->arguments[++i])
 			exit_status = export(shell, node->arguments[i]);
 	}
+	if (fd_out != 1 && fd_out != 3)
+		close(fd_out);
+		ft_print_str_array(shell->envp);
 	exit (exit_status);
 }

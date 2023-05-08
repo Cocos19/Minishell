@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:15 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:46:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:49:30 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_token	*get_output(t_shell *shell, t_pipe_node *node, t_token *token)
 {
 	int	mode;
 
+	mode = 2;
 	if (!token->next)
 	{
 		printf("minishell: syntax error near unexpected token `newline'");
@@ -68,11 +69,10 @@ t_token	*get_output(t_shell *shell, t_pipe_node *node, t_token *token)
 	token->next->value = expander(shell, token->next->value);
 	if (token->value[1] == '\0')
 		mode = 1;
-	else
-		mode = 2;
 	if (!node->output_file_lst)
 	{
-		node->output_file_lst = init_file_datas(shell, token->next->value, mode);
+		node->output_file_lst
+			= init_file_datas(shell, token->next->value, mode);
 		node->output_file_lst->last = node->output_file_lst;
 	}
 	else

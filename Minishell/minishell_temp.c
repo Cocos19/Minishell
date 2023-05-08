@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 13:54:23 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:14:39 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	print_token_list_infos(t_token *lst)
 	temp = lst;
 	while (temp)
 	{
-		// if (temp->value)
-			// printf("token is:%s\n", temp->value);
+		if (temp->value)
+			printf("token is:%s\n", temp->value);
 		temp = temp->next;
 	}
 }

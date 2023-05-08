@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/04/28 10:13:36 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/08 09:45:40 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	*create_pids(t_pipe_node *pipe)
 {
-	int	pids;
+	int	*pids;
 
 	pids = ft_calloc(sizeof(int), ft_lstsize_pipe(pipe));
 	if (!pids)
@@ -44,6 +44,6 @@ int	ft_fork(t_shell *shell)
 void	ft_dup2(t_shell *shell, int fd, int input)
 {
 	if (dup2(fd, input) == -1)
-		ft_exit(EXIT_FAILURE);
+		exit(EXIT_FAILURE);
 	(void)shell;
 }

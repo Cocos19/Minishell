@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 11:41:43 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/08 09:44:57 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,6 +196,7 @@ void		complete_token(t_shell *shell);
 char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
 char	*get_string_from_fd(t_shell *shell, int fd);
 int		len_tab(char **tb);
+int		ft_lstsize_pipe(t_pipe_node *lst);
 // void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */

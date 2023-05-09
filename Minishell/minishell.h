@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 14:18:21 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:35:12 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ typedef struct s_pipe_node
 {
 	char						**arguments;
 	char						*path;
+	int							fdio[2];
+	int							fd[2];
 	t_file_datas				*input_file_lst;
 	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
@@ -106,7 +108,7 @@ void		free_and_print_custom_error(t_shell *shell, char *minishell_error);
 /*EXECUTION*/
 
 int		ft_fork(t_shell *shell);
-void	ft_pipe(t_shell *shell, int *fd);
+void	ft_pipe(t_shell *shell, t_pipe_node *pipe);
 void	ft_dup2(t_shell *shell, int fd, int input);
 void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
 void	open_close_outputs(t_file_datas *output_lst);
@@ -201,6 +203,7 @@ int	ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
 int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
 void	ft_close_files(int fd, char *name);
 void	ft_close(int fd);
+int	*create_pids(t_pipe_node *pipe);
 // void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */

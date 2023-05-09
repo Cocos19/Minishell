@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/08 14:22:08 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:56:35 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	*create_pids(t_pipe_node *pipe)
 	return (pids);
 }
 
-void	ft_pipe(t_shell *shell, int *fd)
-{
-	pipe(fd);
-	if (fd[0] == -1 || fd[1] == -1)
+void ft_pipe(t_shell *shell, t_pipe_node *pip)
+{	
+	pipe(pip->fd);
+	if (pip->fd[0] == -1 || pip->fd[1] == -1)
 		exit(EXIT_FAILURE);
 	(void)shell;
 }
@@ -52,16 +52,20 @@ int	ft_open_infiles(t_shell *shell, t_pipe_node *pipe)
 {
 	int	fd;
 	(void)shell;
-
-	while (pipe->input_file_lst)
+	while (pipe->input_file_lst->next)
 	{
 		fd = open(pipe->input_file_lst->value, O_RDONLY);
+		if (fd == -1)
+		perror(pipe->input_file_lst->value);
 		if (pipe->input_file_lst->next)
 			ft_close_files(fd, pipe->input_file_lst->value);
 		pipe->input_file_lst = pipe->input_file_lst->next;
 	}
+	fd = open(pipe->input_file_lst->value, O_RDONLY);
 	if (fd == -1)
-		perror(pipe->input_file_lst->value);
+	perror(pipe->input_file_lst->value);
+	if (pipe->input_file_lst->next)
+		ft_close_files(fd, pipe->input_file_lst->value);
 	return (fd);
 }
 

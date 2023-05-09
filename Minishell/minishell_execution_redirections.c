@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:20:08 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 11:32:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:30:48 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ void	open_close_inputs(t_shell *shell, t_file_datas *input_lst)
 			}
 		}
 		if (fd == -1)
-		{
-			printf("minishell: '%s': %s", current_input->value, strerror(errno));
-			exit (errno);
-		}
+			print_info_str_error_and_exit(current_input->value);
 		close(fd);
 		current_input = current_input->next;
 	}
@@ -56,11 +53,7 @@ int	write_array_to_outputs(char **result, t_file_datas *output_lst)
 			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd == -1)
-		{
-			printf("minishell: '%s': %s", current_output->value,
-				strerror(errno));
-			exit (errno);
-		}
+			print_info_str_error_and_exit(current_output->value);
 		if (!current_output->next)
 		{
 			ft_print_str_array_fd(result, fd);
@@ -87,11 +80,7 @@ int	write_to_outputs(char *result, t_file_datas *output_lst)
 			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd == -1)
-		{
-			printf("minishell: '%s': %s", current_output->value,
-				strerror(errno));
-			exit (errno);
-		}
+			print_info_str_error_and_exit(current_output->value);
 		if (!current_output->next)
 		{
 			write(fd, result, ft_strlen(result));
@@ -119,11 +108,7 @@ void	open_close_outputs(t_file_datas *output_lst)
 			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd == -1)
-		{
-			printf("minishell: '%s': %s", current_output->value,
-				strerror(errno));
-			exit (errno);
-		}
+			print_info_str_error_and_exit(current_output->value);
 		close(fd);
 		current_output = current_output->next;
 	}

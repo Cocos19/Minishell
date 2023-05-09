@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 12:08:52 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:01:48 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ int	main(int argc, char **argv, char **envp)
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	g_exit_status = 0;
 	init_terminal(shell, envp);
 	while (1)
 		read_prompt(shell);
-	free_shell(shell);
 	(void) argc;
 	(void) argv;
 	return (0);

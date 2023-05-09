@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:43:03 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 10:53:25 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:46:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ int	get_heredoc(t_shell *shell, char *delimiter)
 	int	id;
 
 	if (pipe(pipe_fds) == -1)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	id = fork();
 	if (id == -1)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	if (id == 0)
 	{
 		close(pipe_fds[0]);

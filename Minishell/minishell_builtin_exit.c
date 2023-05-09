@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 12:08:31 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:09:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	str_is_digit(char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 	{
 		if (!(str[i] >= '0' && str[i] <= '9'))
 			return (2);
@@ -36,10 +36,7 @@ void	handle_exit_args(t_pipe_node *node)
 		exit (2);
 	}
 	else if (node->arguments[2])
-	{
-		printf("minishell: exit: too many arguments\n");
-		exit (1);
-	}
+		print_info_and_exit("minishell: exit: too many arguments\n", EPERM);
 	else
 	{
 		result = ft_atoi(node->arguments[1]);
@@ -52,7 +49,7 @@ void	builtin_exit(t_shell *shell, t_pipe_node *node)
 	open_close_inputs(shell, node->input_file_lst);
 	open_close_outputs(node->input_file_lst);
 	if (!node->arguments[1])
-		exit (EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	if (node->arguments[1])
 		handle_exit_args(node);
 	exit(EXIT_SUCCESS);

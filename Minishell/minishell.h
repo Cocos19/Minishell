@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 10:24:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:10:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,15 @@ typedef struct s_pipe_node
 }	t_pipe_node;
 
 // execution
-// if node->arguments[1] exist -> execute argv tab and nothing else (but you still have to open close inputs)
-// else if node->input_file_lst exist -> execute only last input (but you still have to open close all others inputs)
+// if node->arguments[1] exist -> execute argv tab and nothing else
+// but you still have to open close inputs
+// else if node->input_file_lst exist -> execute only last input
+// but you still have to open close all others inputs
 // else if fd_in -> execute fd_in (fd_in = result of the pipe before)
 // else execute without arg
 // execution output
-// if node->node->output_file_lst -> write in last output_file but you have to open/create all files then write to the last one
+// if node->node->output_file_lst -> write in last output_file
+// but you have to open/create all files then write to the last one
 // else if node->next -> write in fd_out
 // else write in stdout
 // update shell->last_exit_status
@@ -93,30 +96,32 @@ typedef struct s_shell_infos
 
 /*CD*/
 
-void	builtin_cd(t_shell *shell, t_pipe_node *node);
+void		builtin_cd(t_shell *shell, t_pipe_node *node);
 
 /*ECHO*/
 
-void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ENV */
 
-void	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ERROR HANDLING */
 
-void		free_and_print_strerror(t_shell *shell);
-void		free_and_print_custom_error(t_shell *shell, char *minishell_error);
+void		print_str_error_and_exit(void);
+void		print_info_str_error_and_exit(char *info);
+void		print_info_and_exit(char *info, int exit_status);
+void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 
 /*EXECUTION*/
 
-int		ft_fork(t_shell *shell);
-void	ft_pipe(t_shell *shell, int *fd);
-void	ft_dup2(t_shell *shell, int fd, int input);
-void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-void	open_close_outputs(t_file_datas *output_lst);
-int		write_to_outputs(char *result, t_file_datas *output_lst);
-int		write_array_to_outputs(char **result, t_file_datas *output_lst);
+int			ft_fork(t_shell *shell);
+void		ft_pipe(t_shell *shell, int *fd);
+void		ft_dup2(t_shell *shell, int fd, int input);
+void		open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+void		open_close_outputs(t_file_datas *output_lst);
+int			write_to_outputs(char *result, t_file_datas *output_lst);
+int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 
 /*EXPAND*/
 
@@ -130,21 +135,21 @@ int			export(t_shell *shell, char *var);
 int			get_export_mode(char *var);
 int			check_export_variable_validity(char *var);
 int			export_variable_is_in_envp(t_shell *shell, char *var, char c);
-char		*get_value_to_append(t_shell *shell, char *var);
-void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
+char		*get_value_to_append(char *var);
+void		builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /*EXIT*/
 
-void	builtin_exit(t_shell *shell, t_pipe_node *node);
-void	single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
+void		builtin_exit(t_shell *shell, t_pipe_node *node);
+void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 
 /*FREE MEMORY*/
 
-void	free_shell(t_shell *shell);
-void	free_pipe_lst(t_shell *shell);
-void	free_token_lst(t_shell *shell);
-t_token	*free_token_lst_without_content(t_token *lst);
-void	free_and_print_custom_message(t_shell *shell, char *message);
+void		free_shell(t_shell *shell);
+void		free_pipe_lst(t_shell *shell);
+void		free_token_lst(t_shell *shell);
+t_token		*free_token_lst_without_content(t_token *lst);
+void		free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
 
@@ -158,9 +163,9 @@ int			get_heredoc(t_shell *shell, char *delimiter);
 /* PARSING */
 
 void		parser(t_shell *shell);
-t_pipe_node	*init_pipe_node(t_shell *shell);
+t_pipe_node	*init_pipe_node(void);
 t_token		*get_arg(t_shell *shell, t_token *arg_list, t_token *token);
-char		**init_argument_array(t_shell *shell, t_token *arg_list);
+char		**init_argument_array(t_token *arg_list);
 int			next_token_is_valid(t_shell *shell, t_token *token);
 t_token		*get_input(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
 t_token		*get_output(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
@@ -172,7 +177,7 @@ int			input_is_valid(t_shell *shell);
 
 /*PWD*/
 
-void	builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* SIGNALS HANDLING */
 
@@ -195,18 +200,17 @@ void		desact_vquit(t_shell *shell);
 
 void		lexer(t_shell *shell, char *user_input);
 int			is_special_character(char c);
-t_token		*init_token(t_shell *shell);
-t_token		*tokenize(t_shell *shell, char *input);
+t_token		*init_token(void);
+t_token		*tokenize(char *input);
 int			token_list_is_valid(t_shell *shell);
-char		*get_pipe(t_shell *shell, char *input, t_token *cur, char *start);
-char		*get_redir(t_shell *shell, char *input, t_token *cur, char *start);
+char		*get_pipe(char *input, t_token *cur, char *start);
+char		*get_redir(char *input, t_token *cur, char *start);
 void		complete_token(t_shell *shell);
 
 /* UTILS */
 
-char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-char	*get_string_from_fd(t_shell *shell, int fd);
-// void	update_exit_status_with_errno(t_shell *shell);
+char		*ft_strjoin_protected(char *s1, char *s2);
+char		*get_string_from_fd(int fd);
 
 /* TEMP FUNCTIONS */
 
@@ -216,6 +220,6 @@ void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
 
 /*UNSET*/
 
-void	builtin_unset(t_shell *shell, t_pipe_node *node);
+void		builtin_unset(t_shell *shell, t_pipe_node *node);
 
 #endif

@@ -6,19 +6,19 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:45:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 15:56:17 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_pipe_node	*init_pipe_node(t_shell *shell)
+t_pipe_node	*init_pipe_node(void)
 {
 	t_pipe_node	*result;
 
 	result = malloc(sizeof(t_pipe_node));
 	if (!result)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	result->arguments = NULL;
 	result->input_file_lst = NULL;
 	result->output_file_lst = NULL;
@@ -48,8 +48,8 @@ t_pipe_node	*next(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
 	}
 	if (next_token_is_valid(shell, tok) != 0)
 		free_pipe_lst(shell);
-	nod->arguments = init_argument_array(shell, arg);
-	nod->next = init_pipe_node(shell);
+	nod->arguments = init_argument_array(arg);
+	nod->next = init_pipe_node();
 	nod = nod->next;
 	return (nod);
 }
@@ -78,7 +78,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 			token = token->next;
 	}
 	if (g_exit_status == 0)
-		node->arguments = init_argument_array(shell, arg_list);
+		node->arguments = init_argument_array(arg_list);
 	arg_list = free_token_lst_without_content(arg_list);
 }
 
@@ -87,7 +87,7 @@ void	parser(t_shell *shell)
 	t_pipe_node	*first_node;
 	t_token		*first_token;
 
-	shell->pipe_lst = init_pipe_node(shell);
+	shell->pipe_lst = init_pipe_node();
 	first_node = shell->pipe_lst;
 	first_token = shell->token_lst;
 	get_pipes(shell, first_node, first_token);

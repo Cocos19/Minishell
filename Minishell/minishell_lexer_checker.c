@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:12:58 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:44:55 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:05:31 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,10 @@ int	get_pipe_input(t_shell *shell)
 	int	id;
 
 	if (pipe(pipe_fds) == -1)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	id = fork();
 	if (id == -1)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	if (id == 0)
 	{
 		close(pipe_fds[0]);
@@ -80,11 +80,11 @@ void	complete_token(t_shell *shell)
 	g_exit_status = 0;
 	if (fd != -1)
 	{
-		new_input = get_string_from_fd(shell, fd);
+		new_input = get_string_from_fd(fd);
 		close(fd);
 		if (new_input)
 		{
-			add_to_token_lst = tokenize(shell, new_input);
+			add_to_token_lst = tokenize(new_input);
 			shell->token_lst->last->next = add_to_token_lst;
 			shell->token_lst->last = shell->token_lst->last->next->last;
 		}

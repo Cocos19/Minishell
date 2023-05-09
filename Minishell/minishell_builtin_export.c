@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:07:53 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 13:33:11 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	ft_print_export_array_fd(char **str_array, int fd)
 			if (!(str_array[i][0] == '_' && str_array[i][1] == '='))
 			{
 				write(fd, "declare -x ", 11);
-				while(str_array[i][j] != '=' && str_array[i][j] != '\0')
+				while (str_array[i][j] != '=' && str_array[i][j] != '\0')
 					write(fd, &str_array[i][j++], 1);
 				write(fd, "=\"", 2);
 				++j;
-				while(str_array[i][j] != '=' && str_array[i][j] != '\0')
+				while (str_array[i][j] != '=' && str_array[i][j] != '\0')
 					write(fd, &str_array[i][j++], 1);
 				write(fd, "\"\n", 2);
 				j = 0;
@@ -56,11 +56,7 @@ int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
 			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		if (fd == -1)
-		{
-			printf("minishell: '%s': %s", current_output->value,
-				strerror(errno));
-			exit (errno);
-		}
+			print_info_str_error_and_exit(current_output->value);
 		if (!current_output->next)
 		{
 			ft_print_export_array_fd(result, fd);
@@ -97,6 +93,5 @@ void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out)
 	}
 	if (fd_out != 1 && fd_out != 3)
 		close(fd_out);
-		ft_print_str_array(shell->envp);
 	exit (exit_status);
 }

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:16:45 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:16:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 14:16:05 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	var_to_search_len(char *var, char c)
 	return (-1);
 }
 
-char	*get_value_to_append(t_shell *shell, char *var)
+char	*get_value_to_append(char *var)
 {
 	int		var_len;
 	int		result_len;
@@ -69,7 +69,7 @@ char	*get_value_to_append(t_shell *shell, char *var)
 	result_len = ft_strlen(var) - var_len;
 	result = malloc(sizeof(char) * result_len + 1);
 	if (!result)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	i = -1;
 	++var_len;
 	while (++i < result_len)

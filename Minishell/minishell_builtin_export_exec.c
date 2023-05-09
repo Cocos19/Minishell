@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:45:34 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:09:08 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:04:13 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	export_variable_in_append_mode(t_shell *shell, char *var)
 		add_var_to_envp(shell, var);
 	else
 	{
-		str_to_add = get_value_to_append(shell, var);
-		var = ft_strjoin_protected(shell, shell->envp[envp_index], str_to_add);
+		str_to_add = get_value_to_append(var);
+		var = ft_strjoin_protected(shell->envp[envp_index], str_to_add);
 		free(str_to_add);
 		free(shell->envp[envp_index]);
 		shell->envp[envp_index] = ft_strdup(var);

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 16:06:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 17:13:32 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,15 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	char	*new_shlvl;
 	int		val;
 
+	if (!envp || !envp[0])
+		print_info_and_exit("minishell: Environnement variable missing\n", 1);
 	shell->envp = ft_strdup_array(envp);
-	if (!shell->envp)
-		print_str_error_and_exit();
+	if (!shell->envp || export_variable_is_in_envp(shell, "HOME=", '=') < 0
+		|| export_variable_is_in_envp(shell, "PATH=", '=') < 0
+		|| export_variable_is_in_envp(shell, "PWD=", '=') < 0
+		|| export_variable_is_in_envp(shell, "OLDPWD=", '=') < 0
+		|| export_variable_is_in_envp(shell, "SHLVL=", '=') < 0)
+		print_info_and_exit("minishell: Environnement variable missing\n", 1);
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
 	val = ft_atoi(temp);
 	free(temp);

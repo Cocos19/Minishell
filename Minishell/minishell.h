@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 16:10:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:22:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ int	g_exit_status;
 
 /* ERROR MACROS */
 
-# define EPERM 1 // Operation not permitted
-# define ERR_SYNTAX 2 //ENOENT = No Such file or directory
-# define EMFILE 24 // Too may file open
-# define EOWNER_DEAD 130 //Owner died (SIGINT)
+# define EPERM 1
+# define ERR_SYNTAX 2
+# define EOWNER_DEAD 130
 
 typedef struct s_token
 {
@@ -94,17 +93,16 @@ typedef struct s_shell_infos
 	t_pipe_node			*pipe_lst;
 }	t_shell;
 
-/*CD*/
+/*BUILTIN*/
 
 void		builtin_cd(t_shell *shell, t_pipe_node *node);
-
-/*ECHO*/
-
 void		builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
-
-/* ENV */
-
 void		builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_exit(t_shell *shell, t_pipe_node *node);
+void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
+void		builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
+void		builtin_unset(t_shell *shell, t_pipe_node *node);
 
 /* ERROR HANDLING */
 
@@ -129,21 +127,15 @@ char		*expander(t_shell *shell, char *str);
 char		*search_and_expand_env_var(t_shell *shell, char *str);
 char		*is_an_envp_var(t_shell *shell, char *str);
 
-/*EXPORT*/
+/*ENVIRONNEMENT VARIABLES*/
 
 int			export(t_shell *shell, char *var);
 int			get_export_mode(char *var);
 int			check_export_variable_validity(char *var);
 int			export_variable_is_in_envp(t_shell *shell, char *var, char c);
 char		*get_value_to_append(char *var);
-void		builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
 
-/*EXIT*/
-
-void		builtin_exit(t_shell *shell, t_pipe_node *node);
-void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
-
-/*FREE MEMORY*/
+/*FREE MEMORY UTILS*/
 
 void		free_shell(t_shell *shell);
 void		free_pipe_lst(t_shell *shell);
@@ -154,37 +146,28 @@ void		free_and_print_custom_message(t_shell *shell, char *message);
 /* HEREDOC */
 
 int			get_heredoc(t_shell *shell, char *delimiter);
-//INFO FOR PARSING: Function return a fd opened in order to read the heredoc.
-//If SIGINT is triggered, the function still return a fd ready to read.
-//It must be checked and closed if this happened
-//The error should be handled, the exit status stored
-//and then g_exit_status should be setup at 0 again
 
 /* PARSING */
 
 void		parser(t_shell *shell);
+char		**init_argument_array(t_token *arg_list);
 t_pipe_node	*init_pipe_node(void);
 t_token		*get_arg(t_shell *shell, t_token *arg_list, t_token *token);
-char		**init_argument_array(t_token *arg_list);
-int			next_token_is_valid(t_shell *shell, t_token *token);
 t_token		*get_input(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
 t_token		*get_output(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
+int			next_token_is_valid(t_shell *shell, t_token *token);
 
 /* PROMPT */
 
 char		*give_prompt(t_shell *shell);
 int			input_is_valid(t_shell *shell);
 
-/*PWD*/
-
-void		builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
-
 /* SIGNALS HANDLING */
 
+void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		nosigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigint_hered_h(int signal_id, siginfo_t *sig_info, void *context);
-void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		act_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
 void		desact_sint_handler(t_shell *shell);
 void		act_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *));
@@ -199,13 +182,13 @@ void		desact_vquit(t_shell *shell);
 /* TOKENS */
 
 void		lexer(t_shell *shell, char *user_input);
-int			is_special_character(char c);
-t_token		*init_token(void);
-t_token		*tokenize(char *input);
-int			token_list_is_valid(t_shell *shell);
+void		complete_token(t_shell *shell);
 char		*get_pipe(char *input, t_token *cur, char *start);
 char		*get_redir(char *input, t_token *cur, char *start);
-void		complete_token(t_shell *shell);
+t_token		*init_token(void);
+t_token		*tokenize(char *input);
+int			is_special_character(char c);
+int			token_list_is_valid(t_shell *shell);
 
 /* UTILS */
 
@@ -217,9 +200,5 @@ char		*get_string_from_fd(int fd);
 void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
 void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
-
-/*UNSET*/
-
-void		builtin_unset(t_shell *shell, t_pipe_node *node);
 
 #endif

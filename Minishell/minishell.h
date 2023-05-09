@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 10:19:32 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 10:24:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,10 @@ typedef struct s_shell_infos
 	t_token				*token_lst;
 	t_pipe_node			*pipe_lst;
 }	t_shell;
+
+/*CD*/
+
+void	builtin_cd(t_shell *shell, t_pipe_node *node);
 
 /*ECHO*/
 

@@ -6,13 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 10:38:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:08:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//gerer le export d'une variable sans = si elle existe deja
 
 void	read_prompt(t_shell *shell)
 {

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:42:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:07:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	builtin_unset(t_shell *shell, t_pipe_node *node)
 	char	**result;
 
 	open_close_inputs(shell, node->input_file_lst);
-	open_close_outputs(node->input_file_lst);
+	open_close_outputs(node->output_file_lst);
 	if (!node->arguments[1])
 		exit (EXIT_SUCCESS);
 	else

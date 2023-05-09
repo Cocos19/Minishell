@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 10:38:21 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 12:08:31 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 void	single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node)
 {
 	open_close_inputs(shell, node->input_file_lst);
-	open_close_outputs(node->input_file_lst);
+	open_close_outputs(node->output_file_lst);
 	if (!node->arguments[1])
 	{
 		printf("exit\n");

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 17:13:32 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:40:26 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,12 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	char	*new_shlvl;
 	int		val;
 
-	if (!envp || !envp[0])
-		print_info_and_exit("minishell: Environnement variable missing\n", 1);
 	shell->envp = ft_strdup_array(envp);
-	if (!shell->envp || export_variable_is_in_envp(shell, "HOME=", '=') < 0
-		|| export_variable_is_in_envp(shell, "PATH=", '=') < 0
-		|| export_variable_is_in_envp(shell, "PWD=", '=') < 0
-		|| export_variable_is_in_envp(shell, "OLDPWD=", '=') < 0
-		|| export_variable_is_in_envp(shell, "SHLVL=", '=') < 0)
-		print_info_and_exit("minishell: Environnement variable missing\n", 1);
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
-	val = ft_atoi(temp);
+	if (temp[0] == '\0')
+		val = 0;
+	else
+		val = ft_atoi(temp);
 	free(temp);
 	temp = ft_itoa(++val);
 	if (!temp)
@@ -74,7 +69,6 @@ void	init_terminal(t_shell *shell, char **envp)
 	shell->term = malloc(sizeof(struct termios));
 	if (!shell->term)
 		print_str_error_and_exit();
-	shell->envp = NULL;
 	shell->input = NULL;
 	shell->token_lst = NULL;
 	shell->pipe_lst = NULL;
@@ -82,7 +76,15 @@ void	init_terminal(t_shell *shell, char **envp)
 	shell->name = ft_strdup("minishell-1.0$ ");
 	if (!shell->name)
 		print_str_error_and_exit();
-	init_shell_environnement(shell, envp);
+	if (!envp || !envp[0])
+	{
+		shell->envp = malloc(sizeof(char *));
+		if (!shell->envp)
+			print_str_error_and_exit();
+		shell->envp[0] = NULL;
+	}
+	else
+		init_shell_environnement(shell, envp);
 	init_shell_signals(shell);
 	act_vquit(shell);
 }

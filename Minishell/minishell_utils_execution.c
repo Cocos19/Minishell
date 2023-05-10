@@ -6,20 +6,22 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/09 15:56:35 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/10 13:29:30 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*create_pids(t_pipe_node *pipe)
+void	create_pids(t_shell *shell, t_pipe_node *pipe)
 {
-	int	*pids;
+	int	size;
+	int	i;
 
-	pids = ft_calloc(sizeof(int), ft_lstsize_pipe(pipe));
-	if (!pids)
+	size = ft_lstsize_pipe(pipe);
+	shell->pids = ft_calloc(sizeof(int), size);
+	if (!shell->pids)
 		exit(EXIT_FAILURE);
-	return (pids);
+	i = 0;
 }
 
 void ft_pipe(t_shell *shell, t_pipe_node *pip)

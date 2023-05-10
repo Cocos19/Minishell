@@ -6,14 +6,23 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/09 17:14:23 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/10 17:17:23 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//  solution mettre fdio dans la structure
+//  regler execve de middle et last cmd
 
+
+
+void	ft_copy_fd(t_pipe_node *pipe)
+{
+	pipe->next->fd[0] = pipe->fd[0];
+	pipe->next->fd[1] = pipe->fd[1];
+	pipe->next->fdio[0] = pipe->fdio[0];
+	pipe->next->fdio[1] = pipe->fdio[1];
+}
 
 void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe)
 {	
@@ -53,7 +62,7 @@ void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe)
 	}
 }
 
-void	first_cmd(t_shell *shell, t_pipe_node *pipe, int *pids)
+void	first_cmd(t_shell *shell, t_pipe_node *pipe)
 {
 	char *cmd;
 	char *cmd_final;
@@ -63,15 +72,13 @@ void	first_cmd(t_shell *shell, t_pipe_node *pipe, int *pids)
 	free(cmd);
 	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
 	free(cmd_final);
-	pids[0] = ft_fork(shell);
-	if (pids[0] == 0)
+	shell->pids[0] = ft_fork(shell);
+	if (shell->pids[0] == 0)
 	{
-		printf("-> child in first cmd\n");
 		if (!pipe->arguments[0])
 			exit(EXIT_FAILURE);
 		if (pipe->input_file_lst)
 		{
-			printf("test1\n");
 			pipe->fdio[0] = ft_open_infiles(shell, pipe);
 			dup2(pipe->fdio[0], STDIN_FILENO);
 			if (pipe->fdio[0] != -1)
@@ -79,66 +86,31 @@ void	first_cmd(t_shell *shell, t_pipe_node *pipe, int *pids)
 		}
 		if (pipe->output_file_lst)
 		{
-			printf("test2\n");
 			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
 			dup2(pipe->fdio[1], STDOUT_FILENO);
 			ft_close(pipe->fd[1]);
 			pipe->fd[1] = pipe->fdio[1];
 		}
 		else
-		{
-			printf("test3\n");
 			dup2(pipe->fd[1],  STDOUT_FILENO);
-			printf("segfault\n");
-		}
-		ft_close_files(pipe->fd[1], "fd[1] -> first cmd");
-		ft_close_files(pipe->fd[0], "fd[0] -> first cmd");
+		ft_close(pipe->fd[0]);
 		execve(pipe->path, pipe->arguments, shell->envp);
-		// printf("--> test <--\n");
 		exit(EXIT_FAILURE);
 	}
 }
 
-// void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int *pids)
-// {
-// 	pipe->path = cmd_exist(shell->envp, pipe->arguments);
-// 	pids[0] = ft_fork(shell);
-// 	if (pids[0] == 0)
-// 	{
-// 		if (!pipe->arguments[0])
-// 			exit(EXIT_FAILURE);
-// 		if (pipe->input_file_lst)
-// 		{
-// 			ft_close(pipe->fdio[0]);
-// 			pipe->fdio[0] = ft_open_infiles(shell, pipe);
-// 			dup2(pipe->fdio[0], STDIN_FILENO);
-// 		}
-// 		else
-// 			dup2(pipe->fdio[0], STDIN_FILENO);
-// 		ft_close(pipe->fdio[0]);
-// 		if (pipe->output_file_lst)
-// 		{
-// 			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
-// 			dup2(pipe->fdio[1], STDOUT_FILENO);
-// 			ft_close(pipe->fd[1]);
-// 			pipe->fd[1] = pipe->fdio[1];
-// 		}
-// 		else
-// 		{
-// 			dup2(pipe->fd[1],  STDOUT_FILENO);
-// 		}
-// 		ft_close(pipe->fd[0]);
-// 		ft_close(pipe->fd[1]);
-// 		execve(pipe->path, pipe->arguments, shell->envp);
-// 		exit(EXIT_FAILURE);
-// 	}
-// }
-
-void	last_cmd(t_shell *shell, t_pipe_node *pipe, int *pids, int *fd)
+void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 {
-	pipe->path = cmd_exist(shell->envp, pipe->arguments);
-	pids[0] = ft_fork(shell);
-	if (pids[0] == 0)
+	char *cmd;
+	char *cmd_final;
+	
+	cmd = cmd_exist(shell->envp, pipe->arguments);
+	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	free(cmd);
+	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	free(cmd_final);
+	shell->pids[i] = ft_fork(shell);
+	if (shell->pids[i] == 0)
 	{
 		if (!pipe->arguments[0])
 			exit(EXIT_FAILURE);
@@ -147,26 +119,69 @@ void	last_cmd(t_shell *shell, t_pipe_node *pipe, int *pids, int *fd)
 			ft_close(pipe->fdio[0]);
 			pipe->fdio[0] = ft_open_infiles(shell, pipe);
 			dup2(pipe->fdio[0], STDIN_FILENO);
-			ft_close(pipe->fdio[0]);
+			if (pipe->fdio[0] != -1)
+				ft_close(pipe->fdio[0]);
 		}
 		else
-		{
-			dup2(fd[0], STDIN_FILENO);
-			ft_close(fd[0]);
-		}
+			dup2(pipe->fdio[0], STDIN_FILENO);
+		ft_close_files(pipe->fdio[0], "middle cmd");
 		if (pipe->output_file_lst)
 		{
+			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
 			dup2(pipe->fdio[1], STDOUT_FILENO);
-			ft_close(pipe->fdio[1]);
+			ft_close(pipe->fd[1]);
+			pipe->fd[1] = pipe->fdio[1];
 		}
 		else
-			dup2(1, STDOUT_FILENO);
-		execve(pipe->path, pipe->arguments, shell->envp); // ne marche pas, pq ? 
+			dup2(pipe->fd[1],  STDOUT_FILENO);
+		ft_close(pipe->fd[0]);
+		ft_close(pipe->fd[1]);
+		execve(pipe->path, pipe->arguments, shell->envp);
+		printf("teeeeeest\n");
 		exit(EXIT_FAILURE);
 	}
 }
 
-void	ft_waitpids(t_shell *shell, t_pipe_node *pipe, int *pids)
+void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i)
+{
+	char *cmd;
+	char *cmd_final;
+	
+	cmd = cmd_exist(shell->envp, pipe->arguments);
+	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	free(cmd);
+	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	free(cmd_final);
+	shell->pids[i] = ft_fork(shell);
+	if (shell->pids[i] == 0)
+	{
+		if (!pipe->arguments[0])
+			exit(EXIT_FAILURE);
+		if (pipe->input_file_lst)
+		{
+			ft_close(pipe->fdio[0]);
+			pipe->fdio[0] = ft_open_infiles(shell, pipe);
+			dup2(pipe->fdio[0], STDIN_FILENO);
+			if (pipe->fdio[0] != -1)
+				ft_close(pipe->fdio[0]);
+		}
+		else
+			dup2(pipe->fd[0], STDIN_FILENO);
+		if (pipe->output_file_lst)
+		{
+			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
+			dup2(pipe->fdio[1], STDOUT_FILENO);
+			ft_close_files(pipe->fdio[1], "fdio[1] first cmd output");
+		}
+		else
+			dup2(1, STDOUT_FILENO);
+		ft_close_files(pipe->fd[0], "fd[0] last cmd");
+		execve(pipe->path, pipe->arguments, shell->envp);
+		exit(EXIT_FAILURE);
+	}
+}
+
+void	ft_waitpids(t_shell *shell, t_pipe_node *pipe)
 {
 	int	status;
 	int	i;
@@ -176,46 +191,43 @@ void	ft_waitpids(t_shell *shell, t_pipe_node *pipe, int *pids)
 	len = ft_lstsize_pipe(pipe);
 	while (i < len)
 	{
-		if (waitpid(pids[i], &status, 0) == -1)
+		printf("pids = %d\n", i);
+		if (waitpid(shell->pids[i], &status, 0) == -1)
 		{
 			perror("waitpid");
 			exit(WEXITSTATUS(status));
 		}
 		++i;
 	}
-	// exit_status = WEXITSTATUS(status);
-	(void)shell;
 }
 
 void	execution_several_cmds(t_shell *shell, t_pipe_node *pipe)
 {
-	int			*pids;
-	int			*temp_pid;
+	t_pipe_node	*pipe_temp;
+	int			i;
 
-	pids = create_pids(pipe);
+	pipe_temp = pipe;
+	create_pids(shell, pipe);
 	ft_pipe(shell, pipe);
-	first_cmd(shell, pipe, pids);
-	// if (pipe->fdio[0] != 0)	// pq faire? + initialiser fdio
-		// ft_close_files(pipe->fdio[0], pipe->input_file_lst->last->value);
-	// ft_close(fd[1]);
-	temp_pid = pids;
-	// printf("-> temp_pid ok <-\n");
+	first_cmd(shell, pipe);
+	ft_close(pipe->fd[1]);
+	ft_copy_fd(pipe);
 	pipe = pipe->next;
-	exit(EXIT_SUCCESS);
-	// printf("-> before loop ok <-\n");
+	i = 1;
 	// while (pipe->next)
 	// {
-	// 	pipe->fdio[0] = fd[1];
-	// 	middle_cmd(shell, pipe, temp_pid++, fd);
-	// 	ft_close_files(pipe->fdio[1], pipe->output_file_lst->last->value);
-	// 	ft_close(fd[1]);
+	// 	pipe->fdio[0] = pipe->fd[0];
+	// 	middle_cmd(shell, pipe, i);
+	// 	ft_close_files(pipe->fdio[0], "test1"); // ok
+	// 	// ft_close_files(pipe->fd[1], "test2"); // bad file descriptor
+	// 	ft_copy_fd(pipe);
 	// 	pipe = pipe->next;
+	// 	++i;
 	// }
-	// printf("-> after loop ok <-\n");
-	// last_cmd(shell, pipe, temp_pid++, fd);
-	// ft_close_files(pipe->fdio[0], pipe->input_file_lst->last->value);
-	// ft_close(fd[1]);
-	ft_waitpids(shell, pipe, pids);
+	pipe->fdio[0] = pipe->fd[1];
+	last_cmd(shell, pipe, i);
+	ft_close_files(pipe->fd[0], "fd[0] last");
+	ft_waitpids(shell, pipe_temp);
 }
 
 void	execution(t_shell *shell)

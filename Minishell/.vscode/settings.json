@@ -28,6 +28,7 @@
 		"locale": "c",
 		"utility": "c",
 		"atomic": "c",
-		"string_view": "c"
+		"string_view": "c",
+		"complex": "c"
 	}
 }

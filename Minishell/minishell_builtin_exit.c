@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 14:09:43 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 14:31:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	str_is_digit(char *str)
 	return (0);
 }
 
-void	handle_exit_args(t_pipe_node *node)
+int	handle_exit_args(t_pipe_node *node)
 {
 	unsigned char	result;
 
@@ -33,26 +33,33 @@ void	handle_exit_args(t_pipe_node *node)
 	{
 		printf("minishell: exit: %s: numeric argument required\n",
 			node->arguments[1]);
-		exit (2);
+		result = ERR_SYNTAX;
 	}
 	else if (node->arguments[2])
-		print_info_and_exit("minishell: exit: too many arguments\n", EPERM);
-	else
 	{
-		result = ft_atoi(node->arguments[1]);
-		exit (result);
+		printf("minishell: exit: too many arguments\n");
+		result = EPERM;
 	}
+	else
+		result = ft_atoi(node->arguments[1]);
+	return (result);
 }
 
-void	builtin_exit(t_shell *shell, t_pipe_node *node)
+int	builtin_exit(t_shell *shell, t_pipe_node *node)
 {
-	open_close_inputs(shell, node->input_file_lst);
-	open_close_outputs(node->input_file_lst);
+	int result;
+
+	result = open_close_inputs(shell, node->input_file_lst);
+	if (result != 0)
+		return (result);
+	result = open_close_outputs(node->input_file_lst);
+	if (result != 0)
+		return (result);
 	if (!node->arguments[1])
-		exit(EXIT_SUCCESS);
+		return (0);
 	if (node->arguments[1])
-		handle_exit_args(node);
-	exit(EXIT_SUCCESS);
+		return (handle_exit_args(node));
+	return (0);
 }
 
 void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
@@ -68,7 +75,7 @@ void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 	else if (node->arguments[2])
 	{
 		printf("minishell: too many arguments\n");
-		shell->last_exit_status = 1;
+		shell->last_exit_status = EPERM;
 	}
 	else
 	{

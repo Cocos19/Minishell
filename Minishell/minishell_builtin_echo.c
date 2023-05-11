@@ -6,11 +6,13 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 16:07:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:57:23 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*This function can be launched in multiples pipe in forks or as a single pipe in a fork*/
 
 char	*ft_strjoin_and_free_input(char *input, char *to_add)
 {
@@ -48,16 +50,26 @@ char	*get_echo_result(char **argv)
 	return (result);
 }
 
-void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out)
+int	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	char	*result;
+	int		redirections_check;
 
+	redirections_check = open_close_inputs(shell, node->input_file_lst);
+	if (redirections_check != 0)
+		return (redirections_check);
 	result = get_echo_result(node->arguments);
-	open_close_inputs(shell, node->input_file_lst);
-	if (write_to_outputs(result, node->output_file_lst) == 0)
+	if (node->output_file_lst)
+	{
+		redirections_check = write_to_outputs(result, node->output_file_lst);
+		if (redirections_check != 0)
+		{
+			free(result);
+			return (redirections_check);
+		}
+	}
+	else
 		write(fd_out, result, ft_strlen(result));
-	if (fd_out != 1 && fd_out != 3)
-		close(fd_out);
 	free(result);
-	exit(EXIT_SUCCESS);
+	return (0);
 }

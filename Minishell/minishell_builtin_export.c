@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 13:33:11 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:57:20 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,15 +68,19 @@ int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
 	return (0);
 }
 
-void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out)
+int	builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	int		i;
-	int		exit_status;
+	int		result;
 	char	**env;
 
 	i = 0;
-	exit_status = 0;
-	open_close_inputs(shell, node->input_file_lst);
+	result = open_close_inputs(shell, node->input_file_lst);
+	if (result != 0)
+		return (result);
+	result = open_close_outputs(node->input_file_lst);
+	if (result != 0)
+		return (result);
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);
@@ -84,14 +88,16 @@ void	builtin_export(t_shell *shell, t_pipe_node *node, int fd_out)
 		if (write_export_array_to_outputs(env, node->output_file_lst) == 0)
 			ft_print_export_array_fd(env, fd_out);
 		ft_free_str_array(env);
+		return (0);
 	}
-	else
+	else if (fd_in == -1 && fd_out != 1)
 	{
-		open_close_outputs(node->input_file_lst);
 		while (node->arguments[++i])
-			exit_status = export(shell, node->arguments[i]);
+		{
+			result = export(shell, node->arguments[i]);
+			if (result != 0)
+				return (result);
+		}
 	}
-	if (fd_out != 1 && fd_out != 3)
-		close(fd_out);
-	exit (exit_status);
+	return (result);
 }

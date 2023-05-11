@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/10 15:51:41 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 15:57:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,15 @@ char	*get_path(t_shell *shell, char *arg)
 	res = NULL;
 	env_index = export_variable_is_in_envp(shell, "HOME=", '=');
 	if (env_index < 0)
-		print_info_and_exit("minishell: cd: HOME not set\n", EPERM);
+	{
+		printf("minishell: cd: OLDPWD not set\n");
+		return (NULL);
+	}
 	else if (!arg)
 	{
 		res = ft_strdup(search_and_expand_env_var(shell, ft_strdup("$HOME")));
 		if (!res)
-			print_info_str_error_and_exit(arg);
+			print_str_error_and_exit();
 	}
 	else
 	{
@@ -73,7 +76,7 @@ void	update_envp(t_shell *shell, char *path)
 	update_env_var(shell, "PWD=", path);
 }
 
-void	handle_minus_argument(t_shell *shell)
+int	handle_minus_argument(int fd_in, t_shell *shell, int fd_out)
 {
 	int		oldpwd_index;
 	int		result;
@@ -81,45 +84,76 @@ void	handle_minus_argument(t_shell *shell)
 
 	oldpwd_index = export_variable_is_in_envp(shell, "OLDPWD=", '=');
 	if (oldpwd_index < 0)
-		print_info_and_exit("minishell: cd: OLDPWD not set\n", EPERM);
+	{
+		printf("minishell: cd: OLDPWD not set\n");
+		return (EPERM);
+	}
 	path = ft_strdup(search_and_expand_env_var(shell, ft_strdup("$OLDPWD")));
 	if (!path)
 		print_str_error_and_exit();
 	if (access(path, X_OK | F_OK) != 0)
-		print_builtin_info_str_error_and_exit("cd", path);
-	result = chdir(path);
-	if (result == 0)
 	{
-		update_env_var(shell, "OLDPWD=", ft_strdup("$PWD"));
-		update_env_var(shell, "PWD=", path);
+		printf("minishell: cd: %s: %s\n", path, strerror(errno));
+		return (EPERM);
 	}
+	if (fd_in == -1 && fd_out != 1)
+	{
+		result = chdir(path);
+		if (result == 0)
+		{
+			write(fd_out, path, ft_strlen(path));
+			write(fd_out, "\n", 1);
+			update_env_var(shell, "OLDPWD=", ft_strdup("$PWD"));
+			update_env_var(shell, "PWD=", path);
+		}
+	}
+	else
+		result = 0;
 	free(path);
-	exit(result);
+	return (result);
 }
 
-void	builtin_cd(t_shell *shell, t_pipe_node *node)
+int	builtin_cd(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	char	*path;
 	int		result;
 
-	open_close_inputs(shell, node->input_file_lst);
-	open_close_outputs(node->output_file_lst);
+	result = open_close_inputs(shell, node->input_file_lst);
+	if (result != 0)
+		return (result);
+	result = open_close_outputs(node->output_file_lst);
+	if (result != 0)
+		return (result);
 	path = NULL;
 	if (!node->arguments[1])
 		path = get_path(shell, NULL);
 	else if (node->arguments[2])
-		print_info_and_exit("minishell: cd: too many arguments\n", EPERM);
+		printf("minishell: cd: too many arguments\n");
 	else if (node->arguments[1][0] == '-' && node->arguments[1][1] == '\0')
-		handle_minus_argument(shell);
+		return (handle_minus_argument(fd_in, shell, fd_out));
 	else if (node->arguments[1][0] == '~')
 		path = get_path(shell, node->arguments[1]);
 	else
+	{
 		path = strdup(node->arguments[1]);
+		if (!path)
+			print_str_error_and_exit();
+	}
+	if (!path)
+		return (EPERM);
 	if (access(path, X_OK | F_OK) != 0)
-		print_builtin_info_str_error_and_exit("cd", path);
-	result = chdir(path);
-	if (result == 0)
-		update_envp(shell, path);
+	{
+		printf("minishell: cd: %s: %s\n", path, strerror(errno));
+		return (EPERM);
+	}
+	if (fd_in == -1 && fd_out != 1)
+	{
+		result = chdir(path);
+		if (result == 0)
+			update_envp(shell, path);
+	}
+	else
+		result = 0;
 	free(path);
-	exit(result);
+	return (result);
 }

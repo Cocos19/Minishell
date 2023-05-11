@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 16:22:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:08:16 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,14 +95,25 @@ typedef struct s_shell_infos
 
 /*BUILTIN*/
 
-void		builtin_cd(t_shell *shell, t_pipe_node *node);
-void		builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
-void		builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
-void		builtin_export(t_shell *shell, t_pipe_node *node, int fd_out);
-void		builtin_exit(t_shell *shell, t_pipe_node *node);
+/*How to use builtin
+if builtin are single command, it should be launched in a fork
+exit is handled by a single function before exec function so no needed to handle it when exit is single command
+builtin never close fds so its the exec function responsability to close it
+builtin function have different behaviour when in pipe chain or not so some of them need to know it
+in this purpose some builtin need a fd_in and fd_out
+if the command is the first node of pipe chain, fd_in should be -1
+if the commad is the last node of pipe chain, fd_out should be 1 (STDOUT)
+we should not forget that if -1 or 1 is passed as fd argument it shouldnt be closed
+*/
+
+int			builtin_cd(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
-void		builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
-void		builtin_unset(t_shell *shell, t_pipe_node *node);
+int			builtin_exit(t_shell *shell, t_pipe_node *node);
+int			builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ERROR HANDLING */
 
@@ -116,8 +127,12 @@ void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 int			ft_fork(t_shell *shell);
 void		ft_pipe(t_shell *shell, int *fd);
 void		ft_dup2(t_shell *shell, int fd, int input);
-void		open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-void		open_close_outputs(t_file_datas *output_lst);
+// void		open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+// void		open_close_outputs(t_file_datas *output_lst);
+// int			write_to_outputs(char *result, t_file_datas *output_lst);
+// int			write_array_to_outputs(char **result, t_file_datas *output_lst);
+int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+int			open_close_outputs(t_file_datas *output_lst);
 int			write_to_outputs(char *result, t_file_datas *output_lst);
 int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 

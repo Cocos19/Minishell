@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 12:07:53 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/11 16:01:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,22 @@ int	index_in_envp_var(t_shell *shell, char *str)
 	return (-1);
 }
 
-void	builtin_unset(t_shell *shell, t_pipe_node *node)
+int	builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	int		var_index;
 	int		i;
+	int		redirections_check;
 	char	**result;
 
-	open_close_inputs(shell, node->input_file_lst);
-	open_close_outputs(node->output_file_lst);
+	redirections_check = open_close_inputs(shell, node->input_file_lst);
+	if (!redirections_check)
+		return (redirections_check);
+	redirections_check = open_close_outputs(node->output_file_lst);
+	if (!redirections_check)
+		return (redirections_check);
 	if (!node->arguments[1])
-		exit (EXIT_SUCCESS);
-	else
+		return (0);
+	if (fd_in == -1 && fd_out != 1)
 	{
 		i = 0;
 		while (node->arguments[++i])
@@ -51,5 +56,5 @@ void	builtin_unset(t_shell *shell, t_pipe_node *node)
 			}
 		}
 	}
-	exit (EXIT_SUCCESS);
+	return (0);
 }

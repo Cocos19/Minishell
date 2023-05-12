@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_free.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/03 15:11:10 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 13:53:35 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,4 +99,19 @@ t_token	*free_token_lst_without_content(t_token *lst)
 		}
 	}
 	return (NULL);
+}
+
+void	free_all_tab(char **p_tab, int len)
+{
+	int	i;
+
+	i = 0;
+	while (p_tab && i < len && p_tab[i])
+	{
+		free(p_tab[i]);
+		p_tab[i] = NULL;
+		++i;
+	}
+	free(p_tab);
+	p_tab = NULL;
 }

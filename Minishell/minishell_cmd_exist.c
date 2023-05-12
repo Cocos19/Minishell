@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/04/27 11:30:27 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/05 11:44:01 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static void	cmd_not_found(char *str)
 	write(2, str, ft_strlen(str));
 }
 
-static int	ft_test_cmd(char *path, char *cmd, int i)
+static int	ft_test_cmd(char *path, char *cmd)
 {
 	int		cmd_ok;
 	char	*cmd_test;
@@ -56,7 +56,7 @@ char	*cmd_exist(char **envp, char **arg)	// fct leaks avec path -> fixed ?
 		i = 0;
 		while (path && path[i])
 		{
-			if (test_cmd(path[i], arg[0], i) == 0)
+			if (ft_test_cmd(path[i], arg[0]) == 0)
 				return (path[i]);
 			++i;
 		}

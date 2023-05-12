@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 16:08:16 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:58:13 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ typedef struct s_file_datas
 typedef struct s_pipe_node
 {
 	char						**arguments;
+	char						*path;
 	t_file_datas				*input_file_lst;
 	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
@@ -136,6 +137,16 @@ int			open_close_outputs(t_file_datas *output_lst);
 int			write_to_outputs(char *result, t_file_datas *output_lst);
 int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 
+char	*cmd_exist(char **envp, char **arg);
+void	execution(t_shell *shell);
+char	**get_envp_paths(char **envp);
+void	free_all_tab(char **p_tab, int len);
+
+char	*cmd_exist(char **envp, char **arg);
+void	execution(t_shell *shell);
+char	**get_envp_paths(char **envp);
+void	free_all_tab(char **p_tab, int len);
+
 /*EXPAND*/
 
 char		*expander(t_shell *shell, char *str);
@@ -209,6 +220,8 @@ int			token_list_is_valid(t_shell *shell);
 
 char		*ft_strjoin_protected(char *s1, char *s2);
 char		*get_string_from_fd(int fd);
+int		len_tab(char **tb);
+int		ft_lstsize_pipe(t_pipe_node *lst);
 
 /* TEMP FUNCTIONS */
 

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
+#    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/05 11:46:29 by mprofett         ###   ########.fr        #
+#    Updated: 2023/05/12 09:53:30 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRC			= minishell.c minishell_execute.c minishell_free.c \
 			minishell_builtin_echo.c minishell_builtin_env.c \
 			minishell_builtin_exit.c minishell_builtin_pwd.c \
 			minishell_builtin_unset.c minishell_execution_redirections.c \
-			minishell_builtin_export_exec.c
+			minishell_cmd_execution.c minishell_cmd_exist.c minishell_get_envp.c \
+			minishell_utils_execution.c \
+			minishell_builtin_export_exec.c \
 
 SRC_BONUS	=
 
@@ -44,12 +46,12 @@ RM			= rm -f
 C_FLAGS	= -Wall -Wextra -Werror
 
 %.o: %.c
-	$(CC) $(C_FLAGS) -I/Users/mprofett/.brew/opt/readline/include -c $< -o $@
+	$(CC) $(C_FLAGS) -I/Users/cmartino/.brew/opt/readline/include -c $< -o $@
 
 all: ${NAME}
 
 ${NAME}: ${OBJ} ${LIBFT}
-	${CC} ${OBJ} -o  ${NAME} ${LIBFT} -I/Users/mprofett/.brew/opt/readline/include -L/Users/mprofett/.brew/opt/readline/lib -lreadline -fsanitize=address
+	${CC} ${OBJ} -o  ${NAME} ${LIBFT} -I/Users/cmartino/.brew/opt/readline/include -L/Users/cmartino/.brew/opt/readline/lib -lreadline -fsanitize=address
 
 ${LIBFT}:
 	${MAKE} bonus -C ${LIBFT_PATH}

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/10 13:29:30 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/12 15:46:08 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe)
 
 	while (pipe->output_file_lst)
 	{
-		printf("test\n");
 		if (pipe->output_file_lst->mode == 1)
 			fd = open(pipe->output_file_lst->value, O_WRONLY | O_CREAT | O_TRUNC,
 						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);

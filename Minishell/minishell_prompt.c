@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 17:40:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/10 15:42:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,15 @@ char	*give_prompt(t_shell *shell)
 	user_input = readline(shell->name);
 	if (g_exit_status != 0)
 	{
-		shell->last_exit_status = 130;
+		shell->last_exit_status = EOWNER_DEAD;
 		g_exit_status = 0;
 	}
 	shell->input = user_input;
 	if (!user_input)
-		free_and_print_custom_message(shell, "\bexit\n");
+	{
+		if (shell->envp[0] == NULL)
+			write(1, "\n", 1);
+		print_info_and_exit("\bexit\n", EXIT_SUCCESS);
+	}
 	return (user_input);
 }

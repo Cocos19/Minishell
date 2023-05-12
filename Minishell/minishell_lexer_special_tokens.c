@@ -19,28 +19,28 @@ int	is_special_character(char c)
 	return (0);
 }
 
-char	*get_pipe(t_shell *shell, char *input, t_token *current, char *start)
+char	*get_pipe(char *input, t_token *current, char *start)
 {
 	current->value = ft_substr_delimited(start, start);
 	if (!current->value)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	return (++input);
 }
 
-char	*get_redir(t_shell *shell, char *input, t_token *current, char *start)
+char	*get_redir(char *input, t_token *current, char *start)
 {
 	if (*(input + 1) != *start)
 	{
 		current->value = ft_substr_delimited(start, start);
 		if (!current->value)
-			free_and_print_strerror(shell);
+			print_str_error_and_exit();
 		return (++input);
 	}
 	else
 	{
 		current->value = ft_substr_delimited(start, input + 1);
 		if (!current->value)
-			free_and_print_strerror(shell);
+			print_str_error_and_exit();
 		return (input + 2);
 	}
 }

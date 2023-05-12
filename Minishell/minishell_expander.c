@@ -46,7 +46,7 @@ char	*get_next_substr(t_shell *shell, char *str, int *str_i, char c)
 	result_len = get_substr_len(str, str_i, c);
 	result = malloc(sizeof(char) * result_len + 1);
 	if (!result)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	i = -1;
 	while (++i < result_len)
 		result[i] = str[(*str_i)++];
@@ -66,7 +66,7 @@ char	*expander(t_shell *shell, char *str)
 	str_i = 0;
 	result = malloc(sizeof(char));
 	if (!result)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	result[0] = '\0';
 	while (str[str_i])
 	{
@@ -80,7 +80,7 @@ char	*expander(t_shell *shell, char *str)
 			result = ft_strjoin_and_free_srcs(result,
 					get_next_substr(shell, str, &str_i, '\0'));
 		if (!result)
-			free_and_print_strerror(shell);
+			print_str_error_and_exit();
 	}
 	return (result);
 }

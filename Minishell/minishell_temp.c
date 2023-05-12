@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 14:14:39 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:59:03 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,20 @@ void	print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst)
 		{
 			while (current->arguments[++i])
 			{
-				printf("arg: %s\n", current->arguments[i]);
 				if (i == 0 && ft_strcmp("echo", current->arguments[i]) == 0)
-					builtin_echo(shell, current, 2);
+					builtin_echo(-1, shell, current, 1);
 				if (i == 0 && ft_strcmp("export", current->arguments[i]) == 0)
-					builtin_export(shell, current);
+					builtin_export(shell, current, 1);
+				if (i == 0 && ft_strcmp("pwd", current->arguments[i]) == 0)
+					builtin_pwd(-1, shell, current, 1);
+				if (i == 0 && ft_strcmp("env", current->arguments[i]) == 0)
+					builtin_env(-1, shell, current, 1);
+				if (i == 0 && ft_strcmp("unset", current->arguments[i]) == 0)
+					builtin_unset(shell, current);
+				if (i == 0 && ft_strcmp("exit", current->arguments[i]) == 0)
+					builtin_exit(shell, current);
+				if (i == 0 && ft_strcmp("cd", current->arguments[i]) == 0)
+					builtin_cd(-1, shell, current, 1);
 			}
 			i = -1;
 		}

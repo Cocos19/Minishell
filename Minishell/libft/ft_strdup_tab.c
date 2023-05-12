@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:45:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/03 15:16:15 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/08 10:46:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,28 @@ static int	ft_len_tab(const char **tab)
 	return (len);
 }
 
+char	*get_str(const char **tab, int i)
+{
+	char	*new_str;
+	int		j;
+
+	new_str = malloc (sizeof(char) * ft_strlen(tab[i]) + 1);
+	if (!new_str)
+		exit(EXIT_FAILURE);
+	j = 0;
+	while (tab[i][j])
+	{
+		new_str[j] = tab[i][j];
+		++j;
+	}
+	new_str[j] = '\0';
+	return (new_str);
+}
+
 char	**ft_strdup_tab(const char **tab)
 {
 	char	**result;
 	int		i;
-	int		j;
 	int		len_tab;
 
 	i = 0;
@@ -39,18 +56,7 @@ char	**ft_strdup_tab(const char **tab)
 	if (!result)
 		exit(EXIT_FAILURE);
 	while (i < len_tab)
-	{
-		result[i] = malloc (sizeof(char) * ft_strlen(tab[i]) + 1);
-		if (!result)
-			exit(EXIT_FAILURE);
-		j = 0;
-		while(tab[i][j])
-		{
-			result[i][j] = tab[i][j];
-			++j;
-		}
-		result[i][j] = '\0';
-	}
+		result[i] = get_str(tab, i);
 	result[i] = NULL;
 	return (result);
 }

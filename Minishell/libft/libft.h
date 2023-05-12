@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:55:28 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 18:59:10 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/05 14:41:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,7 @@ void			ft_print_str_array(char **str_array);
 char			*ft_strndup(const char *s1, int end_index);
 char			*ft_skip_all_but_character(char	*str, char c);
 void			ft_sort_str_array(char **array);
+void			ft_print_str_array_fd(char **str_array, int fd);
+char			**ft_retrieve_from_str_array(char **src, int index_to_remove);
 
 #endif

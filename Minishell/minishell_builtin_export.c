@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/12 12:19:53 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:26:10 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,12 @@ int	builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 			if (result != 0)
 				return (result);
 		}
+	}
+	else
+	{
+		while (node->arguments[++i])
+			if (check_export_arg_validity(node->arguments[i]) != 0)
+				return (EPERM);
 	}
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 15:57:24 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:21:04 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	handle_minus_argument(int fd_in, t_shell *shell, int fd_out)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (EPERM);
 	}
-	if (fd_in == -1 && fd_out != 1)
+	if (fd_in == -1 && fd_out == 1)
 	{
 		result = chdir(path);
 		if (result == 0)
@@ -146,7 +146,7 @@ int	builtin_cd(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (EPERM);
 	}
-	if (fd_in == -1 && fd_out != 1)
+	if (fd_in == -1 && fd_out == 1)
 	{
 		result = chdir(path);
 		if (result == 0)

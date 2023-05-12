@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 15:57:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/12 12:19:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,28 @@ int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
 	return (0);
 }
 
+int	check_export_arg_validity(char *arg)
+{
+	int	i;
+
+	if (!((arg[0] >= 'a' && arg[0] <= 'z') || (arg[0] >= 'A' && arg[0] <= 'Z')))
+	{
+		printf("minishell: export: %s: not a valid identifier\n", arg);
+		return (EPERM);
+	}
+	i = 0;
+	while (arg[++i])
+	{
+		if (!((arg[i] >= 'a' && arg[i] <= 'z') || (arg[i] >= 'A' && arg[i] <= 'Z') ||
+			(arg[i] >= '0' && arg[i] <= '9')))
+		{
+			printf("minishell: export: %s: not a valid identifier\n", arg);
+			return (EPERM);
+		}
+	}
+	return (0);
+}
+
 int	builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 {
 	int		i;
@@ -90,10 +112,12 @@ int	builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 		ft_free_str_array(env);
 		return (0);
 	}
-	else if (fd_in == -1 && fd_out != 1)
+	else if (fd_in == -1 && fd_out == 1)
 	{
 		while (node->arguments[++i])
 		{
+			if (check_export_arg_validity(node->arguments[i]) != 0)
+				return (EPERM);
 			result = export(shell, node->arguments[i]);
 			if (result != 0)
 				return (result);

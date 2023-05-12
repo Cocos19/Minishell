@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_execution_redirections.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/04 18:20:08 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 11:41:10 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/12 09:52:31 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

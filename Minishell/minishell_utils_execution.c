@@ -6,26 +6,36 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/08 09:45:40 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/16 12:10:09 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	*create_pids(t_pipe_node *pipe)
+void	ft_copy_fd(t_pipe_node *pipe)
 {
-	int	*pids;
-
-	pids = ft_calloc(sizeof(int), ft_lstsize_pipe(pipe));
-	if (!pids)
-		exit(EXIT_FAILURE);
-	return (pids);
+	pipe->next->fd[0] = pipe->fd[0];
+	pipe->next->fd[1] = pipe->fd[1];
+	pipe->next->fdio[0] = pipe->fdio[0];
+	pipe->next->fdio[1] = pipe->fdio[1];
 }
 
-void	ft_pipe(t_shell *shell, int *fd)
+void	create_pids(t_shell *shell, t_pipe_node *pipe)
 {
-	pipe(fd);
-	if (fd[0] == -1 || fd[1] == -1)
+	int	size;
+	int	i;
+
+	size = ft_lstsize_pipe(pipe);
+	shell->pids = ft_calloc(sizeof(int), size);
+	if (!shell->pids)
+		exit(EXIT_FAILURE);
+	i = 0;
+}
+
+void	ft_pipe(t_shell *shell, t_pipe_node *pip)
+{	
+	pipe(pip->fd);
+	if (pip->fd[0] == -1 || pip->fd[1] == -1)
 		exit(EXIT_FAILURE);
 	(void)shell;
 }

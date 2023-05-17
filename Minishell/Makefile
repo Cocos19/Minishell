@@ -6,13 +6,13 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/12 09:53:30 by cmartino         ###   ########.fr        #
+#    Updated: 2023/05/17 10:14:37 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-SRC			= minishell.c minishell_execute.c minishell_free.c \
+SRC			= minishell.c minishell_free.c \
 			minishell_prompt.c minishell_parser_heredoc.c \
 			minishell_expander.c minishell_parser.c \
 			minishell_parser_arguments.c minishell_signals.c \
@@ -27,9 +27,7 @@ SRC			= minishell.c minishell_execute.c minishell_free.c \
 			minishell_builtin_unset.c minishell_execution_redirections.c \
 			minishell_cmd_execution.c minishell_cmd_exist.c minishell_get_envp.c \
 			minishell_utils_execution.c \
-			minishell_builtin_export_exec.c \
-
-SRC_BONUS	=
+			minishell_builtin_export_exec.c minishell_utils_open_close.c \
 
 OBJ			= ${SRC:.c=.o}
 

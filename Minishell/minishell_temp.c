@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/12 09:59:03 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:16:51 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst)
 			print_file_datas_lst(current->output_file_lst);
 		}
 		current = current->next;
+		printf("*************\n");
 	}
 	(void) shell;
 }

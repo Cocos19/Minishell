@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/10 13:27:03 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:49:24 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,6 +206,7 @@ int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
 void	ft_close_files(int fd, char *name);
 void	ft_close(int fd);
 void	create_pids(t_shell *shell, t_pipe_node *pipe);
+void	ft_copy_fd(t_pipe_node *pipe);
 // void	update_exit_status_with_errno(t_shell *shell);
 
 /* TEMP FUNCTIONS */

@@ -6,23 +6,11 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/12 15:55:15 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/16 10:49:48 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//  middle cmd -> prblm avec le input -> faire manuellement
-
-
-
-void	ft_copy_fd(t_pipe_node *pipe)
-{
-	pipe->next->fd[0] = pipe->fd[0];
-	pipe->next->fd[1] = pipe->fd[1];
-	pipe->next->fdio[0] = pipe->fdio[0];
-	pipe->next->fdio[1] = pipe->fdio[1];
-}
 
 void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe)
 {	
@@ -135,6 +123,7 @@ void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 		{
 			printf("midlle cmd -> output\n");
 			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
+			// pipe->next->input_file_lst = pipe->input_file_lst->last;
 			dup2(pipe->fdio[1], STDOUT_FILENO);
 			ft_close(pipe->fd[1]);
 			pipe->fd[1] = pipe->fdio[1];

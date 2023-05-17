@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/17 10:16:51 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:49:32 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,48 +53,48 @@ void	print_file_datas_lst(t_file_datas *datas_lst)
 	}
 }
 
-void	print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst)
-{
-	t_pipe_node	*current;
-	int			i;
+// void	print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst)
+// {
+// 	t_pipe_node	*current;
+// 	int			i;
 
-	current = pipe_lst;
-	i = -1;
-	while (current)
-	{
-		if (current->arguments)
-		{
-			while (current->arguments[++i])
-			{
-				if (i == 0 && ft_strcmp("echo", current->arguments[i]) == 0)
-					builtin_echo(-1, shell, current, 1);
-				if (i == 0 && ft_strcmp("export", current->arguments[i]) == 0)
-					builtin_export(shell, current, 1);
-				if (i == 0 && ft_strcmp("pwd", current->arguments[i]) == 0)
-					builtin_pwd(-1, shell, current, 1);
-				if (i == 0 && ft_strcmp("env", current->arguments[i]) == 0)
-					builtin_env(-1, shell, current, 1);
-				if (i == 0 && ft_strcmp("unset", current->arguments[i]) == 0)
-					builtin_unset(shell, current);
-				if (i == 0 && ft_strcmp("exit", current->arguments[i]) == 0)
-					builtin_exit(shell, current);
-				if (i == 0 && ft_strcmp("cd", current->arguments[i]) == 0)
-					builtin_cd(-1, shell, current, 1);
-			}
-			i = -1;
-		}
-		if (current->input_file_lst)
-		{
-			printf("Input file list:\n");
-			print_file_datas_lst(current->input_file_lst);
-		}
-		if (current->output_file_lst)
-		{
-			printf("Output file list:\n");
-			print_file_datas_lst(current->output_file_lst);
-		}
-		current = current->next;
-		printf("*************\n");
-	}
-	(void) shell;
-}
+// 	current = pipe_lst;
+// 	i = -1;
+// 	while (current)
+// 	{
+// 		if (current->arguments)
+// 		{
+// 			while (current->arguments[++i])
+// 			{
+// 				if (i == 0 && ft_strcmp("echo", current->arguments[i]) == 0)
+// 					builtin_echo(-1, shell, current, 1);
+// 				if (i == 0 && ft_strcmp("export", current->arguments[i]) == 0)
+// 					builtin_export(shell, current, 1);
+// 				if (i == 0 && ft_strcmp("pwd", current->arguments[i]) == 0)
+// 					builtin_pwd(-1, shell, current, 1);
+// 				if (i == 0 && ft_strcmp("env", current->arguments[i]) == 0)
+// 					builtin_env(-1, shell, current, 1);
+// 				if (i == 0 && ft_strcmp("unset", current->arguments[i]) == 0)
+// 					builtin_unset(shell, current);
+// 				if (i == 0 && ft_strcmp("exit", current->arguments[i]) == 0)
+// 					builtin_exit(shell, current);
+// 				if (i == 0 && ft_strcmp("cd", current->arguments[i]) == 0)
+// 					builtin_cd(-1, shell, current, 1);
+// 			}
+// 			i = -1;
+// 		}
+// 		if (current->input_file_lst)
+// 		{
+// 			printf("Input file list:\n");
+// 			print_file_datas_lst(current->input_file_lst);
+// 		}
+// 		if (current->output_file_lst)
+// 		{
+// 			printf("Output file list:\n");
+// 			print_file_datas_lst(current->output_file_lst);
+// 		}
+// 		current = current->next;
+// 		printf("*************\n");
+// 	}
+// 	(void) shell;
+// }

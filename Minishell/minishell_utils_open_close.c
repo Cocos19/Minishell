@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 11:35:04 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/17 09:55:04 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 11:09:43 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,3 @@ void	ft_close(int fd)
 	if (close(fd) == -1)
 		perror(NULL);	//quelle erreur ? 
 }
-

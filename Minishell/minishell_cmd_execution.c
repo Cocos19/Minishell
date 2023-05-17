@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/16 10:49:48 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 11:21:33 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe)
 	int status;
 
 	cmd = cmd_exist(shell->envp, pipe->arguments);
-	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	cmd_final = ft_strjoin_protected(cmd, "/");
 	free(cmd);
-	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
 	free(cmd_final);
 	pids[0] = ft_fork(shell);
 	if (pids[0] == 0)
@@ -56,9 +56,9 @@ void	first_cmd(t_shell *shell, t_pipe_node *pipe)
 	char *cmd_final;
 	
 	cmd = cmd_exist(shell->envp, pipe->arguments);
-	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	cmd_final = ft_strjoin_protected(cmd, "/");
 	free(cmd);
-	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
 	free(cmd_final);
 	shell->pids[0] = ft_fork(shell);
 	if (shell->pids[0] == 0)
@@ -93,9 +93,9 @@ void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 	char *cmd_final;
 	
 	cmd = cmd_exist(shell->envp, pipe->arguments);
-	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	cmd_final = ft_strjoin_protected(cmd, "/");
 	free(cmd);
-	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
 	free(cmd_final);
 	ft_pipe(shell, pipe);
 	shell->pids[i] = ft_fork(shell);
@@ -105,7 +105,6 @@ void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 			exit(EXIT_FAILURE);
 		if (pipe->input_file_lst)
 		{
-			printf("midlle cmd -> input\n");
 			ft_close(pipe->fdio[0]);
 			pipe->fdio[0] = ft_open_infiles(shell, pipe);
 			dup2(pipe->fdio[0], STDIN_FILENO);
@@ -113,26 +112,18 @@ void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 				ft_close(pipe->fdio[0]);
 		}
 		else
-		{
-			printf("midlle cmd -> not input\n");
 			dup2(pipe->fdio[0], STDIN_FILENO);
-		}
 		ft_close_files(pipe->fdio[0], "middle cmd");
 		close(pipe->fdio[1]);
 		if (pipe->output_file_lst)
 		{
-			printf("midlle cmd -> output\n");
 			pipe->fdio[1] = ft_open_outfiles(shell, pipe);
-			// pipe->next->input_file_lst = pipe->input_file_lst->last;
 			dup2(pipe->fdio[1], STDOUT_FILENO);
 			ft_close(pipe->fd[1]);
 			pipe->fd[1] = pipe->fdio[1];
 		}
 		else
-		{	
-			printf("midlle cmd -> not output\n");
 			dup2(pipe->fd[1],  STDOUT_FILENO);
-		}
 		ft_close(pipe->fd[0]);
 		ft_close(pipe->fd[1]);
 		execve(pipe->path, pipe->arguments, shell->envp);
@@ -146,9 +137,9 @@ void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 	char *cmd_final;
 	
 	cmd = cmd_exist(shell->envp, pipe->arguments);
-	cmd_final = ft_strjoin_protected(shell, cmd, "/");
+	cmd_final = ft_strjoin_protected(cmd, "/");
 	free(cmd);
-	pipe->path = ft_strjoin_protected(shell, cmd_final, pipe->arguments[0]);
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
 	free(cmd_final);
 	shell->pids[i] = ft_fork(shell);
 	if (shell->pids[i] == 0)
@@ -191,7 +182,6 @@ void	ft_waitpids(t_shell *shell, t_pipe_node *pipe)
 	len = ft_lstsize_pipe(pipe);
 	while (i < len)
 	{
-		printf("pids = %d\n", i);
 		if (waitpid(shell->pids[i], &status, 0) == -1)
 		{
 			perror("waitpid");

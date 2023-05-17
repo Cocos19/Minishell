@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/16 10:49:24 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:19:06 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ int	g_exit_status;
 
 /* ERROR MACROS */
 
-# define EPERM 1 // Operation not permitted
-# define ERR_SYNTAX 2 //ENOENT = No Such file or directory
-# define EMFILE 24 // Too may file open
-# define EOWNER_DEAD 130 //Owner died (SIGINT)
+# define EPERM 1
+# define ERR_SYNTAX 2
+# define EOWNER_DEAD 130
 
 typedef struct s_token
 {
@@ -70,12 +69,15 @@ typedef struct s_pipe_node
 }	t_pipe_node;
 
 // execution
-// if node->arguments[1] exist -> execute argv tab and nothing else (but you still have to open close inputs)
-// else if node->input_file_lst exist -> execute only last input (but you still have to open close all others inputs)
+// if node->arguments[1] exist -> execute argv tab and nothing else
+// but you still have to open close inputs
+// else if node->input_file_lst exist -> execute only last input
+// but you still have to open close all others inputs
 // else if fd_in -> execute fd_in (fd_in = result of the pipe before)
 // else execute without arg
 // execution output
-// if node->node->output_file_lst -> write in last output_file but you have to open/create all files then write to the last one
+// if node->node->output_file_lst -> write in last output_file
+// but you have to open/create all files then write to the last one
 // else if node->next -> write in fd_out
 // else write in stdout
 // update shell->last_exit_status
@@ -96,25 +98,53 @@ typedef struct s_shell_infos
 	t_pipe_node			*pipe_lst;
 }	t_shell;
 
-/*ECHO*/
+/*BUILTIN*/
 
-void	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
+/*How to use builtin
+if builtin are single command, it should be launched in a fork
+exit is handled by a single function before exec function so no needed to handle it when exit is single command
+builtin never close fds so its the exec function responsability to close it
+builtin function have different behaviour when in pipe chain or not so some of them need to know it
+in this purpose some builtin need a fd_in and fd_out
+if the command is the first node of pipe chain, fd_in should be -1
+if the commad is the last node of pipe chain, fd_out should be 1 (STDOUT)
+we should not forget that if -1 or 1 is passed as fd argument it shouldnt be closed
+*/
 
-/* ENV */
+int			builtin_cd(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
+int			builtin_exit(t_shell *shell, t_pipe_node *node);
+int			builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
 
 /* ERROR HANDLING */
 
-void		free_and_print_strerror(t_shell *shell);
-void		free_and_print_custom_error(t_shell *shell, char *minishell_error);
+void		print_str_error_and_exit(void);
+void		print_info_str_error_and_exit(char *info);
+void		print_info_and_exit(char *info, int exit_status);
+void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 
 /*EXECUTION*/
 
-int		ft_fork(t_shell *shell);
-void	ft_pipe(t_shell *shell, t_pipe_node *pipe);
-void	ft_dup2(t_shell *shell, int fd, int input);
-void	open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-void	open_close_outputs(t_file_datas *output_lst);
-int		write_to_outputs(char *result, t_file_datas *output_lst);
+int			ft_fork(t_shell *shell);
+void		ft_pipe(t_shell *shell, t_pipe_node *pipe);
+void		ft_dup2(t_shell *shell, int fd, int input);
+// void		open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+// void		open_close_outputs(t_file_datas *output_lst);
+// int			write_to_outputs(char *result, t_file_datas *output_lst);
+// int			write_array_to_outputs(char **result, t_file_datas *output_lst);
+int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+int			open_close_outputs(t_file_datas *output_lst);
+int			write_to_outputs(char *result, t_file_datas *output_lst);
+int			write_array_to_outputs(char **result, t_file_datas *output_lst);
+
+char	*cmd_exist(char **envp, char **arg);
+void	execution(t_shell *shell);
+char	**get_envp_paths(char **envp);
+void	free_all_tab(char **p_tab, int len);
 
 char	*cmd_exist(char **envp, char **arg);
 void	execution(t_shell *shell);
@@ -125,42 +155,37 @@ void	free_all_tab(char **p_tab, int len);
 
 char		*expander(t_shell *shell, char *str);
 char		*search_and_expand_env_var(t_shell *shell, char *str);
+char		*is_an_envp_var(t_shell *shell, char *str);
 
-/*EXPORT*/
+/*ENVIRONNEMENT VARIABLES*/
 
 int			export(t_shell *shell, char *var);
 int			get_export_mode(char *var);
 int			check_export_variable_validity(char *var);
 int			export_variable_is_in_envp(t_shell *shell, char *var, char c);
-char		*get_value_to_append(t_shell *shell, char *var);
-void		builtin_export(t_shell *shell, t_pipe_node *node);
+char		*get_value_to_append(char *var);
 
-/*FREE MEMORY*/
+/*FREE MEMORY UTILS*/
 
-void	free_shell(t_shell *shell);
-void	free_pipe_lst(t_shell *shell);
-void	free_token_lst(t_shell *shell);
-t_token	*free_token_lst_without_content(t_token *lst);
-void	free_and_print_custom_message(t_shell *shell, char *message);
+void		free_shell(t_shell *shell);
+void		free_pipe_lst(t_shell *shell);
+void		free_token_lst(t_shell *shell);
+t_token		*free_token_lst_without_content(t_token *lst);
+void		free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */
 
 int			get_heredoc(t_shell *shell, char *delimiter);
-//INFO FOR PARSING: Function return a fd opened in order to read the heredoc.
-//If SIGINT is triggered, the function still return a fd ready to read.
-//It must be checked and closed if this happened
-//The error should be handled, the exit status stored
-//and then g_exit_status should be setup at 0 again
 
 /* PARSING */
 
 void		parser(t_shell *shell);
-t_pipe_node	*init_pipe_node(t_shell *shell);
+char		**init_argument_array(t_token *arg_list);
+t_pipe_node	*init_pipe_node(void);
 t_token		*get_arg(t_shell *shell, t_token *arg_list, t_token *token);
-char		**init_argument_array(t_shell *shell, t_token *arg_list);
-int			next_token_is_valid(t_shell *shell, t_token *token);
 t_token		*get_input(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
 t_token		*get_output(t_shell *shell, t_pipe_node *cur_n, t_token *cur_token);
+int			next_token_is_valid(t_shell *shell, t_token *token);
 
 /* PROMPT */
 
@@ -169,10 +194,10 @@ int			input_is_valid(t_shell *shell);
 
 /* SIGNALS HANDLING */
 
+void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		nosigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		sigint_hered_h(int signal_id, siginfo_t *sig_info, void *context);
-void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
 void		act_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
 void		desact_sint_handler(t_shell *shell);
 void		act_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *));
@@ -187,18 +212,18 @@ void		desact_vquit(t_shell *shell);
 /* TOKENS */
 
 void		lexer(t_shell *shell, char *user_input);
-int			is_special_character(char c);
-t_token		*init_token(t_shell *shell);
-t_token		*tokenize(t_shell *shell, char *input);
-int			token_list_is_valid(t_shell *shell);
-char		*get_pipe(t_shell *shell, char *input, t_token *cur, char *start);
-char		*get_redir(t_shell *shell, char *input, t_token *cur, char *start);
 void		complete_token(t_shell *shell);
+char		*get_pipe(char *input, t_token *cur, char *start);
+char		*get_redir(char *input, t_token *cur, char *start);
+t_token		*init_token(void);
+t_token		*tokenize(char *input);
+int			is_special_character(char c);
+int			token_list_is_valid(t_shell *shell);
 
 /* UTILS */
 
-char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2);
-char	*get_string_from_fd(t_shell *shell, int fd);
+char		*ft_strjoin_protected(char *s1, char *s2);
+char		*get_string_from_fd(int fd);
 int		len_tab(char **tb);
 int		ft_lstsize_pipe(t_pipe_node *lst);
 int	ft_open_infiles(t_shell *shell, t_pipe_node *pipe);

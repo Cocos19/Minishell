@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/04 18:09:06 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/05/09 16:05:02 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*is_an_envp_var(t_shell *shell, char *str)
 		{
 			result = ft_substr(shell->envp[i], var_len,
 					ft_strlen(shell->envp[i]) - var_len);
+			if (!result)
+				print_str_error_and_exit();
 			return (result);
 		}
 	}
@@ -40,10 +42,27 @@ int	get_var_to_search_size(char *str, int i)
 	while (str[++i])
 	{
 		if (str[i] == '\'' || str[i] == '\"' || str[i] == ' '
-			|| str[i] == '=' || str[i] == '+')
+			|| str[i] == '=' || str[i] == '+' || str[i] == '$')
 			return (i - size - 1);
 	}
 	return (i - size - 1);
+}
+
+char	*get_expanded_var(char *str, char *var_to_s, char *var_to_ex, int *i)
+{
+	char	*result;
+
+	if (var_to_ex)
+			result = ft_expand(str, str + *i, var_to_s, var_to_ex);
+	else
+		result = ft_expand(str, str + *i, var_to_s, "");
+	if (!result)
+		print_str_error_and_exit();
+	*i += ft_strlen(var_to_ex);
+	free(var_to_s);
+	free(var_to_ex);
+	free(str);
+	return (result);
 }
 
 char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
@@ -57,20 +76,19 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 	if (var_size != 0)
 	{
 		result = ft_substr(str, *i + 1, var_size);
-		var_to_search = ft_strjoin_protected(shell, result, "=");
+		if (!result)
+			print_str_error_and_exit();
+		var_to_search = ft_strjoin_protected(result, "=");
 		free(result);
 		if (ft_strcmp(var_to_search, "?=") == 0)
+		{
 			var_to_expand = ft_itoa(shell->last_exit_status);
+			if (!var_to_expand)
+				print_str_error_and_exit();
+		}
 		else
 			var_to_expand = is_an_envp_var(shell, var_to_search);
-		if (var_to_expand)
-			result = ft_expand(str, str + *i, var_to_search, var_to_expand);
-		else
-			result = ft_expand(str, str + *i, var_to_search, "");
-		*i += ft_strlen(var_to_expand);
-		free(var_to_search);
-		free(var_to_expand);
-		free(str);
+		result = get_expanded_var(str, var_to_search, var_to_expand, i);
 		return (result);
 	}
 	return (str);

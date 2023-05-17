@@ -6,7 +6,7 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/16 11:36:17 by cmartino         ###   ########.fr        #
+#    Updated: 2023/05/17 10:14:37 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRC			= minishell.c minishell_free.c \
 			minishell_builtin_exit.c minishell_builtin_pwd.c \
 			minishell_builtin_unset.c minishell_execution_redirections.c \
 			minishell_cmd_execution.c minishell_cmd_exist.c minishell_get_envp.c \
-			minishell_utils_execution.c minishell_utils_open_close.c
+			minishell_utils_execution.c \
+			minishell_builtin_export_exec.c minishell_utils_open_close.c \
 
 OBJ			= ${SRC:.c=.o}
 

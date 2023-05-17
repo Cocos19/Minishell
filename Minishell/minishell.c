@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 13:29:12 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:20:16 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	read_prompt(t_shell *shell)
 	char	*user_input;
 
 	user_input = give_prompt(shell);
-	if (input_is_valid(shell) == 0)
+	if (user_input && input_is_valid(shell) == 0)
 	{
 		desact_sint_handler(shell);
 		desact_squit_handler(shell);
@@ -25,9 +25,10 @@ void	read_prompt(t_shell *shell)
 		add_history(user_input);
 		lexer(shell, user_input);
 		parser(shell);
-		// if (shell->pipe_lst && !shell->pipe_lst->next)
-			// update "_=" env var with last argv in pipe_lst_argv
-		if (shell->pipe_lst)
+		if (shell->pipe_lst && !shell->pipe_lst->next
+			&& (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
+			single_cmd_builtin_exit(shell, shell->pipe_lst);
+		else if (shell->pipe_lst)
 		{
 			execution(shell);
 			// print_pipe_lst_content(shell, shell->pipe_lst);
@@ -50,12 +51,11 @@ int	main(int argc, char **argv, char **envp)
 
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	g_exit_status = 0;
 	init_terminal(shell, envp);
 	while (1)
 		read_prompt(shell);
-	free_shell(shell);
 	(void) argc;
 	(void) argv;
 	return (0);

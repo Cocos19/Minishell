@@ -6,19 +6,19 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/08 13:28:24 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/05/17 10:19:58 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ft_strjoin_protected(t_shell *shell, char *s1, char *s2)
+char	*ft_strjoin_protected(char *s1, char *s2)
 {
 	char	*result;
 
 	result = ft_strjoin(s1, s2);
 	if (!result)
-		free_and_print_strerror(shell);
+		print_str_error_and_exit();
 	return (result);
 }
 
@@ -49,7 +49,8 @@ int	ft_lstsize_pipe(t_pipe_node *lst)
 	return (result);
 }
 
-char	*get_string_from_fd(t_shell *shell, int fd)
+
+char	*get_string_from_fd(int fd)
 {
 	char	*str;
 	char	*temp;
@@ -59,7 +60,7 @@ char	*get_string_from_fd(t_shell *shell, int fd)
 	result = NULL;
 	while (str)
 	{
-		temp = ft_strjoin_protected(shell, result, str);
+		temp = ft_strjoin_protected(result, str);
 		free(str);
 		if (result)
 			free(result);

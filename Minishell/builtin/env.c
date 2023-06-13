@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_builtin_env.c                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,20 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-/*This function can be launched in multiples pipe in forks or as a single pipe in a fork*/
+/*This function can be launched in multiples pipe in forks or as a single 
+pipe in a fork*/
 
 int	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out)
 {
-	int	redirection_check;
+	int	redir_check;
 
-	redirection_check = open_close_inputs(shell, node->input_file_lst);
-	if (redirection_check != 0)
-		return (redirection_check);
-	redirection_check = write_array_to_outputs(shell->envp, node->output_file_lst);
-	if (redirection_check != 0)
-		return (redirection_check);
+	redir_check = open_close_inputs(shell, node->input_file_lst);
+	if (redir_check != 0)
+		return (redir_check);
+	redir_check = write_array_to_outputs(shell->envp, node->output_file_lst);
+	if (redir_check != 0)
+		return (redir_check);
 	else
 		ft_print_str_array_fd(shell->envp, fd_out);
 	return (0);

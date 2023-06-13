@@ -18,6 +18,8 @@ void	ft_bzero(char *s, size_t n)
 
 	i = -1;
 	while (++i < n)
+	{
 		*(s) = '\0';
 		++s;
+	}
 }

@@ -14,7 +14,7 @@
 
 int	ft_strcmp(const char *s1, const char *s2)
 {
-	int_fast16_t	i;
+	int	i;
 
 	if (!*s1 && !*s2)
 		return (0);

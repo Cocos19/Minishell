@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_free.c                                   :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	free_shell(t_shell *shell)
 {
@@ -65,40 +65,6 @@ void	free_pipe_lst(t_shell *shell)
 		free(shell->pipe_lst);
 		shell->pipe_lst = temp;
 	}
-}
-
-void	free_token_lst(t_shell *shell)
-{
-	t_token	*temp;
-
-	if (shell->token_lst)
-	{
-		while (shell->token_lst)
-		{
-			if (shell->token_lst->value)
-				free(shell->token_lst->value);
-			temp = shell->token_lst->next;
-			free(shell->token_lst);
-			shell->token_lst = temp;
-		}
-		shell->token_lst = NULL;
-	}
-}
-
-t_token	*free_token_lst_without_content(t_token *lst)
-{
-	t_token	*temp;
-
-	if (lst)
-	{
-		while (lst)
-		{
-			temp = lst->next;
-			free(lst);
-			lst = temp;
-		}
-	}
-	return (NULL);
 }
 
 void	free_all_tab(char **p_tab, int len)

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_builtin_exit.c                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	str_is_digit(char *str)
 {
@@ -47,7 +47,7 @@ int	handle_exit_args(t_pipe_node *node)
 
 int	builtin_exit(t_shell *shell, t_pipe_node *node)
 {
-	int result;
+	int	result;
 
 	result = open_close_inputs(shell, node->input_file_lst);
 	if (result != 0)

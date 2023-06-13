@@ -15,10 +15,8 @@
 void	print_str_with_spec(va_list *ap, t_var_specs *var)
 {
 	char	*s;
-	int		i;
 
 	s = va_arg(*ap, char *);
-	i = -1;
 	if (!s)
 		s = "(null)";
 	var->len = ft_strlen(s);
@@ -94,9 +92,7 @@ void	print_pointer_with_spec(va_list *ap, t_var_specs *var)
 void	print_char_with_spec(va_list *ap, t_var_specs *var)
 {
 	char	c;
-	int		i;
 
-	i = -1;
 	if (var->type == '%')
 		c = '%';
 	else

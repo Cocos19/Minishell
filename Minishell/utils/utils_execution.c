@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils_execution.c                        :+:      :+:    :+:   */
+/*   utils_execution.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	ft_copy_fd(t_pipe_node *pipe)
 {
@@ -23,13 +23,11 @@ void	ft_copy_fd(t_pipe_node *pipe)
 void	create_pids(t_shell *shell, t_pipe_node *pipe)
 {
 	int	size;
-	int	i;
 
 	size = ft_lstsize_pipe(pipe);
 	shell->pids = ft_calloc(sizeof(int), size);
 	if (!shell->pids)
 		exit(EXIT_FAILURE);
-	i = 0;
 }
 
 void	ft_pipe(t_shell *shell, t_pipe_node *pip)

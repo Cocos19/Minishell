@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_cmd_exist.c                              :+:      :+:    :+:   */
+/*   cmd_exist.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 static void	cmd_not_found(char *str)
 {
@@ -20,11 +20,9 @@ static void	cmd_not_found(char *str)
 
 static int	ft_test_cmd(char *path, char *cmd)
 {
-	int		cmd_ok;
 	char	*cmd_test;
 	char	*test;
 
-	cmd_ok = 0;
 	cmd_test = ft_strjoin("/", cmd);
 	if (!cmd_test)
 		exit(EXIT_FAILURE);
@@ -43,7 +41,7 @@ static int	ft_test_cmd(char *path, char *cmd)
 	return (1);
 }
 
-char	*cmd_exist(char **envp, char **arg)	// fct leaks avec path -> fixed ? 
+char	*cmd_exist(char **envp, char **arg)
 {
 	int		i;
 	char	**path;

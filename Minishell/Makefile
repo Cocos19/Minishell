@@ -12,22 +12,39 @@
 
 NAME		= minishell
 
-SRC			= minishell.c minishell_free.c \
+SRC			= minishell.c \
 			minishell_prompt.c minishell_parser_heredoc.c \
 			minishell_expander.c minishell_parser.c \
 			minishell_parser_arguments.c minishell_signals.c \
-			minishell_utils.c minishell_temp.c minishell_terminal.c \
+			minishell_temp.c minishell_terminal.c \
 			minishell_lexer_special_tokens.c \
-			minishell_lexer_checker.c minishell_builtin_export.c minishell_lexer.c \
+			minishell_lexer_checker.c minishell_lexer.c \
 			minishell_parser_redirections.c minishell_expander_env_var.c \
-			minishell_signals_activation.c minishell_free_and_print_msg.c\
-			minishell_builtin_export_utils.c minishell_builtin_cd.c \
-			minishell_builtin_echo.c minishell_builtin_env.c \
-			minishell_builtin_exit.c minishell_builtin_pwd.c \
-			minishell_builtin_unset.c minishell_execution_redirections.c \
-			minishell_cmd_execution.c minishell_cmd_exist.c minishell_get_envp.c \
-			minishell_utils_execution.c \
-			minishell_builtin_export_exec.c minishell_utils_open_close.c \
+			minishell_signals_activation.c \
+			builtin/cd.c \
+			builtin/echo.c \
+			builtin/env.c \
+			builtin/exit.c \
+			builtin/export.c \
+			builtin/export_exec.c \
+			builtin/export_utils.c \
+			builtin/pwd.c \
+			builtin/unset.c \
+			execution/cmd_execution.c \
+			execution/cmd_exist.c \
+			execution/execution_one_cmd.c \
+			execution/execution_first_cmd.c \
+			execution/execution_middle_cmd.c \
+			execution/execution_last_cmd.c \
+			execution/get_envp.c \
+			execution/waitpids.c \
+			utils/free.c \
+			utils/free_and_print_msg.c\
+			utils/free_token_lst.c \
+			utils/utils.c \
+			utils/utils_execution.c \
+			utils/utils_open_close.c \
+			minishell_execution_redirections.c \
 
 OBJ			= ${SRC:.c=.o}
 

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_utils_open_close.c                       :+:      :+:    :+:   */
+/*   utils_open_close.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_open_infiles(t_shell *shell, t_pipe_node *pipe)
 {
@@ -42,10 +42,12 @@ int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe)
 	while (pipe->output_file_lst)
 	{
 		if (pipe->output_file_lst->mode == 1)
-			fd = open(pipe->output_file_lst->value, O_WRONLY | O_CREAT | O_TRUNC,
+			fd = open(pipe->output_file_lst->value,
+					O_WRONLY | O_CREAT | O_TRUNC,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		else
-			fd = open(pipe->output_file_lst->value, O_WRONLY | O_APPEND | O_CREAT,
+			fd = open(pipe->output_file_lst->value,
+					O_WRONLY | O_APPEND | O_CREAT,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		pipe->output_file_lst = pipe->output_file_lst->next;
 	}
@@ -57,11 +59,14 @@ int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe)
 void	ft_close_files(int fd, char *name)
 {
 	if (close(fd) == -1)
-		perror(name);	// a voir quelle erreur a renvoyer + exit_code ?
+		perror(name);
 }
+
+/* ft_close_files : // a voir quelle erreur a renvoyer + exit_code ?
+	ft_close : quelle erreur renvoyer ? */
 
 void	ft_close(int fd)
 {
 	if (close(fd) == -1)
-		perror(NULL);	//quelle erreur ? 
+		perror(NULL);
 }

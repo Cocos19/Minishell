@@ -12,6 +12,11 @@
 
 #include "minishell.h"
 
+int	g_exit_status=0;
+
+/*	Retirer la global de minishell.c et le extern du .h
+	Retirer modification get_next_line_bonus.h -> OPEN_MAX*/
+
 void	read_prompt(t_shell *shell)
 {
 	char	*user_input;

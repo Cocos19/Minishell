@@ -31,7 +31,7 @@
 
 /* GLOBAL VARIABLE */
 
-int	g_exit_status;
+extern int	g_exit_status;
 
 /* ERROR MACROS */
 
@@ -150,6 +150,12 @@ char	*cmd_exist(char **envp, char **arg);
 void	execution(t_shell *shell);
 char	**get_envp_paths(char **envp);
 void	free_all_tab(char **p_tab, int len);
+void	ft_waitpids(t_shell *shell, t_pipe_node *pipe);
+void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
+void	first_cmd(t_shell *shell, t_pipe_node *pipe);
+void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
+void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i);
+void	find_path(t_shell *shell, t_pipe_node *pipe);
 
 /*EXPAND*/
 

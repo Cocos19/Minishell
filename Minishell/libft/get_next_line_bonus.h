@@ -17,6 +17,10 @@
 # include <limits.h>
 # include "libft.h"
 
+# ifndef OPEN_MAX
+#  define OPEN_MAX 65534
+# endif
+
 char	*get_next_line(int fd, int buffer_size);
 char	*read_until_next_line(char *buffer, const int fd, int buffer_size);
 char	*get_current_line(char *buffer, int end_of_line);

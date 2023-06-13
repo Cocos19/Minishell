@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/17 10:19:06 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:36:53 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 /* GLOBAL VARIABLE */
 
-extern int	g_exit_status;
+int	g_exit_status;
 
 /* ERROR MACROS */
 

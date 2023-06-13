@@ -6,13 +6,13 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/17 10:20:16 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:35:40 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_status=0;
+// int	g_exit_status=0;
 
 /*	Retirer la global de minishell.c et le extern du .h
 	Retirer modification get_next_line_bonus.h -> OPEN_MAX*/

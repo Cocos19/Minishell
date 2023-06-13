@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 09:37:13 by mprofett          #+#    #+#             */
-/*   Updated: 2022/10/25 09:37:14 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/13 11:36:15 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <limits.h>
 # include "libft.h"
 
-# ifndef OPEN_MAX
-#  define OPEN_MAX 65534
-# endif
+// # ifndef OPEN_MAX
+// #  define OPEN_MAX 65534
+// # endif
 
 char	*get_next_line(int fd, int buffer_size);
 char	*read_until_next_line(char *buffer, const int fd, int buffer_size);

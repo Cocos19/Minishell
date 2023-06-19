@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 16:01:52 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:02:49 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	index_in_envp_var(t_shell *shell, char *str)
 	return (-1);
 }
 
-int	builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
+int	builtin_unset(t_shell *shell, t_pipe_node *node)
 {
 	int		var_index;
 	int		i;
@@ -42,7 +42,7 @@ int	builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out)
 		return (redirections_check);
 	if (!node->arguments[1])
 		return (0);
-	if (fd_in == -1 && fd_out != 1)
+	if (node->fdio[0] == -1 && node->fdio[1] != 1)
 	{
 		i = 0;
 		while (node->arguments[++i])

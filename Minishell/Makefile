@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
+#    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/19 10:01:59 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/19 10:51:19 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,8 @@ OBJ			= ${SRC:.c=.o}
 
 OBJ_BONUS	= ${SRC_BONUS:.c=.o}
 
+HOME		= $(shell echo $$HOME)
+
 LIBFT		= libft.a
 
 LIBFT_PATH	= libft
@@ -62,12 +64,12 @@ RM			= rm -f
 C_FLAGS	= -Wall -Wextra -Werror
 
 %.o: %.c
-	$(CC) $(C_FLAGS) -I/Users/cmartino/.brew/opt/readline/include -c $< -o $@
+	$(CC) $(C_FLAGS) -I/${HOME}/.brew/opt/readline/include -c $< -o $@
 
 all: ${NAME}
 
 ${NAME}: ${OBJ} ${LIBFT}
-	${CC} ${OBJ} -o  ${NAME} ${LIBFT} -I/Users/cmartino/.brew/opt/readline/include -L/Users/cmartino/.brew/opt/readline/lib -lreadline -fsanitize=address
+	${CC} ${OBJ} -o  ${NAME} ${LIBFT} -I ${HOME}/.brew/opt/readline/include -L/${HOME}/.brew/opt/readline/lib -lreadline -fsanitize=address
 
 ${LIBFT}:
 	${MAKE} bonus -C ${LIBFT_PATH}

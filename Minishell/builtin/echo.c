@@ -6,13 +6,13 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 15:57:23 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:00:40 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*This function can be launched in multiples pipe in forks or 
+/*This function can be launched in multiples pipe in forks or
 as a single pipe in a fork*/
 
 char	*ft_strjoin_and_free_input(char *input, char *to_add)
@@ -51,7 +51,7 @@ char	*get_echo_result(char **argv)
 	return (result);
 }
 
-int	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out)
+int	builtin_echo(t_shell *shell, t_pipe_node *node)
 {
 	char	*result;
 	int		redirections_check;
@@ -70,7 +70,7 @@ int	builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out)
 		}
 	}
 	else
-		write(fd_out, result, ft_strlen(result));
+		write(node->fdio[1], result, ft_strlen(result));
 	free(result);
 	return (0);
 }

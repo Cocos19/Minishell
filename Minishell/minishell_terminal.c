@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/10 15:40:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:45:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,16 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	char	*new_shlvl;
 	int		val;
 
-	shell->envp = ft_strdup_array(envp);
+	if (!envp || !envp[0])
+	{
+		shell->envp = malloc(sizeof(char *));
+		if (!shell->envp)
+			print_str_error_and_exit();
+		shell->envp[0] = NULL;
+	}
+	else
+		shell->envp = ft_strdup_array(envp);
+	ft_print_str_array(shell->envp);
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
 	if (temp[0] == '\0')
 		val = 0;
@@ -76,15 +85,7 @@ void	init_terminal(t_shell *shell, char **envp)
 	shell->name = ft_strdup("minishell-1.0$ ");
 	if (!shell->name)
 		print_str_error_and_exit();
-	if (!envp || !envp[0])
-	{
-		shell->envp = malloc(sizeof(char *));
-		if (!shell->envp)
-			print_str_error_and_exit();
-		shell->envp[0] = NULL;
-	}
-	else
-		init_shell_environnement(shell, envp);
+	init_shell_environnement(shell, envp);
 	init_shell_signals(shell);
 	act_vquit(shell);
 }

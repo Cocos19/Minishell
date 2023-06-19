@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/19 10:45:22 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/19 10:51:19 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			= minishell.c \
 			builtin/export_utils.c \
 			builtin/pwd.c \
 			builtin/unset.c \
+			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
 			execution/execution_one_cmd.c \

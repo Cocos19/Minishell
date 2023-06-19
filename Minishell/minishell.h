@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/13 11:36:53 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:01:29 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
 int			builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+int			redirection_buitin(t_shell *shell, t_pipe_node *pipe, int fd_in, int fd_out);
 
 /* ERROR HANDLING */
 

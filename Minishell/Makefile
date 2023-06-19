@@ -6,7 +6,7 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/17 10:14:37 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/19 10:01:59 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ SRC			= minishell.c \
 			builtin/export_utils.c \
 			builtin/pwd.c \
 			builtin/unset.c \
+			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
 			execution/execution_one_cmd.c \

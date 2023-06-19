@@ -6,16 +6,16 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:31 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/11 15:57:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:00:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-/*This function can be launched in multiples pipe in forks or as a single 
+/*This function can be launched in multiples pipe in forks or as a single
 pipe in a fork*/
 
-int	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out)
+int	builtin_env(t_shell *shell, t_pipe_node *node)
 {
 	int	redir_check;
 
@@ -26,6 +26,6 @@ int	builtin_env(t_shell *shell, t_pipe_node *node, int fd_out)
 	if (redir_check != 0)
 		return (redir_check);
 	else
-		ft_print_str_array_fd(shell->envp, fd_out);
+		ft_print_str_array_fd(shell->envp, node->fdio[1]);
 	return (0);
 }

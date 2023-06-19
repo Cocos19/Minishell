@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/13 11:36:53 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 10:04:05 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,14 +111,14 @@ if the commad is the last node of pipe chain, fd_out should be 1 (STDOUT)
 we should not forget that if -1 or 1 is passed as fd argument it shouldnt be closed
 */
 
-int			builtin_cd(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
-int			builtin_echo(t_shell *shell, t_pipe_node *node, int fd_out);
-int			builtin_env(t_shell *shell, t_pipe_node *node, int fd_out);
-int			builtin_export(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_cd(t_shell *shell, t_pipe_node *node);
+int			builtin_echo(t_shell *shell, t_pipe_node *node);
+int			builtin_env(t_shell *shell, t_pipe_node *node);
+int			builtin_export(t_shell *shell, t_pipe_node *node);
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
-int			builtin_pwd(t_shell *shell, t_pipe_node *node, int fd_out);
-int			builtin_unset(int fd_in, t_shell *shell, t_pipe_node *node, int fd_out);
+int			builtin_pwd(t_shell *shell, t_pipe_node *node);
+int			builtin_unset(t_shell *shell, t_pipe_node *node);
 
 /* ERROR HANDLING */
 

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 10:51:14 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:43:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_pwd(t_shell *shell, t_pipe_node *node);
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
+int			redirection_buitin(t_shell *shell, t_pipe_node *pipe);
 
 /* ERROR HANDLING */
 
@@ -176,7 +177,8 @@ char		*get_value_to_append(char *var);
 void		free_shell(t_shell *shell);
 void		free_pipe_lst(t_shell *shell);
 void		free_token_lst(t_shell *shell);
-t_token		*free_token_lst_without_content(t_token *lst);
+void		free_file_datas_list(t_file_datas *lst);
+t_token		*free_arg_lst(t_token *lst);
 void		free_and_print_custom_message(t_shell *shell, char *message);
 
 /* HEREDOC */

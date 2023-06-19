@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 10:23:45 by mprofett          #+#    #+#             */
-/*   Updated: 2023/03/30 15:37:08 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:12:58 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ char	*ft_strjoin_and_free_srcs(char *s1, char *s2)
 	result = ft_strjoin(s1, s2);
 	if (!result)
 		return (NULL);
-	free(s1);
-	free(s2);
+	if (s1)
+		free(s1);
+	if (s2)
+		free(s2);
 	return (result);
 }

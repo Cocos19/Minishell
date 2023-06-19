@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/13 11:35:40 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:45:44 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,7 @@ void	read_prompt(t_shell *shell)
 			&& (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
 			single_cmd_builtin_exit(shell, shell->pipe_lst);
 		else if (shell->pipe_lst)
-		{
 			execution(shell);
-			// print_pipe_lst_content(shell, shell->pipe_lst);
-		}
-		// TEMPORARY SHOULD BE REPLACED BY
-		//if(t_pipe_node *result) ->execution function that return an exit code
 		free_pipe_lst(shell);
 		act_sint_handler(shell, &sigint_shell_h);
 		act_squit_handler(shell, &sigquit_shell_h);

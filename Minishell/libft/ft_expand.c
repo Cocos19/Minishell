@@ -6,11 +6,14 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:26:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 10:44:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:59:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+
+#include <stdio.h>
 
 char	*ft_expand(char *str, char *start, char *cut, char *paste)
 {
@@ -34,7 +37,7 @@ char	*ft_expand(char *str, char *start, char *cut, char *paste)
 	len = -1;
 	while (++len < ft_strlen(cut))
 		++old_str;
-	while (*old_str)
+	while (old_str && *old_str)
 		*(new_str++) = *(old_str++);
 	*new_str = '\0';
 	return (result);

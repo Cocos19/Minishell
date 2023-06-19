@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_builtin.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/19 10:14:35 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:11:28 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	redirection_buitin(t_shell *shell, t_pipe_node *pipe, int fd_in, int fd_out)
+int	redirection_buitin(t_shell *shell, t_pipe_node *pipe)
 {
-	printf("test1\n");
 	if (ft_strcmp(pipe->arguments[0], "cd") == 0)
 	{
 		builtin_cd(shell, pipe);
@@ -42,7 +41,6 @@ int	redirection_buitin(t_shell *shell, t_pipe_node *pipe, int fd_in, int fd_out)
 	}
 	if (ft_strcmp(pipe->arguments[0], "pwd") == 0)
 	{
-		printf("test2 -> %d\n", fd_out);
 		builtin_pwd(shell, pipe);
 		return(1);
 	}

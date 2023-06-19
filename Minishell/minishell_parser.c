@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 15:56:17 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:51:16 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 		else if (token->value[0] == '|')
 		{
 			node = next(shell, node, token, arg_list);
-			arg_list = free_token_lst_without_content(arg_list);
+			arg_list = free_arg_lst(arg_list);
 		}
 		else
 			arg_list = get_arg(shell, arg_list, token);
@@ -79,7 +79,7 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 	}
 	if (g_exit_status == 0)
 		node->arguments = init_argument_array(arg_list);
-	arg_list = free_token_lst_without_content(arg_list);
+	arg_list = free_arg_lst(arg_list);
 }
 
 void	parser(t_shell *shell)

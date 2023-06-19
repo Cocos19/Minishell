@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 11:17:49 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 15:56:38 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 13:02:28 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	**init_argument_array(t_token *arg_list)
 	t_token	*lst;
 	int		i;
 
-	result = malloc(sizeof(char *) * get_token_list_size(arg_list) + 1);
+	result = malloc(sizeof(char *) * (get_token_list_size(arg_list) + 1));
 	if (!result)
 		print_str_error_and_exit();
 	lst = arg_list;

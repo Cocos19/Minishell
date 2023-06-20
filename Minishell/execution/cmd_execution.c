@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/19 15:38:25 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 14:56:18 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execution(t_shell *shell)
 
 	pipe = shell->pipe_lst;
 	if (!pipe->next)
-		execution_one_cmd(shell, pipe);
+		execution_single_cmd(shell, pipe);
 	else
 		execution_several_cmds(shell, pipe);
 }

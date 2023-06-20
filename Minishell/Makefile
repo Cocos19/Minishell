@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/20 14:25:08 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/20 16:27:31 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRC			= minishell.c \
 			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
-			execution/execution_one_cmd.c \
+			execution/execution_single_cmd.c \
 			execution/execution_first_cmd.c \
 			execution/execution_middle_cmd.c \
 			execution/execution_last_cmd.c \
@@ -51,9 +51,9 @@ OBJ			= ${SRC:.c=.o}
 
 OBJ_BONUS	= ${SRC_BONUS:.c=.o}
 
-HOME		= $(shell echo $$HOME)
-
 LIBFT		= libft.a
+
+HOME		= $(shell echo $$HOME)
 
 LIBFT_PATH	= libft
 

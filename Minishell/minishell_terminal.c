@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_terminal.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 10:45:00 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:24:50 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	}
 	else
 		shell->envp = ft_strdup_array(envp);
-	ft_print_str_array(shell->envp);
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
 	if (temp[0] == '\0')
 		val = 0;

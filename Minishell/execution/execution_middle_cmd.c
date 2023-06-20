@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/17 11:21:33 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:28:01 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 		middle_cmd2(shell, pipe);
 		ft_close(pipe->fd[0]);
 		ft_close(pipe->fd[1]);
-		execve(pipe->path, pipe->arguments, shell->envp);
+		if (redirection_builtin(shell, pipe) == 0)
+			execve(pipe->path, pipe->arguments, shell->envp);
 		exit(EXIT_FAILURE);
 	}
 }

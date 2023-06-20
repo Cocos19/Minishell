@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/17 11:21:33 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:28:24 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i)
 			exit(EXIT_FAILURE);
 		last_cmd2(shell, pipe);
 		ft_close_files(pipe->fd[0], "fd[0] last cmd");
-		execve(pipe->path, pipe->arguments, shell->envp);
+		if (redirection_builtin(shell, pipe) == 0)
+			execve(pipe->path, pipe->arguments, shell->envp);
 		exit(EXIT_FAILURE);
 	}
 }

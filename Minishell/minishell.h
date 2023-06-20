@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2023/06/19 11:05:10 by cmartino         ###   ########.fr       */
-=======
-/*   Updated: 2023/06/19 10:51:14 by mprofett         ###   ########.fr       */
->>>>>>> 5e12b9550f965d671215dda9260e1c320f06771e
+/*   Updated: 2023/06/19 14:48:00 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +119,8 @@ void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_pwd(t_shell *shell, t_pipe_node *node);
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
+int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
+int			is_builtin(t_pipe_node *pipe);
 
 /* ERROR HANDLING */
 
@@ -155,7 +153,7 @@ void	execution(t_shell *shell);
 char	**get_envp_paths(char **envp);
 void	free_all_tab(char **p_tab, int len);
 void	ft_waitpids(t_shell *shell, t_pipe_node *pipe);
-void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
+void	execution_single_cmd(t_shell *shell, t_pipe_node *pipe);
 void	first_cmd(t_shell *shell, t_pipe_node *pipe);
 void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
 void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i);

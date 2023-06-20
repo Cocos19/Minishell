@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/17 11:21:33 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 11:45:26 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execution(t_shell *shell)
 
 	pipe = shell->pipe_lst;
 	if (!pipe->next)
-		execution_one_cmd(shell, pipe);
+		execution_single_cmd(shell, pipe);
 	else
 		execution_several_cmds(shell, pipe);
 }

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   execution_single_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
 /*   Updated: 2023/06/19 11:44:09 by cmartino         ###   ########.fr       */
@@ -35,6 +35,8 @@ void	execution_single_cmd2(t_shell *shell, t_pipe_node *pipe)
 					ft_close(pipe->fdio[0]);
 			}
 		}
+		else
+			pipe->fdio[0] = -1;
 		if (pipe->output_file_lst)
 		{
 			pipe->fdio[1] = ft_open_outfiles(shell, pipe);

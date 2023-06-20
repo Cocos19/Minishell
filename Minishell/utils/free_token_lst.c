@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_token_lst.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/05 13:53:35 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/19 15:17:32 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	free_token_lst(t_shell *shell)
 	}
 }
 
-t_token	*free_token_lst_without_content(t_token *lst)
+t_token	*free_arg_lst(t_token *lst)
 {
 	t_token	*temp;
 
@@ -38,6 +38,8 @@ t_token	*free_token_lst_without_content(t_token *lst)
 	{
 		while (lst)
 		{
+			if (lst->value)
+				free(lst->value);
 			temp = lst->next;
 			free(lst);
 			lst = temp;

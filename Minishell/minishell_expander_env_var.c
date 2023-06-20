@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 10:45:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/19 12:58:40 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 		if (!result)
 			print_str_error_and_exit();
 		var_to_search = ft_strjoin_protected(result, "=");
-		free(result);
 		if (ft_strcmp(var_to_search, "?=") == 0)
 		{
 			var_to_expand = ft_itoa(shell->last_exit_status);
@@ -88,6 +87,11 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 		}
 		else
 			var_to_expand = is_an_envp_var(shell, var_to_search);
+		free(var_to_search);
+		var_to_search = ft_strdup(result);
+		free(result);
+		if (!var_to_search)
+			print_str_error_and_exit();
 		result = get_expanded_var(str, var_to_search, var_to_expand, i);
 		return (result);
 	}

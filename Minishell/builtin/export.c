@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 10:01:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:27:07 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,26 @@ int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
 	return (0);
 }
 
-int	builtin_export(t_shell *shell, t_pipe_node *node)
+int	execute_export(t_shell *shell, t_pipe_node *node)
 {
 	int		i;
 	int		result;
-	char	**env;
 
 	i = 0;
+	while (node->arguments[++i])
+	{
+		result = export(shell, node->arguments[i]);
+		if (result != 0)
+			return (result);
+	}
+	return (0);
+}
+
+int	builtin_export(t_shell *shell, t_pipe_node *node)
+{
+	int		result;
+	char	**env;
+
 	result = open_close_inputs(shell, node->input_file_lst);
 	if (result != 0)
 		return (result);
@@ -91,13 +104,6 @@ int	builtin_export(t_shell *shell, t_pipe_node *node)
 		return (0);
 	}
 	else if (node->fdio[0] == -1 && node->fdio[1] != 1)
-	{
-		while (node->arguments[++i])
-		{
-			result = export(shell, node->arguments[i]);
-			if (result != 0)
-				return (result);
-		}
-	}
+		return (execute_export(shell, node));
 	return (result);
 }

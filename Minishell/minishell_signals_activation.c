@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:20:38 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 09:56:33 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:38:18 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,3 @@ void	desact_squit_handler(t_shell *shell)
 	if (sigaction(SIGQUIT, shell->sigquit_processing, NULL) == -1)
 		print_str_error_and_exit();
 }
-

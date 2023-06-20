@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/19 16:01:02 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:36:39 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,18 +57,18 @@ int	redirection_buitin(t_shell *shell, t_pipe_node *pipe)
 	if (ft_strcmp(pipe->arguments[0], "export") == 0)
 	{
 		builtin_export(shell, pipe);
-		return(1);
+		return (1);
 	}
 	if (ft_strcmp(pipe->arguments[0], "pwd") == 0)
 	{
 		builtin_pwd(shell, pipe);
-		return(1);
+		return (1);
 	}
 	if (ft_strcmp(pipe->arguments[0], "unset") == 0)
 	{
 		builtin_unset(shell, pipe);
-		return(1);
+		return (1);
 	}
 	return (0);
-	return(redirection_buitin2(shell, pipe))
+	return (redirection_buitin2(shell, pipe));
 }

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 11:46:29 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:37:25 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,12 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	int		val;
 
 	if (!envp || !envp[0])
-	{
-		shell->envp = malloc(sizeof(char *));
-		if (!shell->envp)
-			print_str_error_and_exit();
-		shell->envp[0] = NULL;
-	}
+		init_empty_env_array(shell);
 	else
 		shell->envp = ft_strdup_array(envp);
+	val = 0;
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
-	if (temp[0] == '\0')
-		val = 0;
-	else
+	if (temp[0] != '\0')
 		val = ft_atoi(temp);
 	free(temp);
 	temp = ft_itoa(++val);

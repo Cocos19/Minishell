@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/19 11:43:19 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/20 14:25:08 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC			= minishell.c \
 			minishell_lexer_checker.c minishell_lexer.c \
 			minishell_parser_redirections.c minishell_expander_env_var.c \
 			minishell_signals_activation.c \
-			builtin/cd.c \
+			builtin/cd.c builtin/cd_utils.c \
 			builtin/echo.c \
 			builtin/env.c \
 			builtin/exit.c \
@@ -70,6 +70,7 @@ all: ${NAME}
 
 ${NAME}: ${OBJ} ${LIBFT}
 	${CC} ${OBJ} -o  ${NAME} ${LIBFT} -I ${HOME}/.brew/opt/readline/include -L/${HOME}/.brew/opt/readline/lib -lreadline
+
 
 ${LIBFT}:
 	${MAKE} bonus -C ${LIBFT_PATH}

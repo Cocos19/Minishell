@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 16:00:17 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:59:27 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,10 @@ we should not forget that if -1 or 1 is passed as fd argument it shouldnt be clo
 */
 
 int			builtin_cd(t_shell *shell, t_pipe_node *node);
+char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
+char		*get_home_relative_path(t_shell *shell, char *arg);
+int			get_old_pwd_path(t_shell *shell, t_pipe_node *node);
+void		update_env_var(t_shell *shell, char *to_update, char *new_val);
 int			builtin_echo(t_shell *shell, t_pipe_node *node);
 int			builtin_env(t_shell *shell, t_pipe_node *node);
 int			builtin_export(t_shell *shell, t_pipe_node *node);
@@ -142,21 +146,21 @@ int			open_close_outputs(t_file_datas *output_lst);
 int			write_to_outputs(char *result, t_file_datas *output_lst);
 int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 
-char	*cmd_exist(char **envp, char **arg);
-void	execution(t_shell *shell);
-char	**get_envp_paths(char **envp);
-void	free_all_tab(char **p_tab, int len);
+char		*cmd_exist(char **envp, char **arg);
+void		execution(t_shell *shell);
+char		**get_envp_paths(char **envp);
+void		free_all_tab(char **p_tab, int len);
 
-char	*cmd_exist(char **envp, char **arg);
-void	execution(t_shell *shell);
-char	**get_envp_paths(char **envp);
-void	free_all_tab(char **p_tab, int len);
-void	ft_waitpids(t_shell *shell, t_pipe_node *pipe);
-void	execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
-void	first_cmd(t_shell *shell, t_pipe_node *pipe);
-void	middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
-void	last_cmd(t_shell *shell, t_pipe_node *pipe, int i);
-void	find_path(t_shell *shell, t_pipe_node *pipe);
+char		*cmd_exist(char **envp, char **arg);
+void		execution(t_shell *shell);
+char		**get_envp_paths(char **envp);
+void		free_all_tab(char **p_tab, int len);
+void		ft_waitpids(t_shell *shell, t_pipe_node *pipe);
+void		execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
+void		first_cmd(t_shell *shell, t_pipe_node *pipe);
+void		middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
+void		last_cmd(t_shell *shell, t_pipe_node *pipe, int i);
+void		find_path(t_shell *shell, t_pipe_node *pipe);
 
 /*EXPAND*/
 
@@ -214,6 +218,7 @@ void		desact_squit_handler(t_shell *shell);
 /* TERMINAL */
 
 void		init_terminal(t_shell *shell, char **envp);
+void		init_empty_env_array(t_shell *shell);
 void		act_vquit(t_shell *shell);
 void		desact_vquit(t_shell *shell);
 
@@ -232,15 +237,14 @@ int			token_list_is_valid(t_shell *shell);
 
 char		*ft_strjoin_protected(char *s1, char *s2);
 char		*get_string_from_fd(int fd);
-int		len_tab(char **tb);
-int		ft_lstsize_pipe(t_pipe_node *lst);
-int	ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
-int	ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
-void	ft_close_files(int fd, char *name);
-void	ft_close(int fd);
-void	create_pids(t_shell *shell, t_pipe_node *pipe);
-void	ft_copy_fd(t_pipe_node *pipe);
-// void	update_exit_status_with_errno(t_shell *shell);
+int			len_tab(char **tb);
+int			ft_lstsize_pipe(t_pipe_node *lst);
+int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
+int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
+void		ft_close_files(int fd, char *name);
+void		ft_close(int fd);
+void		create_pids(t_shell *shell, t_pipe_node *pipe);
+void		ft_copy_fd(t_pipe_node *pipe);
 
 /* TEMP FUNCTIONS */
 

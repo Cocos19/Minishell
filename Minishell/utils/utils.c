@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/17 10:19:58 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/20 15:37:42 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	init_empty_env_array(t_shell *shell)
+{
+	shell->envp = malloc(sizeof(char *));
+	if (!shell->envp)
+		print_str_error_and_exit();
+	shell->envp[0] = NULL;
+}
 
 char	*ft_strjoin_protected(char *s1, char *s2)
 {

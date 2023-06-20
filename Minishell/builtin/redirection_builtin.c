@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/20 09:33:54 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/20 09:49:09 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 	}
 	if (ft_strcmp(pipe->arguments[0], "env") == 0)
 	{
-		printf("test3 %d\n", pipe->fdio[1]);
 		builtin_env(shell, pipe);
 		return (1);
 	}

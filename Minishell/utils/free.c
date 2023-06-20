@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 15:45:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/20 10:00:51 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	free_file_datas_list(t_file_datas *lst)
 	while (lst)
 	{
 		temp = lst->next;
-		printf("free %s\n", lst->value);
+		// printf("free %s\n", lst->value);
 		if (lst->value)
 			free(lst->value);
 		free(lst);

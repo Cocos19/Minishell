@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 16:26:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:59:35 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
 void		ft_waitpids(t_shell *shell, t_pipe_node *pipe);
-void		execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
+void		execution_single_cmd(t_shell *shell, t_pipe_node *pipe);
 void		first_cmd(t_shell *shell, t_pipe_node *pipe);
 void		middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
 void		last_cmd(t_shell *shell, t_pipe_node *pipe, int i);

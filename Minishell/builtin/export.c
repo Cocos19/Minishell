@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:27:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:57:11 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,15 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 
 int	builtin_export(t_shell *shell, t_pipe_node *node)
 {
-	int		result;
+	// int		result;
 	char	**env;
 
-	result = open_close_inputs(shell, node->input_file_lst);
-	if (result != 0)
-		return (result);
-	result = open_close_outputs(node->input_file_lst);
-	if (result != 0)
-		return (result);
+	// result = open_close_inputs(shell, node->input_file_lst);
+	// if (result != 0)
+	// 	return (result);
+	// result = open_close_outputs(node->input_file_lst);
+	// if (result != 0)
+	// 	return (result);
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);
@@ -105,5 +105,5 @@ int	builtin_export(t_shell *shell, t_pipe_node *node)
 	}
 	else if (node->fdio[0] == -1 && node->fdio[1] != 1)
 		return (execute_export(shell, node));
-	return (result);
+	return (0);
 }

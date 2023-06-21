@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:33:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:59:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,10 @@ void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 int			ft_fork(t_shell *shell);
 void		ft_pipe(t_shell *shell, t_pipe_node *pipe);
 void		ft_dup2(t_shell *shell, int fd, int input);
-int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-int			open_close_outputs(t_file_datas *output_lst);
-int			write_to_outputs(char *result, t_file_datas *output_lst);
-int			write_array_to_outputs(char **result, t_file_datas *output_lst);
+// int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
+// int			open_close_outputs(t_file_datas *output_lst);
+// int			write_to_outputs(char *result, t_file_datas *output_lst);
+// int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 
 char		*cmd_exist(char **envp, char **arg);
 void		execution(t_shell *shell);

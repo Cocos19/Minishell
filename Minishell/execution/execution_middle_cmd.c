@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_middle_cmd.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/17 11:21:33 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:45:42 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	middle_cmd2(t_shell *shell, t_pipe_node *pipe)
 	else
 		dup2(pipe->fdio[0], STDIN_FILENO);
 	ft_close_files(pipe->fdio[0], "middle cmd");
-	close(pipe->fdio[1]);
 	if (pipe->output_file_lst)
 	{
 		pipe->fdio[1] = ft_open_outfiles(shell, pipe);

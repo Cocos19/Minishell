@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:23:02 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 12:58:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,14 @@ char	*get_path(t_shell *shell, t_pipe_node *node)
 int	builtin_cd(t_shell *shell, t_pipe_node *node)
 {
 	char	*path;
-	int		result;
+	// int		result;
 
-	result = open_close_inputs(shell, node->input_file_lst);
-	if (result != 0)
-		return (result);
-	result = open_close_outputs(node->output_file_lst);
-	if (result != 0)
-		return (result);
+	// result = open_close_inputs(shell, node->input_file_lst);
+	// if (result != 0)
+	// 	return (result);
+	// result = open_close_outputs(node->output_file_lst);
+	// if (result != 0)
+	// 	return (result);
 	if (node->arguments[1] && node->arguments[1][0] == '-'
 		&& node->arguments[1][1] == '\0')
 		return (get_old_pwd_path(shell, node));

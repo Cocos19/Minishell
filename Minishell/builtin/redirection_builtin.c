@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_builtin.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/21 11:08:34 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:33:30 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	redirection_builtin2(t_shell *shell, t_pipe_node *pipe)
 	}
 	if (ft_strcmp(pipe->arguments[0], "pwd") == 0)
 	{
-		builtin_pwd(shell, pipe);
+		builtin_pwd(shell);
 		return (1);
 	}
 	if (ft_strcmp(pipe->arguments[0], "unset") == 0)
@@ -65,7 +65,7 @@ int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 	}
 	if (ft_strcmp(pipe->arguments[0], "env") == 0)
 	{
-		builtin_env(shell, pipe);
+		builtin_env(shell);
 		return (1);
 	}
 	if (ft_strcmp(pipe->arguments[0], "exit") == 0)

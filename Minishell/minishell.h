@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:59:43 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:33:02 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,11 +117,11 @@ char		*get_home_relative_path(t_shell *shell, char *arg);
 int			get_old_pwd_path(t_shell *shell, t_pipe_node *node);
 void		update_env_var(t_shell *shell, char *to_update, char *new_val);
 int			builtin_echo(t_shell *shell, t_pipe_node *node);
-int			builtin_env(t_shell *shell, t_pipe_node *node);
+int			builtin_env(t_shell *shell);
 int			builtin_export(t_shell *shell, t_pipe_node *node);
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
-int			builtin_pwd(t_shell *shell, t_pipe_node *node);
+int			builtin_pwd(t_shell *shell);
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
 int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
 int			is_builtin(t_pipe_node *pipe);

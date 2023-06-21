@@ -6,11 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:20:38 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:38:18 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:06:26 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	act_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *))
 {

@@ -15,7 +15,7 @@
 /* marche sauf normal + in_outfile */
 
 void	execution_single_cmd2(t_shell *shell, t_pipe_node *pipe)
-{	
+{
 	find_path(shell, pipe);
 	create_pids(shell, pipe);
 	shell->pids[0] = ft_fork(shell);

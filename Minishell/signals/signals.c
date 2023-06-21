@@ -6,11 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:42:52 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 15:58:10 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:06:29 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context)
 {

@@ -6,22 +6,17 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/20 16:27:31 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/21 11:08:56 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
 SRC			= minishell.c \
-			minishell_prompt.c minishell_parser_heredoc.c \
-			minishell_expander.c minishell_parser.c \
-			minishell_parser_arguments.c minishell_signals.c \
+			minishell_prompt.c \
 			minishell_temp.c minishell_terminal.c \
-			minishell_lexer_special_tokens.c \
-			minishell_lexer_checker.c minishell_lexer.c \
-			minishell_parser_redirections.c minishell_expander_env_var.c \
-			minishell_signals_activation.c \
-			builtin/cd.c builtin/cd_utils.c \
+			builtin/cd.c \
+			builtin/cd_utils.c \
 			builtin/echo.c \
 			builtin/env.c \
 			builtin/exit.c \
@@ -30,6 +25,7 @@ SRC			= minishell.c \
 			builtin/export_utils.c \
 			builtin/pwd.c \
 			builtin/unset.c \
+			builtin/redirections.c \
 			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
@@ -39,13 +35,23 @@ SRC			= minishell.c \
 			execution/execution_last_cmd.c \
 			execution/get_envp.c \
 			execution/waitpids.c \
+			expander/expander.c \
+			expander/env_var.c \
+			lexer/checker.c \
+			lexer/lexer.c \
+			lexer/special_tokens.c \
+			parser/parser.c \
+			parser/get_heredoc.c \
+			parser/parse_arguments.c \
+			parser/parse_redirections.c \
+			signals/activation.c \
+			signals/signals.c \
 			utils/free.c \
 			utils/free_and_print_msg.c\
 			utils/free_token_lst.c \
 			utils/utils.c \
 			utils/utils_execution.c \
 			utils/utils_open_close.c \
-			minishell_execution_redirections.c \
 
 OBJ			= ${SRC:.c=.o}
 

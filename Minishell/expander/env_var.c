@@ -6,11 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:54:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:04:20 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*is_an_envp_var(t_shell *shell, char *str)
 {

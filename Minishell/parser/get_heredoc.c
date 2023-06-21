@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_parser_heredoc.c                         :+:      :+:    :+:   */
+/*   get_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:43:03 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/09 15:46:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:55:39 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	free_input_and_exit(char *input, int fd)
 {

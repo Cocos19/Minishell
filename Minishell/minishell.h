@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 16:26:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:13:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,10 +138,6 @@ void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 int			ft_fork(t_shell *shell);
 void		ft_pipe(t_shell *shell, t_pipe_node *pipe);
 void		ft_dup2(t_shell *shell, int fd, int input);
-// void		open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-// void		open_close_outputs(t_file_datas *output_lst);
-// int			write_to_outputs(char *result, t_file_datas *output_lst);
-// int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
 int			open_close_outputs(t_file_datas *output_lst);
 int			write_to_outputs(char *result, t_file_datas *output_lst);
@@ -157,7 +153,7 @@ void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
 void		ft_waitpids(t_shell *shell, t_pipe_node *pipe);
-void		execution_one_cmd(t_shell *shell, t_pipe_node *pipe);
+void		execution_single_cmd(t_shell *shell, t_pipe_node *pipe);
 void		first_cmd(t_shell *shell, t_pipe_node *pipe);
 void		middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
 void		last_cmd(t_shell *shell, t_pipe_node *pipe, int i);

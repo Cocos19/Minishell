@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_parser_redirections.c                    :+:      :+:    :+:   */
+/*   parse_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:15 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:42:11 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 10:55:41 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_file_datas	*init_file_datas(char *val, int mode)
 {

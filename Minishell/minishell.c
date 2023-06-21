@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 09:32:41 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/21 11:09:57 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	g_exit_status=0;
-
-/*	Retirer la global de minishell.c et le extern du .h
-	Retirer modification get_next_line_bonus.h -> OPEN_MAX*/
 
 void	read_prompt(t_shell *shell)
 {

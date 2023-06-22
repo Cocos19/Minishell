@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:42 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:59:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:32:48 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_pwd(t_shell *shell, t_pipe_node *node)
+int	builtin_pwd(t_shell *shell)
 {
 	// int		redirections_check;
 	char	*result;
@@ -30,8 +30,8 @@ int	builtin_pwd(t_shell *shell, t_pipe_node *node)
 	// 	free(result);
 	// 	return (redirections_check);
 	// }
-	write(node->fdio[1], result, ft_strlen(result));
-	write(node->fdio[1], "\n", 1);
+	write(1, result, ft_strlen(result));
+	write(1, "\n", 1);
 	free(result);
 	(void) shell;
 	return (0);

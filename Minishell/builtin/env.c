@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:31 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:56:43 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:32:10 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*This function can be launched in multiples pipe in forks or as a single
 pipe in a fork*/
 
-int	builtin_env(t_shell *shell, t_pipe_node *node)
+int	builtin_env(t_shell *shell)
 {
 	// int	redir_check;
 
@@ -28,6 +28,6 @@ int	builtin_env(t_shell *shell, t_pipe_node *node)
 	// if (redir_check != 0)
 	// 	return (redir_check);
 	// else
-		ft_print_str_array_fd(shell->envp, node->fdio[1]);
+	ft_print_str_array_fd(shell->envp, 1);
 	return (0);
 }

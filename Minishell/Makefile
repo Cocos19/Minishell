@@ -6,15 +6,14 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/21 11:08:56 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/22 10:33:09 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
 SRC			= minishell.c \
-			minishell_prompt.c \
-			minishell_temp.c minishell_terminal.c \
+			minishell_temp.c \
 			builtin/cd.c \
 			builtin/cd_utils.c \
 			builtin/echo.c \
@@ -44,8 +43,10 @@ SRC			= minishell.c \
 			parser/get_heredoc.c \
 			parser/parse_arguments.c \
 			parser/parse_redirections.c \
+			prompt.c \
 			signals/activation.c \
 			signals/signals.c \
+			shell_init.c \
 			utils/free.c \
 			utils/free_and_print_msg.c\
 			utils/free_token_lst.c \

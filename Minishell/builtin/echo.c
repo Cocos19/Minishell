@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:58:55 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:33:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ char	*get_echo_result(char **argv)
 		print_str_error_and_exit();
 	result[0] = '\0';
 	if (!argv[1])
-		return (result);
+	{
+		free(result);
+		return (ft_strdup("\n"));
+	}
 	i = 0;
 	n_option = ft_strcmp("-n", argv[1]);
 	if (n_option == 0)

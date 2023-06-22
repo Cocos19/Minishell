@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_prompt.c                                 :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/10 15:42:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:29:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,27 @@ int	check_quotes_validity(t_shell *shell, char *str)
 	return (g_exit_status);
 }
 
+int	input_is_readable(t_shell *shell)
+{
+	char	*str;
+
+	str = shell->input;
+	while(str && *str)
+	{
+		if (*str != 9 && *str != ' ')
+			return (0);
+		++str;
+	}
+	return (1);
+}
+
 int	input_is_valid(t_shell *shell)
 {
 	char	*str;
 
 	str = shell->input;
+	if (!(input_is_readable(shell) == 0))
+		return (-1);
 	if (!(ft_strlen(shell->input) > 0))
 		return (-1);
 	else if (check_quotes_validity(shell, str) != 0)

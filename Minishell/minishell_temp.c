@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_temp.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/05/17 10:49:32 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:28:18 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,20 @@ void	print_file_datas_lst(t_file_datas *datas_lst)
 	while (lst)
 	{
 		printf("File %d\n mode: %d\n value: %s\n", ++i, lst->mode, lst->value);
+		lst = lst->next;
+	}
+}
+
+void	print_redir_datas_lst(t_redir_datas *datas_lst)
+{
+	t_redir_datas	*lst;
+	int				i;
+
+	lst = datas_lst;
+	i = 0;
+	while (lst)
+	{
+		printf("File %d\n type: %c mode: %d\n value: %s\n", ++i, lst->type, lst->mode, lst->value);
 		lst = lst->next;
 	}
 }

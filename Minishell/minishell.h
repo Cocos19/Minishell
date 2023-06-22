@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:59:43 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:28:34 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,15 @@ typedef struct s_file_datas
 	struct s_file_datas	*next;
 }	t_file_datas;
 
+typedef struct s_redir_datas
+{
+	int						mode;
+	char					*value;
+	char					type;
+	struct s_redir_datas	*last;
+	struct s_redir_datas	*next;
+}	t_redir_datas;
+
 typedef struct s_pipe_node
 {
 	char						**arguments;
@@ -63,6 +72,7 @@ typedef struct s_pipe_node
 	int							*pids;
 	int							fdio[2];
 	int							fd[2];
+	t_redir_datas				*in_out_redir_list;
 	t_file_datas				*input_file_lst;
 	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
@@ -248,5 +258,6 @@ void		ft_copy_fd(t_pipe_node *pipe);
 void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
 void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
+void		print_redir_datas_lst(t_redir_datas *datas_lst);
 
 #endif

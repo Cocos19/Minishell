@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:03:32 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:18:46 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ t_pipe_node	*init_pipe_node(void)
 	if (!result)
 		print_str_error_and_exit();
 	result->arguments = NULL;
+	result->in_out_redir_list = NULL;
 	result->input_file_lst = NULL;
 	result->output_file_lst = NULL;
 	result->next = NULL;

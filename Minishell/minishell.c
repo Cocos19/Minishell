@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:09:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:29:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	read_prompt(t_shell *shell)
 		add_history(user_input);
 		lexer(shell, user_input);
 		parser(shell);
+		print_redir_datas_lst(shell->pipe_lst->in_out_redir_list);
 		if (shell->pipe_lst && !shell->pipe_lst->next
 			&& (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
 			single_cmd_builtin_exit(shell, shell->pipe_lst);

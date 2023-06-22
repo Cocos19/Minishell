@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_terminal.c                               :+:      :+:    :+:   */
+/*   shell_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 16:26:35 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:42:09 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	val = 0;
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
 	if (temp[0] != '\0')
-		val = ft_atoi(temp);
+		ft_atoi(temp, &val);
 	free(temp);
 	temp = ft_itoa(++val);
 	if (!temp)

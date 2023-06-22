@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 14:04:13 by mprofett          #+#    #+#              #
-#    Updated: 2023/05/05 14:41:38 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/21 13:46:03 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCSB	= ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c \
 		get_next_line_bonus.c get_next_line_utils_bonus.c \
 		ft_printf_bonus.c ft_printf_getvalues_bonus.c \
 		ft_printf_printvars_bonus.c ft_printf_putvalues_bonus.c \
-		safe_atoi.c ft_split_integers.c ft_free_str_array.c ft_strcmp.c \
+		ft_free_str_array.c ft_strcmp.c \
 		ft_expand.c ft_strjoin_and_free_srcs.c ft_substr_delimited.c \
 		ft_is_empty_or_with_only_spaces.c ft_strarraylen.c \
 		ft_strarrayjoin_and_free_srcs.c ft_skip_character.c \

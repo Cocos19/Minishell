@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 13:00:44 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 14:03:56 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,22 @@ int	str_is_digit(char *str)
 
 int	handle_exit_args(t_pipe_node *node)
 {
-	unsigned char	result;
+	int				check;
+	int				res;
 
-	if (str_is_digit(node->arguments[1]) != 0)
+	check = ft_atoi(node->arguments[1], &res);
+	if (check == 2)
 	{
 		printf("minishell: exit: %s: numeric argument required\n",
 			node->arguments[1]);
-		result = ERR_SYNTAX;
+		res = ERR_SYNTAX;
 	}
 	else if (node->arguments[2])
 	{
 		printf("minishell: exit: too many arguments\n");
-		result = EPERM;
+		res = EPERM;
 	}
-	else
-		result = ft_atoi(node->arguments[1]);
-	return (result);
+	return ((unsigned char)res);
 }
 
 int	builtin_exit(t_shell *shell, t_pipe_node *node)
@@ -65,9 +65,11 @@ int	builtin_exit(t_shell *shell, t_pipe_node *node)
 
 void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 {
-	unsigned char	result;
+	int				check;
+	int				res;
 
-	if (str_is_digit(node->arguments[1]) != 0)
+	check = ft_atoi(node->arguments[1], &res);
+	if (check == 2)
 	{
 		printf("exit\nminishell: exit: %s: numeric argument required\n",
 			node->arguments[1]);
@@ -78,12 +80,10 @@ void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 		printf("minishell: too many arguments\n");
 		shell->last_exit_status = EPERM;
 	}
-	else
-	{
-		result = ft_atoi(node->arguments[1]);
-		printf("exit\n");
-		exit (result);
-	}
+	else if (check == 1)
+		res = 255;
+	printf("exit\n");
+	exit ((unsigned char)res);
 }
 
 void	single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node)

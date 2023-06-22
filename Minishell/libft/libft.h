@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 15:55:28 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/19 13:23:45 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 13:45:17 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void			*ft_memchr(const void *s, int c, size_t n);
 int				ft_memcmp(const void *s1, const void *s2, size_t n);
 char			*ft_strnstr(const char *haystack,
 					const char *needle, size_t len);
-int				ft_atoi(const char *str);
+int				ft_atoi(const char *str, int *n);
 void			*ft_calloc(size_t count, size_t size);
 char			*ft_strdup(const char *s1);
 char			**ft_strdup_tab(const char **tab);
@@ -72,10 +72,8 @@ t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
 					void (*del)(void *));
 
 void			ft_put_hexa_char_fd(char c, int lowercase, int fd);
-long long int	safe_atoi(const char *str);
 char			*get_next_line(int fd, int buffer_size);
 int				ft_printf(const char *s, ...);
-int				*ft_split_integers(const char *s);
 char			**ft_free_str_array(char **str_array);
 int				ft_strcmp(const char *s1, const char *s2);
 char			*ft_expand(char *str, char *start, char *cut, char *paste);

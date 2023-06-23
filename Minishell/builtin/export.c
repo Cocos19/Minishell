@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:57:11 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/21 15:30:20 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	builtin_export(t_shell *shell, t_pipe_node *node)
 	// result = open_close_outputs(node->input_file_lst);
 	// if (result != 0)
 	// 	return (result);
+	printf("test export\n");
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);

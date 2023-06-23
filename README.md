@@ -1,25 +1,7 @@
 # Minishell
 
-Features to implement:
+Description
 
-1. Signals & terminal management - Completed (Marco)
-2. Lexer - Completed (Marco)
-  - History - Completed (Marco)
-3. Tokenizer - Completed (Marco)
-4. Parser - Ongoing (Marco)
-  - environnement variables - Ongoing (Marco)
-  - heredoc - Completed (Marco)
-  - other redirections - Ongoing (Marco)
-5. Expander - Ongoing (Marco)
-  - quotes - Ongoing (Marco)
-  - dollar expander - Ongoing (Marco)
-6. Executer - Ongoing (Coralie?)
-  - Environnement variables - Ongoing (Coralie)
-7. Built-in - Not started (Coralie)
-  - echo -n - Not started (Coralie)
-  - cd absolute and relative - Not started (Coralie)
-  - pwd - Not started (Coralie)
-  - export - Not started (Coralie)
-  - unset - Not started (Coralie)
-  - env - Not started (Coralie)
-  - exit - Not started (Coralie)
+The objective of this project is for you to create a simple shell.
+
+Started 14/04/2023

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/23 12:18:18 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:43:39 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	execution_cmd(t_shell *shell, t_pipe_node *pipe)
 
 void	execution_single_cmd(t_shell *shell, t_pipe_node *pipe)
 {
+	printf("single -> builtin = [%s]\n", pipe->arguments[0]);
 	pipe->iofiles[0] = 0;
 	pipe->iofiles[1] = 0;
-	find_path(shell, pipe);
+	if (is_builtin(pipe) == 0)
+		find_path(shell, pipe);
 	create_pids(shell, pipe);
 	pipe->fdio[0] = -1;
 	pipe->fdio[0] = 1;
@@ -53,6 +55,7 @@ void	execution_single_cmd(t_shell *shell, t_pipe_node *pipe)
 		openiofile(shell, pipe, pipe->in_out_redir_list);
 	if (shell->exit == 1)
 		execution_cmd(shell, pipe);
+	free(shell->pids);
 }
 
 // void	execution_single_cmd(t_shell *shell, t_pipe_node *pipe)

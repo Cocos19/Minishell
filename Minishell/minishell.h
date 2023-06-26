@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/23 11:37:46 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:11:01 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,12 +155,11 @@ void		ft_dup2(t_shell *shell, int fd, int input);
 // int			write_to_outputs(char *result, t_file_datas *output_lst);
 // int			write_array_to_outputs(char **result, t_file_datas *output_lst);
 
-char		*cmd_exist(char **envp, char **arg);
+char		*cmd_exist(t_shell *shell, char **envp, char **arg);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
 
-char		*cmd_exist(char **envp, char **arg);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);

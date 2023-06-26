@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/05 11:44:01 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:41:37 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	cmd_not_found(char *str)
 {
-	write(2, "command not found :\n", 20);
+	write(2, "minishell: ", 12);
 	write(2, str, ft_strlen(str));
+	write(2, ": command not found\n", 20);
 }
 
 static int	ft_test_cmd(char *path, char *cmd)
@@ -41,15 +42,17 @@ static int	ft_test_cmd(char *path, char *cmd)
 	return (1);
 }
 
-char	*cmd_exist(char **envp, char **arg)
+char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 {
 	int		i;
 	char	**path;
 
+	printf("ici 1\n");
 	if (access(arg[0], X_OK) == 0)
 		return (arg[0]);
 	else
 	{
+		printf("ici 2\n");
 		path = get_envp_paths(envp);
 		i = 0;
 		while (path && path[i])
@@ -60,6 +63,9 @@ char	*cmd_exist(char **envp, char **arg)
 		}
 		free_all_tab(path, len_tab(path));
 	}
+	printf("ici 3\n");
+	shell->last_exit_status = 127;
+	shell->exit = 0;
 	cmd_not_found(arg[0]);
 	return (NULL);
 }

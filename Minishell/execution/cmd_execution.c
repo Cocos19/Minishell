@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/23 16:22:58 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:15:31 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	find_path(t_shell *shell, t_pipe_node *pipe)
 	char	*cmd;
 	char	*cmd_final;
 
-	cmd = cmd_exist(shell->envp, pipe->arguments);
+	cmd = cmd_exist(shell, shell->envp, pipe->arguments);
+	if (shell->exit == 0)
+	{
+		free(cmd);
+		return ;
+	}
 	cmd_final = ft_strjoin_protected(cmd, "/");
 	free(cmd);
 	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);

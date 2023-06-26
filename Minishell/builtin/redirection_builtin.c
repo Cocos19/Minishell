@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/21 13:33:30 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:37:44 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ int	redirection_builtin2(t_shell *shell, t_pipe_node *pipe)
 {
 	if (ft_strcmp(pipe->arguments[0], "export") == 0)
 	{
+		printf("ici\n");
 		builtin_export(shell, pipe);
 		return (1);
 	}
 	if (ft_strcmp(pipe->arguments[0], "pwd") == 0)
 	{
+		printf("ici\n");
 		builtin_pwd(shell);
 		return (1);
 	}
@@ -53,6 +55,7 @@ int	redirection_builtin2(t_shell *shell, t_pipe_node *pipe)
 
 int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 {
+	printf("builtin = [%s]\n", pipe->arguments[0]);
 	if (ft_strcmp(pipe->arguments[0], "cd") == 0)
 	{
 		builtin_cd(shell, pipe);
@@ -60,6 +63,7 @@ int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 	}
 	if (ft_strcmp(pipe->arguments[0], "echo") == 0)
 	{
+		printf("ici\n");
 		builtin_echo(shell, pipe);
 		return (1);
 	}
@@ -71,6 +75,12 @@ int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 	if (ft_strcmp(pipe->arguments[0], "exit") == 0)
 	{
 		builtin_exit(shell, pipe);
+		return (1);
+	}
+		if (ft_strcmp(pipe->arguments[0], "export") == 0)
+	{
+		printf("ici\n");
+		builtin_export(shell, pipe);
 		return (1);
 	}
 	return(redirection_builtin2(shell, pipe));

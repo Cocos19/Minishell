@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 09:38:01 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 09:46:28 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	read_prompt(t_shell *shell)
 		act_squit_handler(shell, &sigquit_shell_h);
 		desact_vquit(shell);
 	}
-	shell->last_exit_status = g_exit_status;
+	// shell->last_exit_status = g_exit_status;
 	g_exit_status = 0;
 	free(shell->input);
 }

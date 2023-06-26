@@ -6,12 +6,11 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 11:25:29 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 13:29:46 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:18:36 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
 
 void	ft_print_str_array_fd(char **str_array, int fd)
 {

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 10:01:02 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:20:16 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	ft_print_export_array_fd(char **str_array, int fd)
+void	ft_print_export_array_fd(char **str_array)
 {
 	int	i;
 	int	j;
@@ -25,20 +25,20 @@ void	ft_print_export_array_fd(char **str_array, int fd)
 		{
 			if (!(str_array[i][0] == '_' && str_array[i][1] == '='))
 			{
-				write(fd, "declare -x ", 11);
+				write(1, "declare -x ", 11);
 				while (str_array[i][j] != '=' && str_array[i][j] != '\0')
-					write(fd, &str_array[i][j++], 1);
-				write(fd, "=\"", 2);
+					write(1, &str_array[i][j++], 1);
+				write(1, "=\"", 2);
 				++j;
 				while (str_array[i][j] != '=' && str_array[i][j] != '\0')
-					write(fd, &str_array[i][j++], 1);
-				write(fd, "\"\n", 2);
+					write(1, &str_array[i][j++], 1);
+				write(1, "\"\n", 2);
 				j = 0;
 			}
 		}
 	}
 	else
-		write(fd, "\n", 1);
+		write(1, "\n", 1);
 }
 
 int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
@@ -59,7 +59,7 @@ int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
 			print_info_str_error_and_exit(current_output->value);
 		if (!current_output->next)
 		{
-			ft_print_export_array_fd(result, fd);
+			ft_print_export_array_fd(result);
 			return (1);
 		}
 		close(fd);
@@ -87,16 +87,14 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 int	builtin_export(t_shell *shell, t_pipe_node *node)
 {
 	char	**env;
-
+	(void)node;
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);
 		ft_sort_str_array(env);
-		ft_print_export_array_fd(env, node->fdio[1]);
+		ft_print_export_array_fd(env);
 		ft_free_str_array(env);
 		return (0);
 	}
-	else if (node->fdio[0] == 1 && node->fdio[1] != 1)
-		return (execute_export(shell, node));
-	return (0);
+	return (execute_export(shell, node));
 }

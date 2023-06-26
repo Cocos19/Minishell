@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 10:23:35 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/26 16:15:14 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	builtin_unset(t_shell *shell, t_pipe_node *node)
 {
 	if (!node->arguments[1])
 		return (0);
-	if (node->fdio[0] == -1 && node->fdio[1] != 1)
-		execute_unset(shell, node);
+	execute_unset(shell, node);
 	return (0);
 }

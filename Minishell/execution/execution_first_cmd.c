@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/23 14:49:17 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 14:28:32 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ static void	first_cmd2(t_shell *shell, t_pipe_node *pipe)
 
 void	first_cmd(t_shell *shell, t_pipe_node *pipe)
 {
+	// printf("first 1: fd[0] = %d, fd[1] = %d, fdio[0] = %d, fdio[1] = %d\n", pipe->fd[0], pipe->fd[1], pipe->fdio[0], pipe->fdio[1]);
 	ft_pipe(shell, pipe);
 	find_path(shell, pipe);
 	shell->pids[0] = ft_fork(shell);
@@ -46,4 +47,5 @@ void	first_cmd(t_shell *shell, t_pipe_node *pipe)
 			execve(pipe->path, pipe->arguments, shell->envp);
 		exit(EXIT_FAILURE);
 	}
+	// printf("first 2: fd[0] = %d, fd[1] = %d, fdio[0] = %d, fdio[1] = %d\n\n", pipe->fd[0], pipe->fd[1], pipe->fdio[0], pipe->fdio[1]);
 }

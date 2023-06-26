@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/22 10:29:52 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:44:19 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	read_prompt(t_shell *shell)
 		act_squit_handler(shell, &sigquit_shell_h);
 		desact_vquit(shell);
 	}
-	shell->last_exit_status = g_exit_status;
+	// shell->last_exit_status = g_exit_status;
 	g_exit_status = 0;
 	free(shell->input);
 }

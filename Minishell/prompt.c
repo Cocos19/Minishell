@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 13:29:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/22 10:43:31 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ char	*give_prompt(t_shell *shell)
 	{
 		if (shell->envp[0] == NULL)
 			write(1, "\n", 1);
-		print_info_and_exit("\bexit\n", EXIT_SUCCESS);
+		print_info_and_exit("\bexit\n", shell->last_exit_status);
 	}
 	return (user_input);
 }

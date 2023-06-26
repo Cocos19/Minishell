@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 15:30:20 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:01:02 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 	i = 0;
 	while (node->arguments[++i])
 	{
+		printf("arg: [%s]\n", node->arguments[i]);
 		result = export(shell, node->arguments[i]);
 		if (result != 0)
 			return (result);
@@ -85,26 +86,17 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 
 int	builtin_export(t_shell *shell, t_pipe_node *node)
 {
-	// int		result;
 	char	**env;
 
-	// result = open_close_inputs(shell, node->input_file_lst);
-	// if (result != 0)
-	// 	return (result);
-	// result = open_close_outputs(node->input_file_lst);
-	// if (result != 0)
-	// 	return (result);
-	printf("test export\n");
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);
 		ft_sort_str_array(env);
-		if (write_export_array_to_outputs(env, node->output_file_lst) == 0)
-			ft_print_export_array_fd(env, node->fdio[1]);
+		ft_print_export_array_fd(env, node->fdio[1]);
 		ft_free_str_array(env);
 		return (0);
 	}
-	else if (node->fdio[0] == -1 && node->fdio[1] != 1)
+	else if (node->fdio[0] == 1 && node->fdio[1] != 1)
 		return (execute_export(shell, node));
 	return (0);
 }

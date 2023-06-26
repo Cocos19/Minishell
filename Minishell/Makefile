@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
+#    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/22 13:53:55 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/26 10:23:52 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC			= minishell.c \
 			builtin/export_utils.c \
 			builtin/pwd.c \
 			builtin/unset.c \
-			builtin/redirections.c \
 			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \

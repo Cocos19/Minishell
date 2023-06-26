@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:54 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 12:57:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:23:35 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,6 @@ void	execute_unset(t_shell *shell, t_pipe_node *node)
 
 int	builtin_unset(t_shell *shell, t_pipe_node *node)
 {
-	// int		redirections_check;
-
-	// redirections_check = open_close_inputs(shell, node->input_file_lst);
-	// if (!redirections_check)
-	// 	return (redirections_check);
-	// redirections_check = open_close_outputs(node->output_file_lst);
-	// if (!redirections_check)
-	// 	return (redirections_check);
 	if (!node->arguments[1])
 		return (0);
 	if (node->fdio[0] == -1 && node->fdio[1] != 1)

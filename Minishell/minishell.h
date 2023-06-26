@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 09:11:01 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/26 10:24:50 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,20 +79,6 @@ typedef struct s_pipe_node
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
-// execution
-// if node->arguments[1] exist -> execute argv tab and nothing else
-// but you still have to open close inputs
-// else if node->input_file_lst exist -> execute only last input
-// but you still have to open close all others inputs
-// else if fd_in -> execute fd_in (fd_in = result of the pipe before)
-// else execute without arg
-// execution output
-// if node->node->output_file_lst -> write in last output_file
-// but you have to open/create all files then write to the last one
-// else if node->next -> write in fd_out
-// else write in stdout
-// update shell->last_exit_status
-
 /* SHELL INFO */
 
 typedef struct s_shell_infos
@@ -112,28 +98,17 @@ typedef struct s_shell_infos
 
 /*BUILTIN*/
 
-/*How to use builtin
-if builtin are single command, it should be launched in a fork
-exit is handled by a single function before exec function so no needed to handle it when exit is single command
-builtin never close fds so its the exec function responsability to close it
-builtin function have different behaviour when in pipe chain or not so some of them need to know it
-in this purpose some builtin need a fd_in and fd_out
-if the command is the first node of pipe chain, fd_in should be -1
-if the commad is the last node of pipe chain, fd_out should be 1 (STDOUT)
-we should not forget that if -1 or 1 is passed as fd argument it shouldnt be closed
-*/
-
 int			builtin_cd(t_shell *shell, t_pipe_node *node);
 char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
 char		*get_home_relative_path(t_shell *shell, char *arg);
 int			get_old_pwd_path(t_shell *shell, t_pipe_node *node);
 void		update_env_var(t_shell *shell, char *to_update, char *new_val);
 int			builtin_echo(t_shell *shell, t_pipe_node *node);
-int			builtin_env(t_shell *shell);
+int			builtin_env(t_shell *shell, t_pipe_node *node);
 int			builtin_export(t_shell *shell, t_pipe_node *node);
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
-int			builtin_pwd(t_shell *shell);
+int			builtin_pwd(t_shell *shell, t_pipe_node *node);
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
 int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
 int			is_builtin(t_pipe_node *pipe);
@@ -150,16 +125,10 @@ void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 int			ft_fork(t_shell *shell);
 void		ft_pipe(t_shell *shell, t_pipe_node *pipe);
 void		ft_dup2(t_shell *shell, int fd, int input);
-// int			open_close_inputs(t_shell *shell, t_file_datas *input_lst);
-// int			open_close_outputs(t_file_datas *output_lst);
-// int			write_to_outputs(char *result, t_file_datas *output_lst);
-// int			write_array_to_outputs(char **result, t_file_datas *output_lst);
-
 char		*cmd_exist(t_shell *shell, char **envp, char **arg);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
-
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);

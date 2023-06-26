@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/21 14:26:56 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/23 16:23:29 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	middle_cmd2(t_shell *shell, t_pipe_node *pipe)
 {
+	(void)shell;
 	if (pipe->input_file_lst)
 	{
-		ft_close(pipe->fdio[0]);
-		pipe->fdio[0] = ft_open_infiles(shell, pipe);
+		ft_close(pipe->iofiles[0] == 1);
 		dup2(pipe->fdio[0], STDIN_FILENO);
 		if (pipe->fdio[0] != -1)
 			ft_close(pipe->fdio[0]);
@@ -25,9 +25,8 @@ void	middle_cmd2(t_shell *shell, t_pipe_node *pipe)
 	else
 		dup2(pipe->fdio[0], STDIN_FILENO);
 	ft_close_files(pipe->fdio[0], "middle cmd");
-	if (pipe->output_file_lst)
+	if (pipe->iofiles[1] == 1)
 	{
-		pipe->fdio[1] = ft_open_outfiles(shell, pipe);
 		dup2(pipe->fdio[1], STDOUT_FILENO);
 		ft_close(pipe->fd[1]);
 		pipe->fd[1] = pipe->fdio[1];

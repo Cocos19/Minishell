@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/05/16 12:10:09 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:52:55 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,28 @@ void	ft_dup2(t_shell *shell, int fd, int input)
 	if (dup2(fd, input) == -1)
 		exit(EXIT_FAILURE);
 	(void)shell;
+}
+
+void	ft_exit_cmd(t_shell *shell, int exit_code)
+{
+	shell->exit = 0;
+	shell->last_exit_status = exit_code;
+}
+
+void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
+{
+	if (files->type == 'i' && shell->exit == 1)
+	{
+		// printf("infile : %s -> code %c\n", files->value, files->type);
+		pipe->fdio[0] = ft_open_infile(shell, files);
+		pipe->iofiles[0] = 1;
+	}
+	if (files->type == 'o' && shell->exit == 1)
+	{
+		// printf("outfile : %s -> code %c\n", files->value, files->type);
+		pipe->fdio[1] = ft_open_outfile(shell, files);
+		pipe->iofiles[1] = 1;
+	}
+	if (files->next && shell->exit == 1)
+		openiofile(shell, pipe, files->next);
 }

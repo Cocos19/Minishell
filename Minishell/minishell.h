@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/22 10:38:52 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/23 11:37:46 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_pipe_node
 	int							*pids;
 	int							fdio[2];
 	int							fd[2];
+	int							iofiles[2];
 	t_redir_datas				*in_out_redir_list;
 	t_file_datas				*input_file_lst;
 	t_file_datas				*output_file_lst;
@@ -103,6 +104,7 @@ typedef struct s_shell_infos
 	char				*name;
 	char				*input;
 	int					last_exit_status;
+	int					exit;
 	int					*pids;
 	t_token				*token_lst;
 	t_pipe_node			*pipe_lst;
@@ -247,11 +249,15 @@ char		*get_string_from_fd(int fd);
 int			len_tab(char **tb);
 int			ft_lstsize_pipe(t_pipe_node *lst);
 int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
+int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
 int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
+int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
 void		ft_close_files(int fd, char *name);
 void		ft_close(int fd);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_copy_fd(t_pipe_node *pipe);
+void		ft_exit_cmd(t_shell *shell, int exit_code);
+void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
 
 /* TEMP FUNCTIONS */
 

@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:37:42 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:18:02 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	init_empty_env_array(t_shell *shell)
-{
-	shell->envp = malloc(sizeof(char *));
-	if (!shell->envp)
-		print_str_error_and_exit();
-	shell->envp[0] = NULL;
-}
 
 char	*ft_strjoin_protected(char *s1, char *s2)
 {
@@ -30,31 +22,21 @@ char	*ft_strjoin_protected(char *s1, char *s2)
 	return (result);
 }
 
-int	len_tab(char **tb)
+int	lstsize_cmd(t_pipe_node *cmd)
 {
-	int	i;
+	int			i;
+	t_pipe_node	*tmp;
 
 	i = 0;
-	if (!tb)
+	if (!cmd)
 		return (0);
-	while (tb[i])
-		++i;
-	return (i);
-}
-
-int	ft_lstsize_pipe(t_pipe_node *lst)
-{
-	int		result;
-
-	if (!lst)
-		return (0);
-	result = 1;
-	while (lst->next)
+	tmp = cmd;
+	while (tmp)
 	{
-		lst = lst->next;
-		result++;
+		i++;
+		tmp = tmp->next;
 	}
-	return (result);
+	return (i);
 }
 
 char	*get_string_from_fd(int fd)
@@ -75,4 +57,21 @@ char	*get_string_from_fd(int fd)
 		str = get_next_line(fd, 100);
 	}
 	return (result);
+}
+
+void	find_path(t_shell *shell, t_pipe_node *pipe)
+{
+	char	*cmd;
+	char	*cmd_final;
+
+	cmd = cmd_exist(shell, shell->envp, pipe->arguments);
+	if (shell->exit == 0)
+	{
+		free(cmd);
+		return ;
+	}
+	cmd_final = ft_strjoin_protected(cmd, "/");
+	free(cmd);
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
+	free(cmd_final);
 }

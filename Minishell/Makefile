@@ -6,7 +6,7 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/27 10:41:57 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/27 14:18:31 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRC			= minishell.c \
 			execution/execution_first_cmd.c \
 			execution/execution_middle_cmd.c \
 			execution/execution_last_cmd.c \
+			execution/ft_pipes.c \
+			execution/ft_open_close.c \
 			execution/get_envp.c \
 			execution/waitpids.c \
 			expander/expander.c \
@@ -50,8 +52,9 @@ SRC			= minishell.c \
 			utils/free_and_print_msg.c\
 			utils/free_token_lst.c \
 			utils/utils.c \
-			utils/utils_execution.c \
 			utils/utils_open_close.c \
+			utils/utils_execution.c \
+			utils/ft_array.c \
 
 OBJ			= ${SRC:.c=.o}
 

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 16:19:36 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:24:18 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,10 @@ char	*get_home_relative_path(t_shell *shell, char *arg)
 	return (res);
 }
 
-int	execute_change_dir_to_old_pwd(t_shell *shell, t_pipe_node *node, char *path)
+int	execute_change_dir_to_old_pwd(t_shell *shell, char *path)
 {
 	int	result;
-	(void)node;
+
 	result = chdir(path);
 	if (result == 0)
 	{
@@ -79,7 +79,7 @@ int	execute_change_dir_to_old_pwd(t_shell *shell, t_pipe_node *node, char *path)
 	return (result);
 }
 
-int	get_old_pwd_path(t_shell *shell, t_pipe_node *node)
+int	get_old_pwd_path(t_shell *shell)
 {
 	int		oldpwd_index;
 	char	*path;
@@ -98,5 +98,5 @@ int	get_old_pwd_path(t_shell *shell, t_pipe_node *node)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (EPERM);
 	}
-	return (execute_change_dir_to_old_pwd(shell, node, path));
+	return (execute_change_dir_to_old_pwd(shell, path));
 }

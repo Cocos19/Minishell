@@ -6,16 +6,16 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:42 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 16:14:22 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:20:58 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_pwd(t_shell *shell, t_pipe_node *node)
+int	builtin_pwd(void)
 {
 	char	*result;
-	(void)node;
+
 	result = NULL;
 	result = getcwd(result, NAME_MAX);
 	if (!result)
@@ -23,6 +23,5 @@ int	builtin_pwd(t_shell *shell, t_pipe_node *node)
 	write(1, result, ft_strlen(result));
 	write(1, "\n", 1);
 	free(result);
-	(void) shell;
 	return (0);
 }

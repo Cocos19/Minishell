@@ -1,33 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution_first_cmd.c                              :+:      :+:    :+:   */
+/*   ft_array.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 12:33:58 by cmartino         ###   ########.fr       */
+/*   Created: 2023/06/27 14:17:21 by cmartino          #+#    #+#             */
+/*   Updated: 2023/06/27 14:18:06 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	first_cmd(t_shell *shell, t_pipe_node *cmd)
+int	len_tab(char **tb)
 {
-	find_path(shell, cmd);
-	if (cmd->iofiles[0] == 1)
-	{
-		dup2(cmd->fdio[0], STDIN_FILENO);
-		ft_close(cmd->fd[0], "13");
-	}
-	if (cmd->iofiles[1] == 1)
-	{
-		dup2(cmd->fdio[1], STDOUT_FILENO);
-		ft_close(cmd->fd[1], "14");
-	}
-	else if (shell->nbr_cmds > 1)
-	{
-		dup2(shell->pipefd[0][1], STDOUT_FILENO);
-		ft_close(shell->pipefd[0][1], "15");
-	}
+	int	i;
+
+	i = 0;
+	if (!tb)
+		return (0);
+	while (tb[i])
+		++i;
+	return (i);
+}
+
+void	init_empty_env_array(t_shell *shell)
+{
+	shell->envp = malloc(sizeof(char *));
+	if (!shell->envp)
+		print_str_error_and_exit();
+	shell->envp[0] = NULL;
 }

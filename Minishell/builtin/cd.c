@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 10:02:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:24:47 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ int	builtin_cd(t_shell *shell, t_pipe_node *node)
 
 	if (node->arguments[1] && node->arguments[1][0] == '-'
 		&& node->arguments[1][1] == '\0')
-		return (get_old_pwd_path(shell, node));
+		return (get_old_pwd_path(shell));
 	path = get_path(shell, node);
 	return (execute_change_dir(shell, node, path));
 }

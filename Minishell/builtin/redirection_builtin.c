@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection_builtin.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/26 10:32:33 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:21:36 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	redirection_builtin(t_shell *shell, t_pipe_node *pipe)
 	else if (ft_strcmp(pipe->arguments[0], "export") == 0)
 		shell->last_exit_status = builtin_export(shell, pipe);
 	else if (ft_strcmp(pipe->arguments[0], "pwd") == 0)
-		shell->last_exit_status = builtin_pwd(shell, pipe);
+		shell->last_exit_status = builtin_pwd();
 	else if (ft_strcmp(pipe->arguments[0], "unset") == 0)
 		shell->last_exit_status = builtin_unset(shell, pipe);
 	else

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 10:46:24 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:13:35 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,10 @@ void	create_pids(t_shell *shell, t_pipe_node *pipe)
 {
 	int	size;
 
-	size = ft_lstsize_pipe(pipe);
+	size = lstsize_cmd(pipe);
 	shell->pids = ft_calloc(sizeof(int), size);
 	if (!shell->pids)
 		exit(EXIT_FAILURE);
-}
-
-void	ft_pipe(t_shell *shell, t_pipe_node *cmd)
-{	
-	pipe(cmd->fd);
-	if (cmd->fd[0] == -1 || cmd->fd[1] == -1)
-		exit(EXIT_FAILURE);
-	(void)shell;
 }
 
 int	ft_fork(t_shell *shell)
@@ -60,21 +52,4 @@ void	ft_exit_cmd(t_shell *shell, int exit_code)
 {
 	shell->exit = 0;
 	shell->last_exit_status = exit_code;
-}
-
-void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
-{
-	printf("in openiofile\n");
-	if (files->type == 'i' && shell->exit == 1)
-	{
-		pipe->fdio[0] = ft_open_infile(shell, files);
-		pipe->iofiles[0] = 1;
-	}
-	if (files->type == 'o' && shell->exit == 1)
-	{
-		pipe->fdio[1] = ft_open_outfile(shell, files);
-		pipe->iofiles[1] = 1;
-	}
-	if (files->next && shell->exit == 1)
-		openiofile(shell, pipe, files->next);
 }

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 11:51:07 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:24:39 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,14 +103,14 @@ typedef struct s_shell_infos
 int			builtin_cd(t_shell *shell, t_pipe_node *node);
 char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
 char		*get_home_relative_path(t_shell *shell, char *arg);
-int			get_old_pwd_path(t_shell *shell, t_pipe_node *node);
+int			get_old_pwd_path(t_shell *shell);
 void		update_env_var(t_shell *shell, char *to_update, char *new_val);
 int			builtin_echo(t_shell *shell, t_pipe_node *node);
 int			builtin_env(t_shell *shell, t_pipe_node *node);
 int			builtin_export(t_shell *shell, t_pipe_node *node);
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
-int			builtin_pwd(t_shell *shell, t_pipe_node *node);
+int			builtin_pwd(void);
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
 int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
 int			is_builtin(t_pipe_node *pipe);
@@ -125,7 +125,6 @@ void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 /*EXECUTION*/
 
 int			ft_fork(t_shell *shell);
-void		ft_pipe(t_shell *shell, t_pipe_node *pipe);
 void		ft_dup2(t_shell *shell, int fd, int input);
 char		*cmd_exist(t_shell *shell, char **envp, char **arg);
 void		execution(t_shell *shell);
@@ -217,12 +216,13 @@ int			token_list_is_valid(t_shell *shell);
 char		*ft_strjoin_protected(char *s1, char *s2);
 char		*get_string_from_fd(int fd);
 int			len_tab(char **tb);
-int			ft_lstsize_pipe(t_pipe_node *lst);
-int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
+int			lstsize_cmd(t_pipe_node *cmd);
+// int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
-int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
+// int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
 void		ft_close(int fd, char *msg);
+void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_copy_fd(t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);
@@ -234,5 +234,10 @@ void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
 void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
 void		print_redir_datas_lst(t_redir_datas *datas_lst);
+
+void	find_path(t_shell *shell, t_pipe_node *pipe);
+int	*create_mini_pipe(void);
+int	**init_pipes(int nbr_pipes);
+int	ft_pipe(int **array, int pos);
 
 #endif

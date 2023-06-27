@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 16:14:20 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 14:23:03 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*get_echo_result(char **argv)
 int	builtin_echo(t_shell *shell, t_pipe_node *node)
 {
 	char	*result;
-	(void)node;
+
 	result = get_echo_result(node->arguments);
 	write(1, result, ft_strlen(result));
 	free(result);

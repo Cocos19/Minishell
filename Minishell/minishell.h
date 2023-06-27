@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 10:24:50 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/27 11:51:07 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,8 @@ typedef struct s_shell_infos
 	int					last_exit_status;
 	int					exit;
 	int					*pids;
+	int					**pipefd;
+	int					nbr_cmds;
 	t_token				*token_lst;
 	t_pipe_node			*pipe_lst;
 }	t_shell;
@@ -132,11 +134,11 @@ void		free_all_tab(char **p_tab, int len);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
-void		ft_waitpids(t_shell *shell, t_pipe_node *pipe);
-void		execution_single_cmd(t_shell *shell, t_pipe_node *pipe);
-void		first_cmd(t_shell *shell, t_pipe_node *pipe);
-void		middle_cmd(t_shell *shell, t_pipe_node *pipe, int i);
-void		last_cmd(t_shell *shell, t_pipe_node *pipe, int i);
+void		ft_waitpids(t_shell *shell);
+void		execution_single_cmd(t_shell *shell, t_pipe_node *cmd);
+void		first_cmd(t_shell *shell, t_pipe_node *cmd);
+void		middle_cmd(t_shell *shell, t_pipe_node *cmd, int i);
+void		last_cmd(t_shell *shell, t_pipe_node *cmd, int i);
 void		find_path(t_shell *shell, t_pipe_node *pipe);
 
 /*EXPAND*/
@@ -220,8 +222,7 @@ int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
 int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
-void		ft_close_files(int fd, char *name);
-void		ft_close(int fd);
+void		ft_close(int fd, char *msg);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_copy_fd(t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);

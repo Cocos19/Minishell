@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/23 11:52:55 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/27 10:46:24 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	create_pids(t_shell *shell, t_pipe_node *pipe)
 		exit(EXIT_FAILURE);
 }
 
-void	ft_pipe(t_shell *shell, t_pipe_node *pip)
+void	ft_pipe(t_shell *shell, t_pipe_node *cmd)
 {	
-	pipe(pip->fd);
-	if (pip->fd[0] == -1 || pip->fd[1] == -1)
+	pipe(cmd->fd);
+	if (cmd->fd[0] == -1 || cmd->fd[1] == -1)
 		exit(EXIT_FAILURE);
 	(void)shell;
 }
@@ -64,15 +64,14 @@ void	ft_exit_cmd(t_shell *shell, int exit_code)
 
 void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
 {
+	printf("in openiofile\n");
 	if (files->type == 'i' && shell->exit == 1)
 	{
-		// printf("infile : %s -> code %c\n", files->value, files->type);
 		pipe->fdio[0] = ft_open_infile(shell, files);
 		pipe->iofiles[0] = 1;
 	}
 	if (files->type == 'o' && shell->exit == 1)
 	{
-		// printf("outfile : %s -> code %c\n", files->value, files->type);
 		pipe->fdio[1] = ft_open_outfile(shell, files);
 		pipe->iofiles[1] = 1;
 	}

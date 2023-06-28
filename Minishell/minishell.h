@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 14:24:39 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:41:07 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,6 @@ typedef struct s_token
 	struct s_token		*next;
 }	t_token;
 
-/* PIPE NODES */
-
-typedef struct s_file_datas
-{
-	int					mode;
-	char				*value;
-	struct s_file_datas	*last;
-	struct s_file_datas	*next;
-}	t_file_datas;
-
 typedef struct s_redir_datas
 {
 	int						mode;
@@ -74,8 +64,6 @@ typedef struct s_pipe_node
 	int							fd[2];
 	int							iofiles[2];
 	t_redir_datas				*in_out_redir_list;
-	t_file_datas				*input_file_lst;
-	t_file_datas				*output_file_lst;
 	struct s_pipe_node			*next;
 }	t_pipe_node;
 
@@ -159,7 +147,6 @@ char		*get_value_to_append(char *var);
 void		free_shell(t_shell *shell);
 void		free_pipe_lst(t_shell *shell);
 void		free_token_lst(t_shell *shell);
-void		free_file_datas_list(t_file_datas *lst);
 t_token		*free_arg_lst(t_token *lst);
 void		free_and_print_custom_message(t_shell *shell, char *message);
 
@@ -195,8 +182,7 @@ void		desact_squit_handler(t_shell *shell);
 
 /* TERMINAL */
 
-void		init_terminal(t_shell *shell, char **envp);
-void		init_empty_env_array(t_shell *shell);
+void		init_shell(t_shell *shell, char **envp);
 void		act_vquit(t_shell *shell);
 void		desact_vquit(t_shell *shell);
 
@@ -217,9 +203,7 @@ char		*ft_strjoin_protected(char *s1, char *s2);
 char		*get_string_from_fd(int fd);
 int			len_tab(char **tb);
 int			lstsize_cmd(t_pipe_node *cmd);
-// int			ft_open_infiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
-// int			ft_open_outfiles(t_shell *shell, t_pipe_node *pipe);
 int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
 void		ft_close(int fd, char *msg);
 void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
@@ -235,9 +219,9 @@ void		print_fd_content(int fd);
 void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
 void		print_redir_datas_lst(t_redir_datas *datas_lst);
 
-void	find_path(t_shell *shell, t_pipe_node *pipe);
-int	*create_mini_pipe(void);
-int	**init_pipes(int nbr_pipes);
-int	ft_pipe(int **array, int pos);
+void		find_path(t_shell *shell, t_pipe_node *pipe);
+int			*create_mini_pipe(void);
+int			**init_pipes(int nbr_pipes);
+int			ft_pipe(int **array, int pos);
 
 #endif

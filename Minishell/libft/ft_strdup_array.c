@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:20:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/12 13:57:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:06:05 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ char	**ft_strdup_array(char **str_array)
 
 	i = 0;
 	array_len = ft_strarraylen(str_array);
-	if (array_len == 0)
-		return (NULL);
 	result = malloc((array_len + 1) * sizeof(char *));
 	if (!result)
 		return (NULL);

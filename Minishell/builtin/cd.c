@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 14:24:47 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 09:04:47 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	update_envp(t_shell *shell, char *path)
 	update_env_var(shell, "PWD=", path);
 }
 
-int	execute_change_dir(t_shell *shell, t_pipe_node *node, char *path)
+int	execute_change_dir(t_shell *shell, char *path)
 {
 	int	result;
 
@@ -56,14 +56,9 @@ int	execute_change_dir(t_shell *shell, t_pipe_node *node, char *path)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (EPERM);
 	}
-	if (node->fdio[0] == 1 && node->fdio[1] != 1)
-	{
-		result = chdir(path);
-		if (result == 0)
-			update_envp(shell, path);
-	}
-	else
-		result = 0;
+	result = chdir(path);
+	if (result == 0)
+		update_envp(shell, path);
 	free(path);
 	return (result);
 }
@@ -98,5 +93,5 @@ int	builtin_cd(t_shell *shell, t_pipe_node *node)
 		&& node->arguments[1][1] == '\0')
 		return (get_old_pwd_path(shell));
 	path = get_path(shell, node);
-	return (execute_change_dir(shell, node, path));
+	return (execute_change_dir(shell, path));
 }

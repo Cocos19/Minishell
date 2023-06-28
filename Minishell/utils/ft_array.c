@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_array.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:17:21 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 14:18:06 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:39:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,4 @@ int	len_tab(char **tb)
 	while (tb[i])
 		++i;
 	return (i);
-}
-
-void	init_empty_env_array(t_shell *shell)
-{
-	shell->envp = malloc(sizeof(char *));
-	if (!shell->envp)
-		print_str_error_and_exit();
-	shell->envp[0] = NULL;
 }

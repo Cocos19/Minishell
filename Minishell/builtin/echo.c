@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 14:23:03 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:37:28 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,16 @@ char	*get_echo_result(char **argv)
 	int		i;
 	int		n_option;
 
-	result = malloc(sizeof(char));
-	if (!result)
-		print_str_error_and_exit();
-	result[0] = '\0';
 	if (!argv[1])
-	{
-		free(result);
 		return (ft_strdup("\n"));
-	}
 	i = 0;
 	n_option = ft_strcmp("-n", argv[1]);
 	if (n_option == 0)
 		++i;
+	result = malloc(sizeof(char));
+	if (!result)
+		print_str_error_and_exit();
+	result[0] = '\0';
 	while (argv[++i])
 	{
 		if (result[0] != '\0')

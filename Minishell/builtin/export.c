@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 14:22:46 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:31:39 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,6 @@ void	ft_print_export_array_fd(char **str_array)
 		write(1, "\n", 1);
 }
 
-int	write_export_array_to_outputs(char **result, t_file_datas *output_lst)
-{
-	t_file_datas	*current_output;
-	int				fd;
-
-	current_output = output_lst;
-	while (current_output)
-	{
-		if (current_output->mode == 1)
-			fd = open(current_output->value, O_WRONLY | O_CREAT | O_TRUNC,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-		else
-			fd = open(current_output->value, O_WRONLY | O_APPEND | O_CREAT,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-		if (fd == -1)
-			print_info_str_error_and_exit(current_output->value);
-		if (!current_output->next)
-		{
-			ft_print_export_array_fd(result);
-			return (1);
-		}
-		close(fd);
-		current_output = current_output->next;
-	}
-	return (0);
-}
-
 int	execute_export(t_shell *shell, t_pipe_node *node)
 {
 	int		i;
@@ -76,7 +49,6 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 	i = 0;
 	while (node->arguments[++i])
 	{
-		printf("arg: [%s]\n", node->arguments[i]);
 		result = export(shell, node->arguments[i]);
 		if (result != 0)
 			return (result);

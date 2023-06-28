@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 13:56:16 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 09:51:17 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,11 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 	else
 		middle_cmd(shell, cmd, pos);
 	if (redirection_builtin(shell, cmd) == 0)
+	{
+		desact_sint_handler(shell);
+		desact_squit_handler(shell);
 		execve(cmd->path, cmd->arguments, shell->envp);
+	}
 	exit(EXIT_FAILURE);
 }
 

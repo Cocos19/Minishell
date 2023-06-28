@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_signals_activation.c                     :+:      :+:    :+:   */
+/*   activation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 15:20:38 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:06:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:02:43 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	act_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *))
 void	desact_squit_handler(t_shell *shell)
 {
 	shell->sigquit_processing->sa_handler = SIG_DFL;
+	shell->sigquit_processing->sa_flags = 0;
+	shell->sigquit_processing->sa_mask = 0;
 	if (sigaction(SIGQUIT, shell->sigquit_processing, NULL) == -1)
 		print_str_error_and_exit();
 }

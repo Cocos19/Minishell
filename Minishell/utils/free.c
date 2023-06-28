@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/22 10:25:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:33:59 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,21 +35,6 @@ void	free_shell(t_shell *shell)
 		free(shell);
 }
 
-void	free_file_datas_list(t_file_datas *lst)
-{
-	t_file_datas	*temp;
-
-	while (lst)
-	{
-		temp = lst->next;
-		if (lst->value)
-			free(lst->value);
-		free(lst);
-		lst = temp;
-	}
-	lst = NULL;
-}
-
 void	free_redir_datas_list(t_redir_datas *lst)
 {
 	t_redir_datas	*temp;
@@ -74,10 +59,6 @@ void	free_pipe_lst(t_shell *shell)
 		if (shell->pipe_lst->arguments)
 			shell->pipe_lst->arguments
 				= ft_free_str_array(shell->pipe_lst->arguments);
-		if (shell->pipe_lst->input_file_lst)
-			free_file_datas_list(shell->pipe_lst->input_file_lst);
-		if (shell->pipe_lst->output_file_lst)
-			free_file_datas_list(shell->pipe_lst->output_file_lst);
 		if (shell->pipe_lst->in_out_redir_list)
 			free_redir_datas_list(shell->pipe_lst->in_out_redir_list);
 		temp = shell->pipe_lst->next;

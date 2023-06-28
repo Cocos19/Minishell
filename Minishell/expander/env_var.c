@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_expander_env_var.c                       :+:      :+:    :+:   */
+/*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:04:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:57:29 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*is_an_envp_var(t_shell *shell, char *str)
 	}
 	i = -1;
 	var_len = ft_strlen(str);
-	while (shell->envp[++i])
+	while (shell->envp && shell->envp[++i])
 	{
 		if (ft_strncmp(shell->envp[i], str, var_len) == 0)
 		{

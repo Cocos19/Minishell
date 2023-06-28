@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/22 10:43:31 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:12:22 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	input_is_readable(t_shell *shell)
 	char	*str;
 
 	str = shell->input;
-	while(str && *str)
+	while (str && *str)
 	{
 		if (*str != 9 && *str != ' ')
 			return (0);
@@ -83,10 +83,6 @@ char	*give_prompt(t_shell *shell)
 	}
 	shell->input = user_input;
 	if (!user_input)
-	{
-		if (shell->envp[0] == NULL)
-			write(1, "\n", 1);
-		print_info_and_exit("\bexit\n", shell->last_exit_status);
-	}
+		print_info_and_exit("exit\n", shell->last_exit_status);
 	return (user_input);
 }

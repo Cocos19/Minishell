@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/27 14:24:18 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:40:23 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+char	*handle_path_error(char *temp)
+{
+	if (!temp)
+		print_str_error_and_exit();
+	else if (temp[0] == '\0')
+	{
+		printf("minishell: cd: PATH not set\n");
+		free(temp);
+		return (NULL);
+	}
+}
 
 char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
 {
@@ -19,8 +31,8 @@ char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
 	char	*new_str_end;
 
 	temp = search_and_expand_env_var(shell, ft_strdup("$PWD"));
-	if (!temp)
-		print_str_error_and_exit();
+	if (!temp || temp[0])
+		return (handle_path_error(temp));
 	if (node->arguments[1][1] == '.')
 	{
 		if (temp[0] == '/' && ft_strlen(temp) == 1)

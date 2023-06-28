@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 13:42:09 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/28 11:28:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,16 +30,13 @@ void	desact_vquit(t_shell *shell)
 		print_str_error_and_exit();
 }
 
-void	init_shell_environnement(t_shell *shell, char **envp)
+void	init_environnement(t_shell *shell, char **envp)
 {
 	char	*temp;
 	char	*new_shlvl;
 	int		val;
 
-	if (!envp || !envp[0])
-		init_empty_env_array(shell);
-	else
-		shell->envp = ft_strdup_array(envp);
+	shell->envp = ft_strdup_array(envp);
 	val = 0;
 	temp = search_and_expand_env_var(shell, ft_strdup("$SHLVL"));
 	if (temp[0] != '\0')
@@ -54,7 +51,7 @@ void	init_shell_environnement(t_shell *shell, char **envp)
 	free(new_shlvl);
 }
 
-void	init_shell_signals(t_shell *shell)
+void	init_signals(t_shell *shell)
 {
 	shell->sigint_processing = malloc(sizeof(struct sigaction));
 	if (!shell->sigint_processing)
@@ -66,7 +63,7 @@ void	init_shell_signals(t_shell *shell)
 	act_squit_handler(shell, &sigquit_shell_h);
 }
 
-void	init_terminal(t_shell *shell, char **envp)
+void	init_shell(t_shell *shell, char **envp)
 {
 	shell->term = malloc(sizeof(struct termios));
 	if (!shell->term)
@@ -78,7 +75,7 @@ void	init_terminal(t_shell *shell, char **envp)
 	shell->name = ft_strdup("minishell-1.0$ ");
 	if (!shell->name)
 		print_str_error_and_exit();
-	init_shell_environnement(shell, envp);
-	init_shell_signals(shell);
+	init_environnement(shell, envp);
+	init_signals(shell);
 	act_vquit(shell);
 }

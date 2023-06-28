@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/26 09:46:28 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/28 10:44:12 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	read_prompt(t_shell *shell)
 	user_input = give_prompt(shell);
 	if (user_input && input_is_valid(shell) == 0)
 	{
-		desact_sint_handler(shell);
-		desact_squit_handler(shell);
-		act_vquit(shell);
+		act_sint_handler(shell, &nosigint_shell_h);
 		add_history(user_input);
 		lexer(shell, user_input);
 		parser(shell);
@@ -32,10 +30,7 @@ void	read_prompt(t_shell *shell)
 			execution(shell);
 		free_pipe_lst(shell);
 		act_sint_handler(shell, &sigint_shell_h);
-		act_squit_handler(shell, &sigquit_shell_h);
-		desact_vquit(shell);
 	}
-	// shell->last_exit_status = g_exit_status;
 	g_exit_status = 0;
 	free(shell->input);
 }
@@ -48,7 +43,7 @@ int	main(int argc, char **argv, char **envp)
 	if (!shell)
 		print_str_error_and_exit();
 	g_exit_status = 0;
-	init_terminal(shell, envp);
+	init_shell(shell, envp);
 	while (1)
 		read_prompt(shell);
 	(void) argc;

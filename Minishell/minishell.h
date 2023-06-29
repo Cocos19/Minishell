@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 13:33:24 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:25:59 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_pipe_node
 	char						*path;
 	int							*pids;
 	int							fdio[2];
-	int							fd[2];
 	int							iofiles[2];
 	t_redir_datas				*in_out_redir_list;
 	struct s_pipe_node			*next;
@@ -201,7 +200,6 @@ int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
 void		ft_close(int fd, char *msg);
 void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
-void		ft_copy_fd(t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);
 void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
 

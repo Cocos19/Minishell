@@ -6,20 +6,20 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 10:17:39 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:39:43 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	next_file(t_redir_datas	*temp_lst, int fd, char *value)
+static void	next_file(t_redir_datas	*temp_lst, int fd, char *value, char type)
 {
 	while (temp_lst)
 	{
 		temp_lst = temp_lst->next;
 		if (temp_lst)
 		{
-			if (temp_lst->type == 'i')
+			if (temp_lst->type == type) 
 			{
 				ft_close(fd, value);
 				temp_lst = temp_lst->last;
@@ -40,7 +40,7 @@ int	ft_open_infile(t_shell *shell, t_redir_datas *input_lst)
 		perror(input_lst->value);
 		ft_exit_cmd(shell, 127);
 	}
-	next_file(temp_lst, fd, input_lst->value);
+	next_file(temp_lst, fd, input_lst->value, 'i');
 	return (fd);
 }
 
@@ -65,7 +65,7 @@ int	ft_open_outfile(t_shell *shell, t_redir_datas *output_lst)
 		perror(output_lst->value);
 		ft_exit_cmd(shell, 127);
 	}
-	next_file(temp_lst, fd, output_lst->value);
+	next_file(temp_lst, fd, output_lst->value, 'o');
 	return (fd);
 }
 

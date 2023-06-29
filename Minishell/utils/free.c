@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 10:52:38 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:09:50 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,20 +80,6 @@ void	free_all_tab(char **p_tab, int len)
 	}
 	free(p_tab);
 	p_tab = NULL;
-}
-
-int	**ft_free_all(int **array, size_t j)
-{
-	size_t	i;
-
-	i = 0;
-	while (i <= j)
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
-	return (NULL);
 }
 
 void	ft_free_execution(t_shell *shell)

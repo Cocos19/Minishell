@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 09:37:14 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:10:47 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void		free_pipe_lst(t_shell *shell);
 void		free_token_lst(t_shell *shell);
 t_token		*free_arg_lst(t_token *lst);
 void		free_and_print_custom_message(t_shell *shell, char *message);
-int		**ft_free_all(int **array, size_t j);
+int			**ft_free_all(int **array, size_t j);
 void		ft_free_execution(t_shell *shell);
 
 /* HEREDOC */

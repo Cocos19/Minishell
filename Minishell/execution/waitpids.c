@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/28 09:52:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:55:13 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ void	ft_waitpids(t_shell *shell)
 	i = 0;
 	while (i < shell->nbr_cmds)
 	{
-		if (waitpid(shell->pids[i], &status, 0) == -1)
-		{
-			// perror("waitpid");
-			// exit(WEXITSTATUS(status));
-			;
-		}
+		waitpid(shell->pids[i], &status, 0);
 		++i;
 	}
+	if (status == SIGINT)
+		shell->last_exit_status = EOWNER_DEAD;
+	else if (status == SIGQUIT)
+	{
+		printf("Quit: 3\n");
+		shell->last_exit_status = INTERRUPTED_BY_SIGNAL;
+	}
+	else
+		shell->last_exit_status = status / 256;
 }

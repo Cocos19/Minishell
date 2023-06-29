@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 11:41:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:21:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int	g_exit_status;
 # define EPERM 1
 # define ERR_SYNTAX 2
 # define EOWNER_DEAD 130
+# define INTERRUPTED_BY_SIGNAL 131
+
+# define DEFAULT_MODE 1
+# define HEREDOC_MODE 2
+# define CHILD_MODE 3
+# define IGNORE_MODE 4
 
 typedef struct s_token
 {
@@ -71,9 +77,6 @@ typedef struct s_pipe_node
 
 typedef struct s_shell_infos
 {
-	struct termios		*term;
-	struct sigaction	*sigint_processing;
-	struct sigaction	*sigquit_processing;
 	char				**envp;
 	char				*name;
 	char				*input;
@@ -171,20 +174,7 @@ int			input_is_valid(t_shell *shell);
 
 /* SIGNALS HANDLING */
 
-void		sigquit_shell_h(int signal_id, siginfo_t *sig_info, void *context);
-void		sigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
-void		nosigint_shell_h(int signal_id, siginfo_t *sig_info, void *context);
-void		sigint_hered_h(int signal_id, siginfo_t *sig_info, void *context);
-void		act_sint_handler(t_shell *shell, void f(int, siginfo_t *, void *));
-void		desact_sint_handler(t_shell *shell);
-void		act_squit_handler(t_shell *shell, void f(int, siginfo_t *, void *));
-void		desact_squit_handler(t_shell *shell);
-
-/* TERMINAL */
-
-void		init_shell(t_shell *shell, char **envp);
-void		act_vquit(t_shell *shell);
-void		desact_vquit(t_shell *shell);
+void		activate_signals(int mode);
 
 /* TOKENS */
 

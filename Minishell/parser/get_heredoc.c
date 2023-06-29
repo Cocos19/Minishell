@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 14:43:03 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 10:55:39 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:11:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	get_user_input(t_shell *shell, int count_line, char *keyword, int *fd)
 {
 	char	*input;
 
-	act_sint_handler(shell, &sigint_hered_h);
+	// act_sint_handler(shell, &sigint_hered_h);
 	while (1)
 	{
 		input = readline("> ");
@@ -76,6 +76,7 @@ int	get_heredoc(t_shell *shell, char *delimiter)
 	if (id == 0)
 	{
 		close(pipe_fds[0]);
+		activate_signals(HEREDOC_MODE);
 		get_user_input(shell, 0, delimiter, pipe_fds);
 	}
 	else

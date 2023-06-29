@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 11:40:23 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 08:57:03 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*handle_path_error(char *temp)
 	{
 		printf("minishell: cd: PATH not set\n");
 		free(temp);
-		return (NULL);
 	}
+	return (NULL);
 }
 
 char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
@@ -31,7 +31,7 @@ char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
 	char	*new_str_end;
 
 	temp = search_and_expand_env_var(shell, ft_strdup("$PWD"));
-	if (!temp || temp[0])
+	if (!temp || temp[0] == '\0')
 		return (handle_path_error(temp));
 	if (node->arguments[1][1] == '.')
 	{

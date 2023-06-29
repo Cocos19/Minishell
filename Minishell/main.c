@@ -1,34 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   shell_init.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/13 14:39:47 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 11:28:06 by mprofett         ###   ########.fr       */
+/*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
+/*   Updated: 2023/06/29 12:24:47 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	act_vquit(t_shell *shell)
-{
-	if (tcgetattr(0, shell->term) < 0)
-		print_str_error_and_exit();
-	shell->term->c_cc[VQUIT] = 1;
-	if (tcsetattr(0, TCSANOW, shell->term) < 0)
-		print_str_error_and_exit();
-}
-
-void	desact_vquit(t_shell *shell)
-{
-	if (tcgetattr(0, shell->term) < 0)
-		print_str_error_and_exit();
-	shell->term->c_cc[VQUIT] = 0;
-	if (tcsetattr(0, TCSANOW, shell->term) < 0)
-		print_str_error_and_exit();
-}
 
 void	init_environnement(t_shell *shell, char **envp)
 {
@@ -51,23 +33,8 @@ void	init_environnement(t_shell *shell, char **envp)
 	free(new_shlvl);
 }
 
-void	init_signals(t_shell *shell)
+void	init_shell(t_shell *shell)
 {
-	shell->sigint_processing = malloc(sizeof(struct sigaction));
-	if (!shell->sigint_processing)
-		print_str_error_and_exit();
-	shell->sigquit_processing = malloc(sizeof(struct sigaction));
-	if (!shell->sigquit_processing)
-		print_str_error_and_exit();
-	act_sint_handler(shell, &sigint_shell_h);
-	act_squit_handler(shell, &sigquit_shell_h);
-}
-
-void	init_shell(t_shell *shell, char **envp)
-{
-	shell->term = malloc(sizeof(struct termios));
-	if (!shell->term)
-		print_str_error_and_exit();
 	shell->input = NULL;
 	shell->token_lst = NULL;
 	shell->pipe_lst = NULL;
@@ -75,7 +42,48 @@ void	init_shell(t_shell *shell, char **envp)
 	shell->name = ft_strdup("minishell-1.0$ ");
 	if (!shell->name)
 		print_str_error_and_exit();
-	init_environnement(shell, envp);
-	init_signals(shell);
-	act_vquit(shell);
 }
+
+void	read_prompt(t_shell *shell)
+{
+	char	*user_input;
+
+	user_input = give_prompt(shell);
+	if (g_exit_status == EOWNER_DEAD)
+		shell->last_exit_status = EOWNER_DEAD;
+	if (user_input && input_is_valid(shell) == 0)
+	{
+		add_history(user_input);
+		lexer(shell, user_input);
+		parser(shell);
+		activate_signals(IGNORE_MODE);
+		if (shell->pipe_lst && !shell->pipe_lst->next
+			&& (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
+			single_cmd_builtin_exit(shell, shell->pipe_lst);
+		else if (shell->pipe_lst)
+			execution(shell);
+		activate_signals(DEFAULT_MODE);
+		free_pipe_lst(shell);
+	}
+	g_exit_status = 0;
+	free(shell->input);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
+	t_shell	*shell;
+
+	shell = malloc(sizeof(t_shell));
+	if (!shell)
+		print_str_error_and_exit();
+	g_exit_status = 0;
+	init_shell(shell);
+	init_environnement(shell, envp);
+	activate_signals(DEFAULT_MODE);
+	while (1)
+		read_prompt(shell);
+	(void) argc;
+	(void) argv;
+	return (0);
+}
+

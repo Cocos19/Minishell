@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
+#    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/27 14:18:31 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/29 12:25:11 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
-SRC			= minishell.c \
+SRC			= main.c \
 			minishell_temp.c \
 			builtin/cd.c \
 			builtin/cd_utils.c \
@@ -44,10 +44,8 @@ SRC			= minishell.c \
 			parser/get_heredoc.c \
 			parser/parse_arguments.c \
 			parser/parse_redirections.c \
-			prompt.c \
-			signals/activation.c \
+			prompt/prompt.c \
 			signals/signals.c \
-			shell_init.c \
 			utils/free.c \
 			utils/free_and_print_msg.c\
 			utils/free_token_lst.c \
@@ -70,7 +68,7 @@ CC			= gcc
 
 RM			= rm -f
 
-C_FLAGS	= -Wall -Wextra -Werror -fsanitize=address -g
+C_FLAGS	= -Wall -Wextra -Werror
 
 %.o: %.c
 	$(CC) $(C_FLAGS) -I/${HOME}/.brew/opt/readline/include -c $< -o $@

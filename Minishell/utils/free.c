@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 10:33:59 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:13:35 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,6 @@ void	free_shell(t_shell *shell)
 		ft_free_str_array(shell->envp);
 	if (shell->token_lst)
 		free_token_lst(shell);
-	if (shell->term)
-	{
-		act_vquit(shell);
-		free(shell->term);
-	}
-	if (shell->sigint_processing)
-		free(shell->sigint_processing);
-	if (shell->sigquit_processing)
-		free(shell->sigquit_processing);
 	if (shell->name)
 		free(shell->name);
 	if (shell->input)

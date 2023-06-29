@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/28 09:51:17 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:11:27 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_close_children(int pos, t_shell *shell, t_pipe_node *cmd)
 
 void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 {
+	activate_signals(CHILD_MODE);
 	ft_close_children(pos, shell, cmd);
 	if (pos == 0)
 		first_cmd(shell, shell->pipe_lst);
@@ -44,11 +45,7 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 	else
 		middle_cmd(shell, cmd, pos);
 	if (redirection_builtin(shell, cmd) == 0)
-	{
-		desact_sint_handler(shell);
-		desact_squit_handler(shell);
 		execve(cmd->path, cmd->arguments, shell->envp);
-	}
 	exit(EXIT_FAILURE);
 }
 

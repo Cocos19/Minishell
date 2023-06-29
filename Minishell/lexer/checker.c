@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:12:58 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:02:48 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:11:33 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int	token_list_is_valid(t_shell *shell)
 	return (0);
 }
 
-void	give_pipe_prompt(t_shell *shell, int *fd)
+// void	give_pipe_prompt(t_shell *shell, int *fd)
+void	give_pipe_prompt(int *fd)
 {
 	char	*input;
 
 	close(fd[0]);
-	act_sint_handler(shell, &sigint_hered_h);
+	// act_sint_handler(shell, &sigint_hered_h);
 	input = readline("pipe> ");
 	if (!input)
 		exit(130);
@@ -42,7 +43,7 @@ void	get_pipe_prompt_result_and_free_pipe(int *pipe_fds)
 	close(pipe_fds[1]);
 }
 
-int	get_pipe_input(t_shell *shell)
+int	get_pipe_input(void)
 {
 	int	pipe_fds[2];
 	int	id;
@@ -55,7 +56,8 @@ int	get_pipe_input(t_shell *shell)
 	if (id == 0)
 	{
 		close(pipe_fds[0]);
-		give_pipe_prompt(shell, pipe_fds);
+		activate_signals(HEREDOC_MODE);
+		give_pipe_prompt(pipe_fds);
 	}
 	else
 		get_pipe_prompt_result_and_free_pipe(pipe_fds);
@@ -73,9 +75,7 @@ void	complete_token(t_shell *shell)
 	int		fd;
 	t_token	*add_to_token_lst;
 
-	act_sint_handler(shell, &nosigint_shell_h);
-	fd = get_pipe_input(shell);
-	desact_sint_handler(shell);
+	fd = get_pipe_input();
 	shell->last_exit_status = g_exit_status;
 	g_exit_status = 0;
 	if (fd != -1)

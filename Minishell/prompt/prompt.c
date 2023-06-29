@@ -6,11 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 10:15:24 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 11:12:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:25:25 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	print_syntax_error(t_shell *shell, int s_quotes, int d_quotes)
 {

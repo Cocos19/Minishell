@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 11:55:13 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:05:22 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,10 @@ void	ft_waitpids(t_shell *shell)
 		shell->last_exit_status = INTERRUPTED_BY_SIGNAL;
 	}
 	else
-		shell->last_exit_status = status / 256;
+	{
+		if (status != 256)
+			shell->last_exit_status = status / 256;
+		else
+			shell->last_exit_status = 0;
+	}
 }

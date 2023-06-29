@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 11:40:23 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 08:52:45 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*handle_path_error(char *temp)
 	{
 		printf("minishell: cd: PATH not set\n");
 		free(temp);
-		return (NULL);
 	}
+	return (NULL);
 }
 
 char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)

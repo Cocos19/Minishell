@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 10:31:03 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 09:34:16 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ t_pipe_node	*init_pipe_node(void)
 	result->arguments = NULL;
 	result->in_out_redir_list = NULL;
 	result->next = NULL;
+	result->path = NULL;
+	result->pids = NULL;
 	return (result);
 }
 

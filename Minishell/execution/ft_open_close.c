@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_open_close.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/28 09:47:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 10:17:39 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,13 +34,7 @@ int	ft_open_infile(t_shell *shell, t_redir_datas *input_lst)
 	t_redir_datas	*temp_lst;
 
 	temp_lst = input_lst;
-	if (input_lst->mode == 1)
-		fd = open(input_lst->value, O_RDONLY);
-	else
-	{
-		printf("heredoc -> to do\n");
-		exit(0);
-	}
+	fd = open(input_lst->value, O_RDONLY);
 	if (fd == -1)
 	{
 		perror(input_lst->value);

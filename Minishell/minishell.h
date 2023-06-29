@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 14:25:59 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:33:03 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct s_pipe_node
 	int							*pids;
 	int							fdio[2];
 	int							iofiles[2];
+	int							dup_stdout;
 	t_redir_datas				*in_out_redir_list;
 	struct s_pipe_node			*next;
 }	t_pipe_node;

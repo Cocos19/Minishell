@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 10:31:36 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:44:12 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	find_path(t_shell *shell, t_pipe_node *pipe)
 	char	*cmd_final;
 
 	cmd = cmd_exist(shell, shell->envp, pipe->arguments);
-	printf("cmd = %s\n", cmd);
 	if (shell->exit == 0)
 	{
 		free(cmd);

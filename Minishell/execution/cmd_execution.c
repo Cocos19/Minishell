@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 12:34:12 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:04:57 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,12 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 	else
 		middle_cmd(shell, cmd, pos);
 	if (redirection_builtin(shell, cmd) == 0)
+	{
+		if (shell->last_exit_status == 127)
+			exit (COMMAND_NOT_FOUND);
 		execve(cmd->path, cmd->arguments, shell->envp);
-	exit(EXIT_FAILURE);
+	}
+	exit (EXIT_FAILURE);
 }
 
 void	loop_execution(t_shell *shell, t_pipe_node	*cmd)

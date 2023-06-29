@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:32:49 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 13:33:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	g_exit_status;
 
 # define EPERM 1
 # define ERR_SYNTAX 2
+# define COMMAND_NOT_FOUND 127
 # define EOWNER_DEAD 130
 # define INTERRUPTED_BY_SIGNAL 131
 

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:13:35 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:34:26 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,22 @@ void	free_all_tab(char **p_tab, int len)
 	}
 	free(p_tab);
 	p_tab = NULL;
+}
+
+void	ft_free_execution(t_shell *shell)
+{
+	t_pipe_node	*cmd;
+
+	cmd = shell->pipe_lst;
+	if (shell->pipefd)
+		ft_free_all(shell->pipefd, shell->nbr_cmds);
+	while (cmd->path)
+	{
+		free(cmd->path);
+		cmd = cmd->next;
+	}
+	if (cmd->pids)
+		free(cmd->pids);
+	if (shell->pids)
+		free(shell->pids);
 }

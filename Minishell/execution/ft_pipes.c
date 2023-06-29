@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:50:14 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 13:52:02 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 10:57:09 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int	**init_pipes(int nbr_pipes)
 	while (i < nbr_pipes)
 	{
 		array[i] = create_mini_pipe();
+		if (!array[i])
+			return (ft_free_all(array, i));
 		i++;
 	}
 	array[i] = NULL;

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 09:41:47 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 11:01:15 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,21 @@ static int	ft_test_cmd(char *path, char *cmd)
 	return (1);
 }
 
+char	*cmd_does_not_exist(t_shell *shell, char **arg)
+{
+	shell->last_exit_status = 127;
+	shell->exit = 0;
+	cmd_not_found(arg[0]);
+	return (NULL);
+}
+
 char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 {
 	int		i;
+	char	*result;
 	char	**path;
 
+	result = NULL;
 	if (access(arg[0], X_OK) == 0)
 		return (arg[0]);
 	else
@@ -56,13 +66,14 @@ char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 		while (path && path[i])
 		{
 			if (ft_test_cmd(path[i], arg[0]) == 0)
-				return (path[i]);
+			{
+				result = ft_strdup(path[i]);
+				free_all_tab(path, len_tab(path));
+				return (result);
+			}
 			++i;
 		}
 		free_all_tab(path, len_tab(path));
 	}
-	shell->last_exit_status = 127;
-	shell->exit = 0;
-	cmd_not_found(arg[0]);
-	return (NULL);
+	return (cmd_does_not_exist(shell, arg));
 }

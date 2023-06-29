@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/29 12:25:11 by mprofett         ###   ########.fr        #
+#    Updated: 2023/06/29 12:33:31 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC			= main.c \
 			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
-			execution/execution_single_cmd.c \
+			execution/execution_single_builtin.c \
 			execution/execution_first_cmd.c \
 			execution/execution_middle_cmd.c \
 			execution/execution_last_cmd.c \
@@ -68,7 +68,7 @@ CC			= gcc
 
 RM			= rm -f
 
-C_FLAGS	= -Wall -Wextra -Werror
+C_FLAGS	= -Wall -Wextra -Werror #-fsanitize=address -g
 
 %.o: %.c
 	$(CC) $(C_FLAGS) -I/${HOME}/.brew/opt/readline/include -c $< -o $@

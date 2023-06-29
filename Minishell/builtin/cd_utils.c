@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 08:57:03 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:34:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ char	*handle_path_error(char *temp)
 		printf("minishell: cd: PATH not set\n");
 		free(temp);
 	}
+	return (NULL);
 	return (NULL);
 }
 

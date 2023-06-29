@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:21:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/29 12:32:49 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
 void		free_all_tab(char **p_tab, int len);
 void		ft_waitpids(t_shell *shell);
-void		execution_single_cmd(t_shell *shell, t_pipe_node *cmd);
+void		execution_single_builtin(t_shell *shell, t_pipe_node *cmd);
 void		first_cmd(t_shell *shell, t_pipe_node *cmd);
 void		middle_cmd(t_shell *shell, t_pipe_node *cmd, int i);
 void		last_cmd(t_shell *shell, t_pipe_node *cmd, int i);
@@ -152,6 +152,8 @@ void		free_pipe_lst(t_shell *shell);
 void		free_token_lst(t_shell *shell);
 t_token		*free_arg_lst(t_token *lst);
 void		free_and_print_custom_message(t_shell *shell, char *message);
+int			**ft_free_all(int **array, size_t j);
+void		ft_free_execution(t_shell *shell);
 
 /* HEREDOC */
 

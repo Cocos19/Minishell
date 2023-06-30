@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 10:02:04 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:33:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:49:09 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	read_prompt(t_shell *shell)
 		parser(shell);
 		activate_signals(IGNORE_MODE);
 		if (shell->pipe_lst && !shell->pipe_lst->next
-			&& (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
+			&& shell->pipe_lst->arguments && (ft_strcmp("exit", shell->pipe_lst->arguments[0]) == 0))
 			single_cmd_builtin_exit(shell, shell->pipe_lst);
 		else if (shell->pipe_lst)
 			execution(shell);

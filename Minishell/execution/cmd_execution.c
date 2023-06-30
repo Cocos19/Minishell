@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:41:14 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:50:14 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 			return ;
 		}
 		if (cmd->next)
-			ft_pipe(shell->pipefd, i);
+			 ft_pipe(shell->pipefd,i);
 		shell->pids[i] = ft_fork(shell);
 		if (shell->pids[i] == -1)
 			return ;
@@ -97,7 +97,7 @@ void	execution(t_shell *shell)
 	shell->pipefd = init_pipes(shell->nbr_cmds);
 	create_pids(shell, cmd);
 	loop_execution(shell, cmd, 0);
-	if (shell->nbr_cmds != 0)
+	if (shell->nbr_cmds != 0 && shell->exit ==1)
 		ft_waitpids(shell);
 	ft_free_execution(shell);
 }

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:25:41 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:51:13 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	execution_single_builtin(t_shell *shell, t_pipe_node *cmd)
 		if (cmd->iofiles[0] == 1 && cmd->fdio[0] != -1)
 			ft_close(cmd->fdio[0], "close infile builtin");
 	}
-	if (cmd->dup_stdout == -1 || shell->exit == 0)
+	if (cmd->dup_stdout == -1 || shell->exit != 1)
 		return ;
 	setup_redir_builtin(cmd);
 	redirection_builtin(shell, cmd);

@@ -6,7 +6,7 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/30 13:37:06 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/30 16:03:20 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ CC			= gcc
 
 RM			= rm -f
 
-C_FLAGS	= -Wall -Wextra -Werror #-fsanitize=address -g
+C_FLAGS	= -Wall -Wextra -Werror -fsanitize=address -g
 
 %.o: %.c
 	$(CC) $(C_FLAGS) -I/${HOME}/.brew/opt/readline/include -c $< -o $@

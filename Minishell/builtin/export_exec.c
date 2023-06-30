@@ -66,12 +66,18 @@ int	export(t_shell *shell, char *var)
 				export_variable(shell, var);
 			else
 				export_variable_in_append_mode(shell, var);
+			return (0);
 		}
 		else
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", var);
 			return (1);
 		}
+	}
+	else if (!(check_export_variable_validity(var) == 0))
+	{
+			printf("minishell: export: '%s': not a valid identifier\n", var);
+			return (1);
 	}
 	return (0);
 }

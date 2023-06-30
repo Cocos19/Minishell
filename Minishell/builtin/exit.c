@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:54:41 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 14:09:36 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,9 @@ void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 	}
 	else if (node->arguments[2])
 	{
-		printf("minishell: too many arguments\n");
+		printf("exit\nminishell: exit: too many arguments\n");
 		shell->last_exit_status = EPERM;
+		return ;
 	}
 	else if (check == 1)
 		res = 255;

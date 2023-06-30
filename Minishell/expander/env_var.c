@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 10:57:29 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:50:30 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,17 @@
 
 char	*is_an_envp_var(t_shell *shell, char *str)
 {
-	char	*result;
+	char	*n;
+	char	*res;
 	int		var_len;
 	int		i;
 
-	if (ft_strcmp(str, "?=") == 0)
+	if (ft_strncmp(str, "?", 1) == 0)
 	{
-		result = ft_itoa(shell->last_exit_status);
-		if (!result)
+		n = ft_itoa(shell->last_exit_status);
+		if (!n)
 			print_str_error_and_exit();
-		return (result);
+		return (ft_strjoin_and_free_srcs(n, strndup(str + 1, ft_strlen(str) - 2)));
 	}
 	i = -1;
 	var_len = ft_strlen(str);
@@ -31,11 +32,11 @@ char	*is_an_envp_var(t_shell *shell, char *str)
 	{
 		if (ft_strncmp(shell->envp[i], str, var_len) == 0)
 		{
-			result = ft_substr(shell->envp[i], var_len,
+			res = ft_substr(shell->envp[i], var_len,
 					ft_strlen(shell->envp[i]) - var_len);
-			if (!result)
+			if (!res)
 				print_str_error_and_exit();
-			return (result);
+			return (res);
 		}
 	}
 	return (NULL);

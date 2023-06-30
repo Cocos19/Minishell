@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:34:00 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:13:09 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ char	*get_home_relative_path(t_shell *shell, char *arg)
 int	execute_change_dir_to_old_pwd(t_shell *shell, char *path)
 {
 	int	result;
+	char	*str;
 
 	result = chdir(path);
 	if (result == 0)
@@ -86,7 +87,9 @@ int	execute_change_dir_to_old_pwd(t_shell *shell, char *path)
 		write(1, path, ft_strlen(path));
 		write(1, "\n", 1);
 		update_env_var(shell, "OLDPWD=", ft_strdup("$PWD"));
-		update_env_var(shell, "PWD=", path);
+		str = NULL;
+		str = getcwd(str, NAME_MAX);
+		update_env_var(shell, "PWD=", str);
 	}
 	free(path);
 	return (result);

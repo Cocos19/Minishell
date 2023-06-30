@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 11:16:30 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:08:09 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 		last_cmd(shell, cmd, pos);
 	else
 		middle_cmd(shell, cmd, pos);
+	if (shell->exit == 2)
+		exit(0);
 	if (redirection_builtin(shell, cmd) == 0)
 	{
 		if (shell->last_exit_status == 127)
@@ -60,12 +62,14 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd)
 	i = 0;
 	while (cmd)
 	{
+		shell->exit = 1;
 		cmd->iofiles[0] = 0;
 		cmd->iofiles[1] = 0;
 		if (cmd->in_out_redir_list)
 			openiofile(shell, cmd, cmd->in_out_redir_list);
 		if (shell->exit == 0)
-		{	shell->nbr_cmds = i;
+		{	
+			shell->nbr_cmds = i;
 			return ;
 		}
 		if (cmd->next)

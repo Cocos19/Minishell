@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 09:04:47 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 15:12:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,15 @@ void	update_env_var(t_shell *shell, char *to_update, char *new_val)
 		free(new_val);
 }
 
-void	update_envp(t_shell *shell, char *path)
+void	update_envp(t_shell *shell)
 {
+	char	*result;
+
 	if (export_variable_is_in_envp(shell, "PWD=", '=') >= 0)
 		update_env_var(shell, "OLDPWD=", ft_strdup("$PWD"));
-	update_env_var(shell, "PWD=", path);
+	result = NULL;
+	result = getcwd(result, NAME_MAX);
+	update_env_var(shell, "PWD=", result);
 }
 
 int	execute_change_dir(t_shell *shell, char *path)
@@ -58,7 +62,7 @@ int	execute_change_dir(t_shell *shell, char *path)
 	}
 	result = chdir(path);
 	if (result == 0)
-		update_envp(shell, path);
+		update_envp(shell);
 	free(path);
 	return (result);
 }

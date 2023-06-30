@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   waitpids.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 14:05:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 08:41:07 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// quqnd shell->exit == 0 et shell->last_exit_status = 1 --> est changé dans la fonction !!!!
 
 void	ft_waitpids(t_shell *shell)
 {
@@ -37,4 +39,5 @@ void	ft_waitpids(t_shell *shell)
 		else
 			shell->last_exit_status = 0;
 	}
+	shell->nbr_cmds = lstsize_cmd(shell->pipe_lst);
 }

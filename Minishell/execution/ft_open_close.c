@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_open_close.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 08:13:13 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 10:34:15 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	next_file(t_redir_datas	*temp_lst, int fd, char *value, char type)
 		temp_lst = temp_lst->next;
 		if (temp_lst)
 		{
-			if (temp_lst->type == type) 
+			if (temp_lst->type == type)
 			{
 				ft_close(fd, value);
 				temp_lst = temp_lst->last;

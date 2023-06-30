@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:15 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 10:34:30 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:01:01 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_redir_datas	*init_redir_datas(char *val, int mode, char type)
 
 void	*print_err_and_update_status(t_shell *shell)
 {
-	printf("minishell: syntax error near unexpected token `newline'");
+	printf("minishell: syntax error near unexpected token `newline'\n");
 	shell->last_exit_status = 2;
 	return (NULL);
 }

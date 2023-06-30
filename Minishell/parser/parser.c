@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 09:34:16 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:31:59 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,9 @@ t_pipe_node	*init_pipe_node(void)
 
 int	next_token_is_valid(t_shell *shell, t_token *token)
 {
-	if (token->next && (token->next->value[0] == '>'
-			|| token->next->value[0] == '|' || token->next->value[0] == '<'))
+	if (token->next && token->next->value[0] == '|' )
 	{
-		printf("minishell: syntax error near unexpected token `|'");
+		printf("minishell: syntax error near unexpected token `|'\n");
 		shell->last_exit_status = 2;
 		return (1);
 	}
@@ -78,9 +77,10 @@ void	get_pipes(t_shell *shell, t_pipe_node *node, t_token *token)
 		else
 			token = token->next;
 	}
-	if (g_exit_status == 0)
+	if (g_exit_status == 0 && arg_list)
 		node->arguments = init_argument_array(arg_list);
-	arg_list = free_arg_lst(arg_list);
+	if (arg_list)
+		arg_list = free_arg_lst(arg_list);
 }
 
 void	parser(t_shell *shell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 08:32:54 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 10:36:14 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ void	execution(t_shell *shell)
 	shell->pipefd = init_pipes(shell->nbr_cmds);
 	create_pids(shell, cmd);
 	loop_execution(shell, cmd);
-	ft_waitpids(shell);
+	if (shell->nbr_cmds != 0)
+		ft_waitpids(shell);
 	ft_free_execution(shell);
 }

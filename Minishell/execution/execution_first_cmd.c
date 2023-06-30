@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/27 12:33:58 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/29 14:24:52 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ void	first_cmd(t_shell *shell, t_pipe_node *cmd)
 	if (cmd->iofiles[0] == 1)
 	{
 		dup2(cmd->fdio[0], STDIN_FILENO);
-		ft_close(cmd->fd[0], "13");
+		ft_close(cmd->fdio[0], "13");
 	}
 	if (cmd->iofiles[1] == 1)
 	{
 		dup2(cmd->fdio[1], STDOUT_FILENO);
-		ft_close(cmd->fd[1], "14");
+		ft_close(cmd->fdio[1], "14");
 	}
 	else if (shell->nbr_cmds > 1)
 	{

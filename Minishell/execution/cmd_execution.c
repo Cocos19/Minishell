@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 14:04:57 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 08:32:54 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,14 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd)
 	{
 		cmd->iofiles[0] = 0;
 		cmd->iofiles[1] = 0;
-		if (cmd->next)
-			ft_pipe(shell->pipefd, i);
 		if (cmd->in_out_redir_list)
 			openiofile(shell, cmd, cmd->in_out_redir_list);
+		if (shell->exit == 0)
+		{	shell->nbr_cmds = i;
+			return ;
+		}
+		if (cmd->next)
+			ft_pipe(shell->pipefd, i);
 		shell->pids[i] = ft_fork(shell);
 		if (shell->pids[i] == -1)
 			return ;

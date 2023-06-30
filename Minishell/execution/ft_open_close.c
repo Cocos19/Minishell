@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 10:34:15 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:37:15 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,27 +74,31 @@ void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
 	if (files->type == 'i' && shell->exit == 1)
 	{
 		if (files->mode == 2)
+		{
 			pipe->fdio[0] = get_heredoc(shell, files->value);
+			if (shell->last_exit_status == 130)
+				shell->exit = 0;
+		}
 		else
 			pipe->fdio[0] = ft_open_infile(shell, files);
-		pipe->iofiles[0] = 1;
 		if (pipe->fdio[0] == -1)
 		{
-			shell->exit = 0;
+			shell->exit = 2;
 			shell->last_exit_status = 1;
 			return ;
 		}
+		pipe->iofiles[0] = 1;
 	}
 	if (files->type == 'o' && shell->exit == 1)
 	{
 		pipe->fdio[1] = ft_open_outfile(shell, files);
-		pipe->iofiles[1] = 1;
 		if (pipe->fdio[1] == -1)
 		{
-			shell->exit = 0;
+			shell->exit = 2;
 			shell->last_exit_status = 1;
 			return ;
 		}
+		pipe->iofiles[1] = 1;
 	}
 	if (files->next && shell->exit == 1)
 		openiofile(shell, pipe, files->next);

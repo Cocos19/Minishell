@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 10:35:17 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:36:52 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_waitpids(t_shell *shell)
 		waitpid(shell->pids[i], &status, 0);
 		++i;
 	}
-	if (status == SIGINT)
+	if (status == SIGINT || shell->last_exit_status == 130)
 		shell->last_exit_status = EOWNER_DEAD;
 	else if (status == SIGQUIT)
 	{

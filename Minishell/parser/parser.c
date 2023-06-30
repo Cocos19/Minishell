@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:31:59 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 12:59:19 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_pipe_node	*init_pipe_node(void)
 
 int	next_token_is_valid(t_shell *shell, t_token *token)
 {
-	if (token->next && token->next->value[0] == '|' )
+	if (token->next && token->value[0] == '|' && token->next->value[0] == '|' )
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
 		shell->last_exit_status = 2;
@@ -40,12 +40,6 @@ int	next_token_is_valid(t_shell *shell, t_token *token)
 
 t_pipe_node	*next(t_shell *shell, t_pipe_node *nod, t_token *tok, t_token *arg)
 {
-	if (!arg)
-	{
-		printf("minishell: syntax error near unexpected token `newline'");
-		shell->last_exit_status = 2;
-		free_pipe_lst(shell);
-	}
 	if (next_token_is_valid(shell, tok) != 0)
 		free_pipe_lst(shell);
 	nod->arguments = init_argument_array(arg);

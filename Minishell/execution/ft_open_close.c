@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_open_close.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 12:37:15 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:13:19 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ int	ft_open_infile(t_shell *shell, t_redir_datas *input_lst)
 		perror(input_lst->value);
 		ft_exit_cmd(shell, 127);
 	}
-	next_file(temp_lst, fd, input_lst->value, 'i');
+	else
+		next_file(temp_lst, fd, input_lst->value, 'i');
 	return (fd);
 }
 

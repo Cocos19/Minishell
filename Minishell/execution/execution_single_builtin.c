@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 08:23:32 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:25:41 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	restore_stdout(int dup_stdout)
 	close(dup_stdout);
 }
 
-static void setup_redir_builtin(t_pipe_node *cmd)
+static void	setup_redir_builtin(t_pipe_node *cmd)
 {
 	if (cmd->iofiles[1] == 1)
 	{

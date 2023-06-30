@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:12:19 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:41:14 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,8 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 	exit (EXIT_FAILURE);
 }
 
-void	loop_execution(t_shell *shell, t_pipe_node	*cmd)
+void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 {
-	int	i;
-
-	i = 0;
 	while (cmd)
 	{
 		shell->exit = 1;
@@ -99,7 +96,7 @@ void	execution(t_shell *shell)
 	}
 	shell->pipefd = init_pipes(shell->nbr_cmds);
 	create_pids(shell, cmd);
-	loop_execution(shell, cmd);
+	loop_execution(shell, cmd, 0);
 	if (shell->nbr_cmds != 0)
 		ft_waitpids(shell);
 	ft_free_execution(shell);

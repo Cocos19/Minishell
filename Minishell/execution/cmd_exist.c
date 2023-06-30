@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 11:01:15 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:22:34 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 
 	result = NULL;
 	if (access(arg[0], X_OK) == 0)
-		return (arg[0]);
+		return (NULL);
 	else
 	{
 		path = get_envp_paths(envp);

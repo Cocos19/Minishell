@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:03:31 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:33:42 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,6 +199,7 @@ int			len_tab(char **tb);
 int			lstsize_cmd(t_pipe_node *cmd);
 int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
 int			ft_open_outfile(t_shell *shell, t_redir_datas *output_lst);
+void		next_file(t_redir_datas	*temp_lst, int fd, char *value, char type);
 void		ft_close(int fd, char *msg);
 void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);

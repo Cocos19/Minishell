@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/17 12:12:58 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:11:33 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:24:10 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,11 @@ int	token_list_is_valid(t_shell *shell)
 	return (0);
 }
 
-// void	give_pipe_prompt(t_shell *shell, int *fd)
 void	give_pipe_prompt(int *fd)
 {
 	char	*input;
 
 	close(fd[0]);
-	// act_sint_handler(shell, &sigint_hered_h);
 	input = readline("pipe> ");
 	if (!input)
 		exit(130);

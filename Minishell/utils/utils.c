@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:50:33 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:39:04 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,23 +59,23 @@ char	*get_string_from_fd(int fd)
 	return (result);
 }
 
-void    find_path(t_shell *shell, t_pipe_node *pipe)
+void	find_path(t_shell *shell, t_pipe_node *pipe)
 {
-    char    *cmd;
-    char    *cmd_final;
+	char	*cmd;
+	char	*cmd_final;
 
-    cmd_final = NULL;
-    cmd = cmd_exist(shell, shell->envp, pipe->arguments);
-    if (shell->exit == 0)
-    {
-        free(cmd);
-        return ;
-    }
-    if (cmd != NULL)
-    {
-        cmd_final = ft_strjoin_protected(cmd, "/");
-        free(cmd);
-    }
-    pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
-    free(cmd_final);
+	cmd_final = NULL;
+	cmd = cmd_exist(shell, shell->envp, pipe->arguments);
+	if (shell->exit == 0)
+	{
+		free(cmd);
+		return ;
+	}
+	if (cmd != NULL)
+	{
+		cmd_final = ft_strjoin_protected(cmd, "/");
+		free(cmd);
+	}
+	pipe->path = ft_strjoin_protected(cmd_final, pipe->arguments[0]);
+	free(cmd_final);
 }

@@ -6,7 +6,7 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/06/29 14:57:47 by cmartino         ###   ########.fr        #
+#    Updated: 2023/06/30 13:37:06 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,8 @@ SRC			= main.c \
 			execution/ft_open_close.c \
 			execution/get_envp.c \
 			execution/waitpids.c \
+			execution/open_infiles.c \
+			execution/open_outfiles.c \
 			expander/expander.c \
 			expander/env_var.c \
 			lexer/checker.c \

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/19 09:50:00 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 12:53:02 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 13:23:35 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	is_builtin(t_pipe_node *pipe)
 {
 	if (!pipe->arguments)
-		return(0);
+		return (0);
 	if (ft_strcmp(pipe->arguments[0], "cd") == 0)
 		return (1);
 	if (ft_strcmp(pipe->arguments[0], "echo") == 0)

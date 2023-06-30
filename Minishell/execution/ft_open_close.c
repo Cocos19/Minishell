@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 08:13:13 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:11:51 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
 	if (files->type == 'i' && shell->exit == 1)
 	{
 		if (files->mode == 2)
+		{
 			pipe->fdio[0] = get_heredoc(shell, files->value);
+			if (shell->last_exit_status == 130)
+				shell->exit = 0;
+		}
 		else
 			pipe->fdio[0] = ft_open_infile(shell, files);
 		pipe->iofiles[0] = 1;

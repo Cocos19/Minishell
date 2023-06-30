@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 08:41:07 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/06/30 11:16:15 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_waitpids(t_shell *shell)
 		waitpid(shell->pids[i], &status, 0);
 		++i;
 	}
-	if (status == SIGINT)
+	if (status == SIGINT || shell->last_exit_status == 130)
 		shell->last_exit_status = EOWNER_DEAD;
 	else if (status == SIGQUIT)
 	{

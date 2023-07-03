@@ -1,0 +1,6 @@
+❌ ""							-> on gère ou c'est ok? 
+❌ "" >outfile					-> on gère ou c'est ok? 
+❌ | | | |						-> parsing? 
+❌ echo -nnnnn lsjd				-> parsing
+✅ > file
+❌ cat < (pas de fichier)		-> in get_pipes parser.c:75

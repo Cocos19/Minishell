@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 14:55:18 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 15:45:57 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 		cmd->iofiles[1] = 0;
 		if (cmd->in_out_redir_list)
 			openiofile(shell, cmd, cmd->in_out_redir_list);
-		if (shell->exit == 0)
+		if (shell->exit == 0 || !cmd->arguments)
 		{
 			shell->nbr_cmds = i;
 			return ;
@@ -82,7 +82,7 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 		shell->pids[i] = ft_fork(shell);
 		if (shell->pids[i] == -1)
 			return ;
-		if (shell->pids[i] == 0)
+		if (shell->pids[i] == 0 && cmd->arguments)
 			ft_children(shell, cmd, i);
 		ft_close_parent(i, cmd, shell);
 		cmd = cmd->next;
@@ -105,8 +105,6 @@ void	execution(t_shell *shell)
 	shell->pipefd = init_pipes(shell->nbr_cmds);
 	create_pids(shell, cmd);
 	loop_execution(shell, cmd, 0);
-	// printf("shell exist is %d\n", shell->exit);
-	// if (shell->nbr_cmds != 0 && shell->exit ==1)
 		ft_waitpids(shell);
 	ft_free_execution(shell);
 }

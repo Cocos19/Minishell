@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 13:39:04 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:43:45 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,15 @@ void	find_path(t_shell *shell, t_pipe_node *pipe)
 
 	cmd_final = NULL;
 	cmd = cmd_exist(shell, shell->envp, pipe->arguments);
-	if (shell->exit == 0)
+	if (shell->exit == 0 || shell->exit == 3)
 	{
-		free(cmd);
+		if (shell->exit == 3)
+		{
+				write(1, "minishell: ", 11);	
+				write(1, pipe->arguments[0], ft_strlen(pipe->arguments[0]));
+				write(1, ": No such file or directory\n", 28);	
+		}
+		pipe->path = NULL;
 		return ;
 	}
 	if (cmd != NULL)

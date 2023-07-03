@@ -2,31 +2,14 @@
 
 Test  15: ✅ echo "exit_code ->$? user ->$USER home -> $HOME"
 
-FIXED
-
-Test  24: ❌ export hello
-mini output = (minishell: export: 'hello': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
+Test  24: ✅ export hello
 
 Test  26: ✅ export A-
 
-FIXED
+Test  27: ✅ export HELLO=123 A
 
-Test  27: ❌ export HELLO=123 A
-mini output = (minishell: export: 'A': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
 
-FIXED
-
-Test 29: ❌ export hello world
-mini output = (minishell: export: 'hello': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
+Test 29: ✅ export hello world
 
 Test  30: ✅ export HELLO-=123
 
@@ -42,25 +25,13 @@ Test  50: ✅ exit hello
 
 Test  51: ✅ exit 42 world
 
-Test  53: ❌ exit 9223372036854775808
-mini exit code = 255
-bash exit code = 2
-mini error = ()
-bash error = ( numeric argument required) --> overflow?
+Test  53: ✅ exit 9223372036854775808
 
-Test  54: ❌ exit -9223372036854775807
-mini exit code = 255
-bash exit code = 1
+Test  54: ✅ exit -9223372036854775807
 
-Test  55: ❌ exit -9223372036854775808
-mini exit code = 255
-bash exit code = 0
+Test  55: ✅ exit -9223372036854775808
 
-Test  56: ❌ exit -9223372036854775809
-mini exit code = 255
-bash exit code = 2
-mini error = ()
-bash error = ( numeric argument required)
+Test  56: ✅ exit -9223372036854775809
 
 
 /*PIPES*/
@@ -69,102 +40,16 @@ Test  58: ✅ export | sort | grep -v SHLVL | grep -v "declare -x _" | grep -v "
 
 */EXTRAS*/
 
-Test 138: ❌ $PWD
+Test 138: ✅ $PWD
 mini exit code = 1
 bash exit code = 126
 mini error = ()
 bash error = ( Is a directory)
 
-Test 141: ❌ ./test_files/invalid_permission
-mini exit code = 127
-bash exit code = 126
-mini error = (Binary file (standard input) matches)
-bash error = ( Permission denied)
+Test 141: ✅ ./test_files/invalid_permission
 
-Test 145: ❌ test_files
+Test 142: ✅  ./missing.out
 
-Test 146: ❌ ./test_files
-mini exit code = 1
-bash exit code = 126
-mini error = ()
-bash error = ( Is a directory)
+Test 145: ✅ test_files
 
-LEAKS
-
-minishell-1.0$ cd
-==74561== Conditional jump or move depends on uninitialised value(s)
-==74561==    at 0x100006594: setup_redir_builtin (in ./minishell)
-==74561==    by 0x10000654D: execution_single_builtin (in ./minishell)
-==74561==    by 0x1000061A0: execution (in ./minishell)
-==74561==    by 0x100003FA8: read_prompt (in ./minishell)
-==74561==    by 0x10000407D: main (in ./minishell)
-==74561==
-
-Checker si cmd->iofiles[1] et cmd->fdio[1] sont bien initialisees
-
-//////////
-
-minishell-1.0$ cdpwd
-minishell: cdpwd: command not found
-==74737==
-==74737== HEAP SUMMARY:
-==74737==     in use at exit: 331,468 bytes in 454 blocks
-==74737==   total heap usage: 821 allocs, 367 frees, 353,129 bytes allocated
-==74737==
-==74737== 5 bytes in 1 blocks are definitely lost in loss record 2 of 132
-==74737==    at 0x100141775: malloc (in /Users/mprofett/.brew/Cellar/valgrind/HEAD-bdcb3b9/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==74737==    by 0x100484CE5: strdup (in /usr/lib/system/libsystem_c.dylib)
-==74737==    by 0x1000044C5: get_path (in ./minishell)
-==74737==    by 0x10000456E: builtin_cd (in ./minishell)
-==74737==    by 0x100005BFB: redirection_builtin (in ./minishell)
-==74737==    by 0x10000655A: execution_single_builtin (in ./minishell)
-==74737==    by 0x1000061A0: execution (in ./minishell)
-==74737==    by 0x100003FA8: read_prompt (in ./minishell)
-==74737==    by 0x10000407D: main (in ./minishell)
-==74737==
-==74737== 16 bytes in 1 blocks are definitely lost in loss record 26 of 132
-==74737==    at 0x100141775: malloc (in /Users/mprofett/.brew/Cellar/valgrind/HEAD-bdcb3b9/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==74737==    by 0x10000B102: ft_expand (in ./minishell)
-==74737==    by 0x100007511: get_expanded_var (in ./minishell)
-==74737==    by 0x100007671: search_and_remplace_var (in ./minishell)
-==74737==    by 0x1000076FB: search_and_expand_env_var (in ./minishell)
-==74737==    by 0x10000479A: get_home_relative_path (in ./minishell)
-==74737==    by 0x100004426: get_path (in ./minishell)
-==74737==    by 0x10000456E: builtin_cd (in ./minishell)
-==74737==    by 0x100005BFB: redirection_builtin (in ./minishell)
-==74737==    by 0x10000655A: execution_single_builtin (in ./minishell)
-==74737==    by 0x1000061A0: execution (in ./minishell)
-==74737==    by 0x100003FA8: read_prompt (in ./minishell)
-==74737==
-==74737== 1,024 bytes in 1 blocks are definitely lost in loss record 89 of 132
-==74737==    at 0x100141775: malloc (in /Users/mprofett/.brew/Cellar/valgrind/HEAD-bdcb3b9/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==74737==    by 0x100454AA7: __private_getcwd (in /usr/lib/system/libsystem_c.dylib)
-==74737==    by 0x1000048E5: execute_change_dir_to_old_pwd (in ./minishell)
-==74737==    by 0x1000049E7: get_old_pwd_path (in ./minishell)
-==74737==    by 0x100004559: builtin_cd (in ./minishell)
-==74737==    by 0x100005BFB: redirection_builtin (in ./minishell)
-==74737==    by 0x10000655A: execution_single_builtin (in ./minishell)
-==74737==    by 0x1000061A0: execution (in ./minishell)
-==74737==    by 0x100003FA8: read_prompt (in ./minishell)
-==74737==    by 0x10000407D: main (in ./minishell)
-==74737==
-==74737== 2,048 bytes in 2 blocks are definitely lost in loss record 98 of 132
-==74737==    at 0x100141775: malloc (in /Users/mprofett/.brew/Cellar/valgrind/HEAD-bdcb3b9/libexec/valgrind/vgpreload_memcheck-amd64-darwin.so)
-==74737==    by 0x100454AA7: __private_getcwd (in /usr/lib/system/libsystem_c.dylib)
-==74737==    by 0x100004309: update_envp (in ./minishell)
-==74737==    by 0x1000043C8: execute_change_dir (in ./minishell)
-==74737==    by 0x10000457F: builtin_cd (in ./minishell)
-==74737==    by 0x100005BFB: redirection_builtin (in ./minishell)
-==74737==    by 0x10000655A: execution_single_builtin (in ./minishell)
-==74737==    by 0x1000061A0: execution (in ./minishell)
-==74737==    by 0x100003FA8: read_prompt (in ./minishell)
-==74737==    by 0x10000407D: main (in ./minishell)
-==74737==
-==74737== LEAK SUMMARY:
-==74737==    definitely lost: 3,093 bytes in 5 blocks
-==74737==    indirectly lost: 0 bytes in 0 blocks
-==74737==      possibly lost: 0 bytes in 0 blocks
-==74737==    still reachable: 314,525 bytes in 289 blocks
-==74737==         suppressed: 13,850 bytes in 160 blocks
-==74737== Reachable blocks (those to which a pointer was found) are not shown.
-==74737== To see them, rerun with: --leak-check=full --show-leak-kinds=all
+Test 146: ✅ ./test_files

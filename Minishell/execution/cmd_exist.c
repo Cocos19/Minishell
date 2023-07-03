@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:22:34 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:11:14 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ char	*cmd_does_not_exist(t_shell *shell, char **arg)
 {
 	shell->last_exit_status = 127;
 	shell->exit = 0;
+	if (ft_strncmp(arg[0], "./", 2) == 0 || ft_strncmp(arg[0], "/", 1) == 0)
+	{
+		shell->exit = 3;
+		return (arg[0]);
+	}
 	cmd_not_found(arg[0]);
 	return (NULL);
 }

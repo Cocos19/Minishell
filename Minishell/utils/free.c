@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 12:34:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:15:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,22 @@ void	free_pipe_lst(t_shell *shell)
 {
 	t_pipe_node	*temp;
 
-	while (shell->pipe_lst)
+	if (shell->pipe_lst)
 	{
-		if (shell->pipe_lst->arguments)
-			shell->pipe_lst->arguments
-				= ft_free_str_array(shell->pipe_lst->arguments);
-		if (shell->pipe_lst->in_out_redir_list)
-			free_redir_datas_list(shell->pipe_lst->in_out_redir_list);
-		temp = shell->pipe_lst->next;
-		free(shell->pipe_lst);
-		shell->pipe_lst = temp;
+		while (shell->pipe_lst)
+		{
+			if (shell->pipe_lst->arguments)
+				shell->pipe_lst->arguments
+					= ft_free_str_array(shell->pipe_lst->arguments);
+			if (shell->pipe_lst->in_out_redir_list)
+				free_redir_datas_list(shell->pipe_lst->in_out_redir_list);
+			temp = shell->pipe_lst->next;
+			free(shell->pipe_lst);
+			shell->pipe_lst = temp;
+		}
 	}
+	if (shell->input)
+		free(shell->input);
 }
 
 void	free_all_tab(char **p_tab, int len)

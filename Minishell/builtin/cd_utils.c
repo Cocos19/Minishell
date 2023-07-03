@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 15:13:09 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:01:24 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*get_home_relative_path(t_shell *shell, char *arg)
 
 int	execute_change_dir_to_old_pwd(t_shell *shell, char *path)
 {
-	int	result;
+	int		result;
 	char	*str;
 
 	result = chdir(path);

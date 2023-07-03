@@ -6,26 +6,30 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 13:50:30 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/03 13:58:08 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*is_an_envp_var(t_shell *shell, char *str)
+char	*exit_status_to_str(t_shell *shell, char *str)
 {
 	char	*n;
+
+	n = ft_itoa(shell->last_exit_status);
+	if (!n)
+		print_str_error_and_exit();
+	return (ft_strjoin_and_free_srcs(n, strndup(str + 1, ft_strlen(str) - 2)));
+}
+
+char	*is_an_envp_var(t_shell *shell, char *str)
+{
 	char	*res;
 	int		var_len;
 	int		i;
 
 	if (ft_strncmp(str, "?", 1) == 0)
-	{
-		n = ft_itoa(shell->last_exit_status);
-		if (!n)
-			print_str_error_and_exit();
-		return (ft_strjoin_and_free_srcs(n, strndup(str + 1, ft_strlen(str) - 2)));
-	}
+		return (exit_status_to_str(shell, str));
 	i = -1;
 	var_len = ft_strlen(str);
 	while (shell->envp && shell->envp[++i])
@@ -98,20 +102,4 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 	if (!var_to_search)
 		print_str_error_and_exit();
 	return (get_expanded_var(str, var_to_search, var_to_expand, i));
-}
-
-char	*search_and_expand_env_var(t_shell *shell, char *str)
-{
-	int		i;
-
-	i = -1;
-	while (str && str[++i] != '\0')
-	{
-		if (str[i] == '$')
-		{
-			str = search_and_remplace_var(shell, str, &i);
-			return (str);
-		}
-	}
-	return (str);
 }

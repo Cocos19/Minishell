@@ -37,6 +37,22 @@ int	get_substr_len(char *str, int *str_i, char c)
 	return (result_len);
 }
 
+char	*search_and_expand_env_var(t_shell *shell, char *str)
+{
+	int		i;
+
+	i = -1;
+	while (str && str[++i] != '\0')
+	{
+		if (str[i] == '$')
+		{
+			str = search_and_remplace_var(shell, str, &i);
+			return (str);
+		}
+	}
+	return (str);
+}
+
 char	*get_next_substr(t_shell *shell, char *str, int *str_i, char c)
 {
 	char	*result;

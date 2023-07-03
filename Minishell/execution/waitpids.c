@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   waitpids.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 10:19:02 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 13:58:32 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_waitpids(t_shell *shell)
 	while (i < shell->nbr_cmds)
 	{
 		waitpid(shell->pids[i], &status, 0);
-		// printf("status = %d\n", status);
 		++i;
 	}
 	if (status == SIGINT || shell->last_exit_status == 130)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 13:33:42 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:11:20 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ typedef struct s_shell_infos
 	char				**envp;
 	char				*name;
 	char				*input;
-	int					input_heredoc;
 	int					last_exit_status;
 	int					exit;
 	int					*pids;
@@ -136,6 +135,7 @@ void		find_path(t_shell *shell, t_pipe_node *pipe);
 /*EXPAND*/
 
 char		*expander(t_shell *shell, char *str);
+char		*search_and_remplace_var(t_shell *shell, char *str, int *i);
 char		*search_and_expand_env_var(t_shell *shell, char *str);
 char		*is_an_envp_var(t_shell *shell, char *str);
 

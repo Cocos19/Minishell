@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 16:24:39 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 10:19:02 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	ft_waitpids(t_shell *shell)
 	i = 0;
 	while (i < shell->nbr_cmds)
 	{
-		// dprintf(2, "ICI\n");
 		waitpid(shell->pids[i], &status, 0);
+		// printf("status = %d\n", status);
 		++i;
 	}
 	if (status == SIGINT || shell->last_exit_status == 130)
@@ -33,8 +33,6 @@ void	ft_waitpids(t_shell *shell)
 	}
 	else
 	{
-
-		// printf("%d\n", status);
 			shell->last_exit_status = status / 256;
 	}
 	shell->nbr_cmds = lstsize_cmd(shell->pipe_lst);

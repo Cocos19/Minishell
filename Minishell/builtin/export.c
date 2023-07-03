@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 15:41:53 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 10:24:27 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int	builtin_export(t_shell *shell, t_pipe_node *node)
 {
 	char	**env;
 
-	printf("ici\n");
 	if (!node->arguments[1])
 	{
 		env = ft_strdup_array(shell->envp);

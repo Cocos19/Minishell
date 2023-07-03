@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:16:45 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 14:04:39 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:02:06 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,25 @@
 int	get_export_mode(char *var)
 {
 	int	i;
-	int	result;
 
 	i = -1;
-	result = -1;
 	while (var && var[++i])
 	{
 		if (var[i] == '?')
 			return (-2);
 		if (var[i] == '+')
 		{
-			result = 1;
-			while (var[++i] == '+')
-				;
+			++i;
+			while (var[i] && var[i] == '+')
+				++i;
 			if (var[i] == '=')
-				return (result);
-			result = -1;
+				return (1);
+			return (-4);
 		}
 		if (var[i] == '=')
 			return (0);
 	}
-	return (result);
+	return (-3);
 }
 
 int	check_export_variable_validity(char *var)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 14:58:55 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 10:24:27 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 11:15:04 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,10 @@ int	execute_export(t_shell *shell, t_pipe_node *node)
 	int		result;
 
 	i = 0;
+	result = 0;
 	while (node->arguments[++i])
-	{
 		result = export(shell, node->arguments[i]);
-		if (result != 0)
-			return (result);
-	}
-	return (0);
+	return (result);
 }
 
 int	builtin_export(t_shell *shell, t_pipe_node *node)

@@ -56,28 +56,20 @@ void	export_variable_in_append_mode(t_shell *shell, char *var)
 int	export(t_shell *shell, char *var)
 {
 	int		mode;
+	int		var_validity;
 
 	mode = get_export_mode(var);
-	if (mode != -1)
+	var_validity = check_export_variable_validity(var);
+	if (mode == 0 && var_validity == 0)
+		export_variable(shell, var);
+	else if (mode == 1 && var_validity == 0)
+		export_variable_in_append_mode(shell, var);
+	else if (mode == -3)
+		return (0);
+	else if (mode == -2 || mode == -4 || !(check_export_variable_validity(var) == 0))
 	{
-		if (check_export_variable_validity(var) == 0 && mode != -2)
-		{
-			if (mode == 0)
-				export_variable(shell, var);
-			else
-				export_variable_in_append_mode(shell, var);
-			return (0);
-		}
-		else
-		{
-			printf("minishell: export: '%s': not a valid identifier\n", var);
-			return (1);
-		}
-	}
-	else if (!(check_export_variable_validity(var) == 0))
-	{
-			printf("minishell: export: '%s': not a valid identifier\n", var);
-			return (1);
+		printf("minishell: export: '%s': not a valid identifier\n", var);
+		return (1);
 	}
 	return (0);
 }

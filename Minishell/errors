@@ -2,6 +2,8 @@
 
 Test  15: ✅ echo "exit_code ->$? user ->$USER home -> $HOME"
 
+FIXED
+
 Test  24: ❌ export hello
 mini output = (minishell: export: 'hello': not a valid identifier)
 bash output = ()
@@ -10,11 +12,15 @@ bash exit code = 0
 
 Test  26: ✅ export A-
 
+FIXED
+
 Test  27: ❌ export HELLO=123 A
 mini output = (minishell: export: 'A': not a valid identifier)
 bash output = ()
 mini exit code = 1
 bash exit code = 0
+
+FIXED
 
 Test 29: ❌ export hello world
 mini output = (minishell: export: 'hello': not a valid identifier)

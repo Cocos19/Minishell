@@ -2,31 +2,14 @@
 
 Test  15: ✅ echo "exit_code ->$? user ->$USER home -> $HOME"
 
-FIXED
-
-Test  24: ❌ export hello
-mini output = (minishell: export: 'hello': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
+Test  24: ✅ export hello
 
 Test  26: ✅ export A-
 
-FIXED
+Test  27: ✅ export HELLO=123 A
 
-Test  27: ❌ export HELLO=123 A
-mini output = (minishell: export: 'A': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
 
-FIXED
-
-Test 29: ❌ export hello world
-mini output = (minishell: export: 'hello': not a valid identifier)
-bash output = ()
-mini exit code = 1
-bash exit code = 0
+Test 29: ✅ export hello world
 
 Test  30: ✅ export HELLO-=123
 
@@ -42,25 +25,13 @@ Test  50: ✅ exit hello
 
 Test  51: ✅ exit 42 world
 
-Test  53: ❌ exit 9223372036854775808
-mini exit code = 255
-bash exit code = 2
-mini error = ()
-bash error = ( numeric argument required) --> overflow?
+Test  53: ✅ exit 9223372036854775808
 
-Test  54: ❌ exit -9223372036854775807
-mini exit code = 255
-bash exit code = 1
+Test  54: ✅ exit -9223372036854775807
 
-Test  55: ❌ exit -9223372036854775808
-mini exit code = 255
-bash exit code = 0
+Test  55: ✅ exit -9223372036854775808
 
-Test  56: ❌ exit -9223372036854775809
-mini exit code = 255
-bash exit code = 2
-mini error = ()
-bash error = ( numeric argument required)
+Test  56: ✅ exit -9223372036854775809
 
 
 /*PIPES*/
@@ -69,23 +40,16 @@ Test  58: ✅ export | sort | grep -v SHLVL | grep -v "declare -x _" | grep -v "
 
 */EXTRAS*/
 
-Test 138: ❌ $PWD
+Test 138: ✅ $PWD
 mini exit code = 1
 bash exit code = 126
 mini error = ()
 bash error = ( Is a directory)
 
-Test 141: ❌ ./test_files/invalid_permission
-mini exit code = 127
-bash exit code = 126
-mini error = (Binary file (standard input) matches)
-bash error = ( Permission denied)
+Test 141: ✅ ./test_files/invalid_permission
 
-Test 145: ❌ test_files
+Test 142: ✅  ./missing.out
 
-Test 146: ❌ ./test_files
-mini exit code = 1
-bash exit code = 126
-mini error = ()
-bash error = ( Is a directory)
+Test 145: ✅ test_files
 
+Test 146: ✅ ./test_files

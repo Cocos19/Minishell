@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 10:18:55 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/03 14:55:18 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 		if (shell->last_exit_status == 127)
 			exit (COMMAND_NOT_FOUND);
 		execve(cmd->path, cmd->arguments, shell->envp);
+		if (ft_strncmp(cmd->arguments[0], "./", 2) == 0 || ft_strncmp(cmd->arguments[0], "/", 1) == 0)
+		{
+			write(1, "minishell: ", 11);	
+			write(1, cmd->arguments[0], ft_strlen(cmd->arguments[0]));
+			write(1, ": Is a directory\n", 17);
+			exit (126);
+		}
 		exit (EXIT_FAILURE);
 	}
 	exit(shell->last_exit_status);

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 11:59:37 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:28:40 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,12 +90,8 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 
 	var_size = get_var_to_search_size(str, *i);
 	if (var_size == 0)
-	{
-		printf("var_size == 0\n");
 		return (str);
-	}
 	result = ft_substr(str, *i + 1, var_size);
-	printf("var to search: [%s]\n", result);
 	if (!result)
 		print_str_error_and_exit();
 	var_to_search = ft_strjoin_protected(result, "=");

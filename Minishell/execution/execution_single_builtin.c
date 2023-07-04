@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 13:20:25 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:33:20 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	setup_redir_builtin(t_pipe_node *cmd)
 
 void	execution_single_builtin(t_shell *shell, t_pipe_node *cmd)
 {
+	cmd->iofiles[0] = 0;
+	cmd->iofiles[1] = 0;
 	cmd->dup_stdout = -2;
 	if (cmd->in_out_redir_list)
 	{

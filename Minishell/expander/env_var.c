@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 13:28:26 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:36:14 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,7 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 
 	var_size = get_var_to_search_size(str, *i);
 	if (var_size == 0)
-	{
-		printf("var_size == 0\n");
 		return (str);
-	}
 	result = ft_substr(str, *i + 1, var_size);
 	if (!result)
 		print_str_error_and_exit();

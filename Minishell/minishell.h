@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 10:37:44 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:49:16 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,6 @@ void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
 
 /*TEMP*/
 
-void	print_pipe_lst_content(t_shell *shell);
+void		print_pipe_lst_content(t_shell *shell);
 
 #endif

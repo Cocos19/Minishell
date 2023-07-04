@@ -45,7 +45,10 @@ char	*search_and_expand_env_var(t_shell *shell, char *str)
 	while (str && str[++i] != '\0')
 	{
 		if (str[i] == '$')
+		{
 			str = search_and_remplace_var(shell, str, &i);
+			--i;
+		}
 	}
 	return (str);
 }
@@ -71,43 +74,57 @@ char	*get_next_substr(t_shell *shell, char *str, int *str_i, char c)
 	return (result);
 }
 
+char	*handle_quote_exp(t_shell *shell, char *res, char *str, int *str_i)
+{
+	res = ft_strjoin_and_free_srcs(res,
+			get_next_substr(shell, str, str_i, '\"'));
+	if (!res)
+		print_str_error_and_exit();
+	if (ft_is_empty_or_with_only_spaces(res) == 1)
+	{
+		free(res);
+		res = malloc(sizeof(char));
+		if (!res)
+			print_str_error_and_exit();
+		res[0] = '\0';
+	}
+	return (res);
+}
+
+char	*handle_expansion(t_shell *shell, char *result, char *str, int *str_i)
+{
+	result = ft_strjoin_and_free_srcs(result,
+			get_next_substr(shell, str, str_i, '\0'));
+	if (!result)
+		print_str_error_and_exit();
+	if (ft_is_empty_or_with_only_spaces(result) == 1)
+	{
+		free(result);
+		return (NULL);
+	}
+	return (result);
+}
+
 char	*expander(t_shell *shell, char *str)
 {
 	int		str_i;
 	char	*result;
 
 	str_i = 0;
-	result = malloc(sizeof(char));
+	result = ft_strdup("");
 	if (!result)
 		print_str_error_and_exit();
-	result[0] = '\0';
 	while (str[str_i])
 	{
 		if (str[str_i] == '\'')
 			result = ft_strjoin_and_free_srcs(result,
 					get_next_substr(shell, str, &str_i, '\''));
 		else if (str[str_i] == '\"')
-		{
-			result = ft_strjoin_and_free_srcs(result,
-					get_next_substr(shell, str, &str_i, '\"'));
-			if (!result)
-				print_str_error_and_exit();
-			if (ft_is_empty_or_with_only_spaces(result) == 1)
-			{
-				free(result);
-				result = malloc(sizeof(char));
-				if (!result)
-					print_str_error_and_exit();
-				result[0] = '\0';
-			}
-		}
+			result = handle_quote_exp(shell, result, str, &str_i);
 		else
 		{
-			result = ft_strjoin_and_free_srcs(result,
-					get_next_substr(shell, str, &str_i, '\0'));
+			result = handle_expansion(shell, result, str, &str_i);
 			if (!result)
-				print_str_error_and_exit();
-			if (ft_is_empty_or_with_only_spaces(result) == 1)
 				return (NULL);
 		}
 		if (!result)

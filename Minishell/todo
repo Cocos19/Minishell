@@ -1,6 +1,11 @@
-❌ ""							-> on gère ou c'est ok? 
-❌ "" >outfile					-> on gère ou c'est ok? 
-❌ | | | |						-> parsing? 
+fixed
+❌ ""							-> on gère ou c'est ok?
+fixed
+❌ "" >outfile					-> on gère ou c'est ok?
+fixed
+❌ | | | |						-> parsing?
+fixed
 ❌ echo -nnnnn lsjd				-> parsing
 ✅ > file
+fixed
 ❌ cat < (pas de fichier)		-> in get_pipes parser.c:75

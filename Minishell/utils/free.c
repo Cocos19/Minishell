@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/28 10:45:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 14:15:24 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 08:29:33 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ void	free_pipe_lst(t_shell *shell)
 			shell->pipe_lst = temp;
 		}
 	}
-	if (shell->input)
-		free(shell->input);
 }
 
 void	free_all_tab(char **p_tab, int len)

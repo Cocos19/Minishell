@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/28 10:38:19 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 08:50:47 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,34 @@ void	print_redir_datas_lst(t_redir_datas *datas_lst)
 		printf("File %d\n type: %c mode: %d\n value: %s\n",
 			++i, lst->type, lst->mode, lst->value);
 		lst = lst->next;
+	}
+}
+
+void	print_pipe_lst_content(t_shell *shell)
+{
+	t_pipe_node *lst;
+	int			i;
+	int			j;
+
+	lst = shell->pipe_lst;
+	if (lst)
+	{
+		j = 0;
+		while (lst)
+		{
+			printf("node %d\n", j);
+			if (lst->arguments)
+			{
+				i = -1;
+				while (lst->arguments[++i])
+					printf("value arg %d: [%s]\n", i, lst->arguments[i]);
+				printf("end of argv on arg %d\n", i);
+			}
+			if (lst->in_out_redir_list)
+				print_redir_datas_lst(lst->in_out_redir_list);
+			lst = lst->next;
+			++j;
+		}
+		printf("end of pipe lst on node %d\n", j);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/29 15:16:22 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:00:44 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,23 @@ char	*ft_strjoin_and_free_input(char *input, char *to_add)
 	return (result);
 }
 
+int	check_n_arg_validity(char *arg)
+{
+	int	i;
+
+	if (ft_strncmp("-n", arg, 2) == 0)
+	{
+		i = 1;
+		while(arg[++i])
+		{
+			if (!(arg[i] == 'n'))
+				return (1);
+		}
+		return (0);
+	}
+	return (1);
+}
+
 char	*get_echo_result(char **argv)
 {
 	char	*result;
@@ -33,7 +50,7 @@ char	*get_echo_result(char **argv)
 	if (!argv[1])
 		return (ft_strdup("\n"));
 	i = 0;
-	n_option = ft_strcmp("-n", argv[1]);
+	n_option = check_n_arg_validity(argv[1]);
 	if (n_option == 0)
 		++i;
 	result = malloc(sizeof(char));

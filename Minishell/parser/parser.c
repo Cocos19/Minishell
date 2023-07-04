@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 12:59:19 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 08:57:05 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,13 @@ void	parser(t_shell *shell)
 	t_pipe_node	*first_node;
 	t_token		*first_token;
 
-	shell->pipe_lst = init_pipe_node();
-	first_node = shell->pipe_lst;
-	first_token = shell->token_lst;
-	get_pipes(shell, first_node, first_token);
-	g_exit_status = 0;
-	free_token_lst(shell);
+	if(shell->token_lst)
+	{
+		shell->pipe_lst = init_pipe_node();
+		first_node = shell->pipe_lst;
+		first_token = shell->token_lst;
+		get_pipes(shell, first_node, first_token);
+		g_exit_status = 0;
+		free_token_lst(shell);
+	}
 }

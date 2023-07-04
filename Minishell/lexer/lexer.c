@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/21 11:02:52 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 08:32:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ t_token	*tokenize(char *input)
 void	lexer(t_shell *shell, char *user_input)
 {
 	shell->token_lst = tokenize(user_input);
-	while (g_exit_status == 0 && token_list_is_valid(shell) != 0)
-		complete_token(shell);
+	if (shell->token_lst && shell->token_lst->value[0] == '|')
+	{
+		printf("minishell-1.0: syntax error near unexpected token '|'\n");
+		free_token_lst(shell);
+	}
+	// while (g_exit_status == 0 && token_list_is_valid(shell) != 0)
+	// 	complete_token(shell);
 }

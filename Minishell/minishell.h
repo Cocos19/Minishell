@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 14:11:20 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 08:50:04 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,7 +210,7 @@ void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
 
 void		print_token_list_infos(t_token *lst);
 void		print_fd_content(int fd);
-void		print_pipe_lst_content(t_shell *shell, t_pipe_node *pipe_lst);
+void		print_pipe_lst_content(t_shell *shell);
 void		print_redir_datas_lst(t_redir_datas *datas_lst);
 
 void		find_path(t_shell *shell, t_pipe_node *pipe);

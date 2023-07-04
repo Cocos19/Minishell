@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_execution.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 14:46:15 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 15:24:03 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 		if (shell->pids[i] == 0 && cmd->arguments)
 			ft_children(shell, cmd, i);
 		else
-		ft_close_parent(i, cmd, shell);
+			ft_close_parent(i, cmd, shell);
 		cmd = cmd->next;
 		i++;
 	}

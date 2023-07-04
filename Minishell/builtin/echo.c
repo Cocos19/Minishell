@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 09:08:25 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 16:17:38 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ char	*get_echo_result(char **argv)
 	i = 0;
 	n_option = check_n_arg_validity(argv[1]);
 	if (n_option == 0)
-		++i;
+		while (argv[i + 1] && check_n_arg_validity(argv[i + 1]) == 0)
+			++i;
 	result = malloc(sizeof(char));
 	if (!result)
 		print_str_error_and_exit();

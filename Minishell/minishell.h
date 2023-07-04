@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 10:37:44 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 12:05:37 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,6 @@ void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
 
 /*TEMP*/
 
-void	print_pipe_lst_content(t_shell *shell);
+void		print_pipe_lst_content(t_shell *shell);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 13:19:32 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:24:05 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ void	loop_execution(t_shell *shell, t_pipe_node	*cmd, int i)
 			return ;
 		if (shell->pids[i] == 0 && cmd->arguments)
 			ft_children(shell, cmd, i);
+		else
 		ft_close_parent(i, cmd, shell);
 		cmd = cmd->next;
 		i++;

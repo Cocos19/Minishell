@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 14:00:10 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:40:04 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:25:23 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ void	next_file(t_redir_datas	*temp_lst, int fd, char *value, char type)
 	}
 }
 
-void	quit_open_close(t_shell *shell)
+void	quit_open_close(t_shell *shell, int io)
 {
 	shell->exit = 2;
 	shell->last_exit_status = 1;
+	shell->pipe_lst->iofiles[io] = 0;
 }
 
 void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
@@ -47,14 +48,14 @@ void	openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files)
 		else
 			pipe->fdio[0] = ft_open_infile(shell, files);
 		if (pipe->fdio[0] == -1)
-			return (quit_open_close(shell));
+			return (quit_open_close(shell, 0));
 		pipe->iofiles[0] = 1;
 	}
 	if (files->type == 'o' && shell->exit == 1)
 	{
 		pipe->fdio[1] = ft_open_outfile(shell, files);
 		if (pipe->fdio[1] == -1)
-			return (quit_open_close(shell));
+			return (quit_open_close(shell, 1));
 		pipe->iofiles[1] = 1;
 	}
 	if (files->next && shell->exit == 1)

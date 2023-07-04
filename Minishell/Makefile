@@ -6,7 +6,7 @@
 #    By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/07/03 11:57:37 by mprofett         ###   ########.fr        #
+#    Updated: 2023/07/04 09:20:15 by mprofett         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,6 @@ SRC			= main.c \
 			builtin/export_utils.c \
 			builtin/pwd.c \
 			builtin/unset.c \
-			builtin/redirection_builtin.c \
 			execution/cmd_execution.c \
 			execution/cmd_exist.c \
 			execution/execution_single_builtin.c \
@@ -37,9 +36,9 @@ SRC			= main.c \
 			execution/waitpids.c \
 			execution/open_infiles.c \
 			execution/open_outfiles.c \
+			execution/redirection_builtin.c \
 			expander/expander.c \
 			expander/env_var.c \
-			lexer/checker.c \
 			lexer/lexer.c \
 			lexer/special_tokens.c \
 			parser/parser.c \
@@ -49,7 +48,7 @@ SRC			= main.c \
 			prompt/prompt.c \
 			signals/signals.c \
 			utils/free.c \
-			utils/free_and_print_msg.c\
+			utils/exit_messages.c\
 			utils/free_token_lst.c \
 			utils/utils.c \
 			utils/utils_open_close.c \

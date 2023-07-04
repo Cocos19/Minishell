@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 13:25:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 08:57:05 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:04:10 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	parser(t_shell *shell)
 	t_pipe_node	*first_node;
 	t_token		*first_token;
 
-	if(shell->token_lst)
+	if (shell->token_lst)
 	{
 		shell->pipe_lst = init_pipe_node();
 		first_node = shell->pipe_lst;

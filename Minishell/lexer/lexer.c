@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 10:30:48 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 08:32:00 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:05:00 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,4 @@ void	lexer(t_shell *shell, char *user_input)
 		printf("minishell-1.0: syntax error near unexpected token '|'\n");
 		free_token_lst(shell);
 	}
-	// while (g_exit_status == 0 && token_list_is_valid(shell) != 0)
-	// 	complete_token(shell);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 14:43:45 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:04:31 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	find_path(t_shell *shell, t_pipe_node *pipe)
 	{
 		if (shell->exit == 3)
 		{
-				write(1, "minishell: ", 11);	
-				write(1, pipe->arguments[0], ft_strlen(pipe->arguments[0]));
-				write(1, ": No such file or directory\n", 28);	
+			write(1, "minishell: ", 11);
+			write(1, pipe->arguments[0], ft_strlen(pipe->arguments[0]));
+			write(1, ": No such file or directory\n", 28);
 		}
 		pipe->path = NULL;
 		return ;

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 08:50:04 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:26:26 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,27 +92,38 @@ typedef struct s_shell_infos
 
 /*BUILTIN*/
 
+	/*CD*/
+
 int			builtin_cd(t_shell *shell, t_pipe_node *node);
 char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
 char		*get_home_relative_path(t_shell *shell, char *arg);
 int			get_old_pwd_path(t_shell *shell);
 void		update_env_var(t_shell *shell, char *to_update, char *new_val);
+
+	/*ECHO*/
+
 int			builtin_echo(t_shell *shell, t_pipe_node *node);
+
+	/*ENV*/
+
 int			builtin_env(t_shell *shell, t_pipe_node *node);
+
+	/*EXPORT*/
+
 int			builtin_export(t_shell *shell, t_pipe_node *node);
+
+	/*EXIT*/
+
 void		single_cmd_builtin_exit(t_shell *shell, t_pipe_node *node);
 int			builtin_exit(t_shell *shell, t_pipe_node *node);
+
+	/*PWD*/
+
 int			builtin_pwd(void);
+
+	/*UNSET*/
+
 int			builtin_unset(t_shell *shell, t_pipe_node *node);
-int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
-int			is_builtin(t_pipe_node *pipe);
-
-/* ERROR HANDLING */
-
-void		print_str_error_and_exit(void);
-void		print_info_str_error_and_exit(char *info);
-void		print_info_and_exit(char *info, int exit_status);
-void		print_builtin_info_str_error_and_exit(char *builtin, char *info);
 
 /*EXECUTION*/
 
@@ -121,18 +132,28 @@ void		ft_dup2(t_shell *shell, int fd, int input);
 char		*cmd_exist(t_shell *shell, char **envp, char **arg);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
-void		free_all_tab(char **p_tab, int len);
-void		execution(t_shell *shell);
-char		**get_envp_paths(char **envp);
-void		free_all_tab(char **p_tab, int len);
 void		ft_waitpids(t_shell *shell);
-void		execution_single_builtin(t_shell *shell, t_pipe_node *cmd);
 void		first_cmd(t_shell *shell, t_pipe_node *cmd);
 void		middle_cmd(t_shell *shell, t_pipe_node *cmd, int i);
 void		last_cmd(t_shell *shell, t_pipe_node *cmd, int i);
 void		find_path(t_shell *shell, t_pipe_node *pipe);
+int			*create_mini_pipe(void);
+int			**init_pipes(int nbr_pipes);
+int			ft_pipe(int **array, int pos);
+int			is_builtin(t_pipe_node *pipe);
+int			redirection_builtin(t_shell *shell, t_pipe_node *pipe);
+void		execution_single_builtin(t_shell *shell, t_pipe_node *cmd);
 
-/*EXPAND*/
+/*REDIRECTIONS*/
+
+int			get_heredoc(t_shell *shell, char *delimiter);
+
+/* EXIT MESSAGES */
+
+void		print_str_error_and_exit(void);
+void		print_info_and_exit(char *info, int exit_status);
+
+/*EXPANDER*/
 
 char		*expander(t_shell *shell, char *str);
 char		*search_and_remplace_var(t_shell *shell, char *str, int *i);
@@ -153,13 +174,9 @@ void		free_shell(t_shell *shell);
 void		free_pipe_lst(t_shell *shell);
 void		free_token_lst(t_shell *shell);
 t_token		*free_arg_lst(t_token *lst);
-void		free_and_print_custom_message(t_shell *shell, char *message);
 int			**ft_free_all(int **array, size_t j);
+void		free_all_tab(char **p_tab, int len);
 void		ft_free_execution(t_shell *shell);
-
-/* HEREDOC */
-
-int			get_heredoc(t_shell *shell, char *delimiter);
 
 /* PARSING */
 
@@ -205,17 +222,5 @@ void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);
 void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
-
-/* TEMP FUNCTIONS */
-
-void		print_token_list_infos(t_token *lst);
-void		print_fd_content(int fd);
-void		print_pipe_lst_content(t_shell *shell);
-void		print_redir_datas_lst(t_redir_datas *datas_lst);
-
-void		find_path(t_shell *shell, t_pipe_node *pipe);
-int			*create_mini_pipe(void);
-int			**init_pipes(int nbr_pipes);
-int			ft_pipe(int **array, int pos);
 
 #endif

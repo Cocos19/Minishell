@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 09:00:44 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:08:25 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	check_n_arg_validity(char *arg)
 	if (ft_strncmp("-n", arg, 2) == 0)
 	{
 		i = 1;
-		while(arg[++i])
+		while (arg[++i])
 		{
 			if (!(arg[i] == 'n'))
 				return (1);

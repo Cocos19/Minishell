@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 14:34:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 08:50:47 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:08:40 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	print_redir_datas_lst(t_redir_datas *datas_lst)
 
 void	print_pipe_lst_content(t_shell *shell)
 {
-	t_pipe_node *lst;
+	t_pipe_node	*lst;
 	int			i;
 	int			j;
 

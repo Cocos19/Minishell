@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 16:36:37 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:08:03 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 		if (shell->last_exit_status == 127)
 			exit (COMMAND_NOT_FOUND);
 		execve(cmd->path, cmd->arguments, shell->envp);
-		if (ft_strncmp(cmd->arguments[0], "./", 2) == 0 || ft_strncmp(cmd->arguments[0], "/", 1) == 0)
+		if (ft_strncmp(cmd->arguments[0], "./", 2) == 0
+			|| ft_strncmp(cmd->arguments[0], "/", 1) == 0)
 		{
-			write(1, "minishell: ", 11);
-			write(1, cmd->arguments[0], ft_strlen(cmd->arguments[0]));
-			write(1, ": Is a directory\n", 17);
+			printf("minishell: %s: Is a directory\n", cmd->arguments[0]);
 			exit (126);
 		}
 		exit (EXIT_FAILURE);
@@ -105,7 +104,7 @@ void	execution(t_shell *shell)
 	shell->pipefd = init_pipes(shell->nbr_cmds);
 	create_pids(shell, cmd);
 	loop_execution(shell, cmd, 0);
-		ft_waitpids(shell);
+	ft_waitpids(shell);
 	ft_waitpids(shell);
 	ft_free_execution(shell);
 }

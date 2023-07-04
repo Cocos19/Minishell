@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 09:09:30 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:31:50 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	ft_children(t_shell *shell, t_pipe_node *cmd, int pos)
 		exit(EXIT_FAILURE);
 	if (redirection_builtin(shell, cmd) == 0)
 	{
-		if (shell->last_exit_status == 127)
+		if (g_exit_status == 127)
 			exit (COMMAND_NOT_FOUND);
 		execve(cmd->path, cmd->arguments, shell->envp);
 		if (ft_strncmp(cmd->arguments[0], "./", 2) == 0 || ft_strncmp(cmd->arguments[0], "/", 1) == 0)

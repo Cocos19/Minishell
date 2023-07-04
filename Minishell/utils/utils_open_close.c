@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/16 11:35:04 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 13:21:00 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 14:23:45 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell)
 	if (cmd->iofiles[0] == 1)
 		ft_close(cmd->fdio[0], 0);
 	if (cmd->iofiles[1] == 1)
-		ft_close(cmd->fdio[1], "8");
+		ft_close(cmd->fdio[1], 0);
 	if (shell->nbr_cmds <= 1)
 		return ;
 	if (pos == 0)

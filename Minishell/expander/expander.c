@@ -77,6 +77,7 @@ char	*handle_quote_exp(t_shell *shell, char *res, char *str, int *str_i)
 
 char	*handle_expansion(t_shell *shell, char *result, char *str, int *str_i)
 {
+
 	result = ft_strjoin_and_free_srcs(result,
 			get_next_substr(shell, str, str_i, '\0'));
 	if (!result)
@@ -86,6 +87,7 @@ char	*handle_expansion(t_shell *shell, char *result, char *str, int *str_i)
 		free(result);
 		return (NULL);
 	}
+
 	return (result);
 }
 

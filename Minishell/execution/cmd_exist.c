@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/25 11:23:35 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 14:11:14 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 09:32:21 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ static int	ft_test_cmd(char *path, char *cmd)
 char	*cmd_does_not_exist(t_shell *shell, char **arg)
 {
 	shell->last_exit_status = 127;
+	g_exit_status = 127;
 	shell->exit = 0;
 	if (ft_strncmp(arg[0], "./", 2) == 0 || ft_strncmp(arg[0], "/", 1) == 0)
 	{
@@ -64,7 +65,7 @@ char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 	result = NULL;
 	if (access(arg[0], X_OK) == 0)
 		return (NULL);
-	else
+	else if (ft_strlen(arg[0]) != 0)
 	{
 		path = get_envp_paths(envp);
 		i = 0;
@@ -74,6 +75,7 @@ char	*cmd_exist(t_shell *shell, char **envp, char **arg)
 			{
 				result = ft_strdup(path[i]);
 				free_all_tab(path, len_tab(path));
+				g_exit_status = 0;
 				return (result);
 			}
 			++i;

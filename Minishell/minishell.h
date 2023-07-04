@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 12:14:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:21:18 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int			builtin_unset(t_shell *shell, t_pipe_node *node);
 /*EXECUTION*/
 
 int			ft_fork(t_shell *shell);
-void		ft_dup2(t_shell *shell, int fd, int input);
+void		ft_dup2(int fd, int input);
 char		*cmd_exist(t_shell *shell, char **envp, char **arg);
 void		execution(t_shell *shell);
 char		**get_envp_paths(char **envp);
@@ -211,7 +211,6 @@ int			token_list_is_valid(t_shell *shell);
 /* UTILS */
 
 char		*ft_strjoin_protected(char *s1, char *s2);
-char		*get_string_from_fd(int fd);
 int			len_tab(char **tb);
 int			lstsize_cmd(t_pipe_node *cmd);
 int			ft_open_infile(t_shell *shell, t_redir_datas *input_lst);
@@ -222,9 +221,5 @@ void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);
 void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
-
-/*TEMP*/
-
-void	print_pipe_lst_content(t_shell *shell);
 
 #endif

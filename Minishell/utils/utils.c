@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:09:02 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 09:04:31 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:17:40 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,26 +37,6 @@ int	lstsize_cmd(t_pipe_node *cmd)
 		tmp = tmp->next;
 	}
 	return (i);
-}
-
-char	*get_string_from_fd(int fd)
-{
-	char	*str;
-	char	*temp;
-	char	*result;
-
-	str = get_next_line(fd, 100);
-	result = NULL;
-	while (str)
-	{
-		temp = ft_strjoin_protected(result, str);
-		free(str);
-		if (result)
-			free(result);
-		result = temp;
-		str = get_next_line(fd, 100);
-	}
-	return (result);
 }
 
 void	find_path(t_shell *shell, t_pipe_node *pipe)

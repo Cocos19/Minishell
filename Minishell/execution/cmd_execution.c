@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/04 12:04:54 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:19:32 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,19 +18,19 @@ void	ft_close_children(int pos, t_shell *shell, t_pipe_node *cmd)
 		return ;
 	if (pos == 0)
 	{
-		ft_close(shell->pipefd[0][0], "1");
+		ft_close(shell->pipefd[0][0], 0);
 		if (cmd->iofiles[1] == 1)
-			ft_close(shell->pipefd[0][1], "2");
+			ft_close(shell->pipefd[0][1], 0);
 	}
 	if (pos == shell->nbr_cmds - 1 && cmd->iofiles[0] == 1)
-		ft_close(shell->pipefd[pos - 1][0], "3");
+		ft_close(shell->pipefd[pos - 1][0], 0);
 	if (pos < shell->nbr_cmds - 1 && pos > 0)
 	{
 		ft_close(shell->pipefd[pos][0], "4");
 		if (cmd->iofiles[0] == 1)
-			ft_close(shell->pipefd[pos - 1][0], "5");
+			ft_close(shell->pipefd[pos - 1][0], 0);
 		if (cmd->iofiles[1] == 1)
-			ft_close(shell->pipefd[pos][1], "6");
+			ft_close(shell->pipefd[pos][1], 0);
 	}
 }
 

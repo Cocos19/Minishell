@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/27 11:20:31 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/29 14:25:43 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:15:34 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,10 @@ int	ft_fork(t_shell *shell)
 	return (result);
 }
 
-void	ft_dup2(t_shell *shell, int fd, int input)
+void	ft_dup2(int fd, int input)
 {
 	if (dup2(fd, input) == -1)
 		exit(EXIT_FAILURE);
-	(void)shell;
 }
 
 void	ft_exit_cmd(t_shell *shell, int exit_code)

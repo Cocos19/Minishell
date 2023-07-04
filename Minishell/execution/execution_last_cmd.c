@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 15:54:44 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:19:55 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@ void	last_cmd(t_shell *shell, t_pipe_node *cmd, int i)
 		find_path(shell, cmd);
 	if (cmd->iofiles[0] == 1)
 	{
-		dup2(cmd->fdio[0], STDIN_FILENO);
-		ft_close(cmd->fdio[0], "16");
+		ft_dup2(cmd->fdio[0], STDIN_FILENO);
+		ft_close(cmd->fdio[0], 0);
 	}
 	else
 	{
-		dup2(shell->pipefd[i - 1][0], STDIN_FILENO);
-		ft_close(shell->pipefd[i - 1][0], "17");
+		ft_dup2(shell->pipefd[i - 1][0], STDIN_FILENO);
+		ft_close(shell->pipefd[i - 1][0], 0);
 	}
 	if (cmd->iofiles[1] == 1)
 	{
-		dup2(cmd->fdio[1], STDOUT_FILENO);
-		ft_close(cmd->fdio[1], "18");
+		ft_dup2(cmd->fdio[1], STDOUT_FILENO);
+		ft_close(cmd->fdio[1], 0);
 	}
 }

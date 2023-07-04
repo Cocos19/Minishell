@@ -6,14 +6,13 @@
 #    By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/02/17 09:47:54 by mprofett          #+#    #+#              #
-#    Updated: 2023/07/04 12:06:03 by cmartino         ###   ########.fr        #
+#    Updated: 2023/07/04 13:21:54 by cmartino         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= minishell
 
 SRC			= main.c \
-			minishell_temp.c \
 			builtin/cd.c \
 			builtin/cd_utils.c \
 			builtin/echo.c \

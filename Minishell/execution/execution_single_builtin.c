@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_single_builtin.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/18 15:06:23 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/03 11:59:22 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 13:20:25 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	restore_stdout(int dup_stdout)
 {
 	if (close(STDOUT_FILENO) == -1)
 		return ;
-	dup2(dup_stdout, STDOUT_FILENO);
+	ft_dup2(dup_stdout, STDOUT_FILENO);
 	close(dup_stdout);
 }
 
@@ -24,8 +24,8 @@ static void	setup_redir_builtin(t_pipe_node *cmd)
 {
 	if (cmd->iofiles[1] == 1)
 	{
-		dup2(cmd->fdio[1], STDOUT_FILENO);
-		ft_close(cmd->fdio[1], "close outfile builtin\n");
+		ft_dup2(cmd->fdio[1], STDOUT_FILENO);
+		ft_close(cmd->fdio[1], 0);
 	}
 }
 
@@ -37,7 +37,7 @@ void	execution_single_builtin(t_shell *shell, t_pipe_node *cmd)
 		cmd->dup_stdout = dup(STDOUT_FILENO);
 		openiofile(shell, cmd, cmd->in_out_redir_list);
 		if (cmd->iofiles[0] == 1 && cmd->fdio[0] != -1)
-			ft_close(cmd->fdio[0], "close infile builtin");
+			ft_close(cmd->fdio[0], 0);
 	}
 	if (cmd->dup_stdout == -1 || shell->exit != 1)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:15:18 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 14:09:36 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:30:14 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	handle_single_cmd_exit_args(t_shell *shell, t_pipe_node *node)
 	{
 		printf("exit\nminishell: exit: %s: numeric argument required\n",
 			node->arguments[1]);
-		exit (2);
+		exit (ERR_SYNTAX);
 	}
 	else if (node->arguments[2])
 	{

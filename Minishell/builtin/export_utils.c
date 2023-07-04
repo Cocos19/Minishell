@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 12:16:45 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 14:01:07 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:10:38 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	check_export_variable_validity(char *var)
 	i = 0;
 	if (var[0] == '=' || (var[0] == '+' && var[1] == '='))
 		return (-1);
-	while (var[i] != '+' && var[i] != '=')
+	while (var[i] && var[i] != '+' && var[i] != '=')
 	{
 		if (!ft_isalpha(var[i]))
 			return (-1);

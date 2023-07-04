@@ -45,10 +45,7 @@ char	*search_and_expand_env_var(t_shell *shell, char *str)
 	while (str && str[++i] != '\0')
 	{
 		if (str[i] == '$')
-		{
 			str = search_and_remplace_var(shell, str, &i);
-			return (str);
-		}
 	}
 	return (str);
 }
@@ -90,11 +87,29 @@ char	*expander(t_shell *shell, char *str)
 			result = ft_strjoin_and_free_srcs(result,
 					get_next_substr(shell, str, &str_i, '\''));
 		else if (str[str_i] == '\"')
+		{
 			result = ft_strjoin_and_free_srcs(result,
 					get_next_substr(shell, str, &str_i, '\"'));
+			if (!result)
+				print_str_error_and_exit();
+			if (ft_is_empty_or_with_only_spaces(result) == 1)
+			{
+				free(result);
+				result = malloc(sizeof(char));
+				if (!result)
+					print_str_error_and_exit();
+				result[0] = '\0';
+			}
+		}
 		else
+		{
 			result = ft_strjoin_and_free_srcs(result,
 					get_next_substr(shell, str, &str_i, '\0'));
+			if (!result)
+				print_str_error_and_exit();
+			if (ft_is_empty_or_with_only_spaces(result) == 1)
+				return (NULL);
+		}
 		if (!result)
 			print_str_error_and_exit();
 	}

@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 09:26:26 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 10:37:44 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,5 +222,9 @@ void		ft_close_parent(int pos, t_pipe_node *cmd, t_shell *shell);
 void		create_pids(t_shell *shell, t_pipe_node *pipe);
 void		ft_exit_cmd(t_shell *shell, int exit_code);
 void		openiofile(t_shell *shell, t_pipe_node *pipe, t_redir_datas *files);
+
+/*TEMP*/
+
+void	print_pipe_lst_content(t_shell *shell);
 
 #endif

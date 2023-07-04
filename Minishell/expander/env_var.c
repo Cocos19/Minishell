@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 14:01:14 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 13:58:08 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/04 11:33:53 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*get_expanded_var(char *str, char *var_to_s, char *var_to_ex, int *i)
 	cut = ft_strjoin_protected("$", var_to_s);
 	free(var_to_s);
 	if (var_to_ex)
-			result = ft_expand(str, str + *i, cut, var_to_ex);
+		result = ft_expand(str, str + *i, cut, var_to_ex);
 	else
 		result = ft_expand(str, str + *i, cut, "");
 	if (!result)
@@ -101,5 +101,6 @@ char	*search_and_remplace_var(t_shell *shell, char *str, int *i)
 	free(result);
 	if (!var_to_search)
 		print_str_error_and_exit();
-	return (get_expanded_var(str, var_to_search, var_to_expand, i));
+	result = get_expanded_var(str, var_to_search, var_to_expand, i);
+	return (result);
 }

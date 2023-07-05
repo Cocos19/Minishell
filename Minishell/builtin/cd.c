@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/30 15:12:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:11:05 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,21 @@ void	update_env_var(t_shell *shell, char *to_update, char *new_val)
 		free(new_val);
 }
 
-void	update_envp(t_shell *shell)
+void	update_envp(t_shell *shell, char *old_pwd)
 {
 	char	*result;
 
-	if (export_variable_is_in_envp(shell, "PWD=", '=') >= 0)
-		update_env_var(shell, "OLDPWD=", ft_strdup("$PWD"));
+	update_env_var(shell, "OLDPWD=", old_pwd);
 	result = NULL;
 	result = getcwd(result, NAME_MAX);
 	update_env_var(shell, "PWD=", result);
+	free(result);
 }
 
 int	execute_change_dir(t_shell *shell, char *path)
 {
-	int	result;
+	int		result;
+	char	*old_pwd;
 
 	result = 0;
 	if (!path)
@@ -60,10 +61,18 @@ int	execute_change_dir(t_shell *shell, char *path)
 		printf("minishell: cd: %s: %s\n", path, strerror(errno));
 		return (EPERM);
 	}
+	old_pwd = NULL;
+	old_pwd = getcwd(old_pwd, NAME_MAX);
+	if (!old_pwd)
+	{
+		handle_getcwd_error(shell);
+		return (EPERM);
+	}
 	result = chdir(path);
 	if (result == 0)
-		update_envp(shell);
+		update_envp(shell, old_pwd);
 	free(path);
+	free(old_pwd);
 	return (result);
 }
 

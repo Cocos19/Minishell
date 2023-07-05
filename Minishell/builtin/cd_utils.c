@@ -6,22 +6,17 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/03 14:01:24 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:28:54 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*handle_path_error(char *temp)
+char	*handle_getcwd_error(t_shell *shell)
 {
-	if (!temp)
-		print_str_error_and_exit();
-	else if (temp[0] == '\0')
-	{
-		printf("minishell: cd: PATH not set\n");
-		free(temp);
-	}
-	return (NULL);
+	printf("minishell: cd: error retrieving current directory:");
+	printf("getcwd: cannot access parent directories: \n");
+	shell->last_exit_status = EPERM;
 	return (NULL);
 }
 
@@ -31,9 +26,10 @@ char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
 	char	*temp;
 	char	*new_str_end;
 
-	temp = search_and_expand_env_var(shell, ft_strdup("$PWD"));
-	if (!temp || temp[0] == '\0')
-		return (handle_path_error(temp));
+	temp = NULL;
+	temp = getcwd(temp, NAME_MAX);
+	if (!temp)
+		return (handle_getcwd_error(shell));
 	if (node->arguments[1][1] == '.')
 	{
 		if (temp[0] == '/' && ft_strlen(temp) == 1)
@@ -58,14 +54,14 @@ char	*get_home_relative_path(t_shell *shell, char *arg)
 	env_index = export_variable_is_in_envp(shell, "HOME=", '=');
 	if (env_index < 0)
 	{
-		printf("minishell: cd: OLDPWD not set\n");
+		printf("minishell: cd: HOME not set\n");
 		return (NULL);
 	}
 	else if (!arg)
-		res = ft_strdup(search_and_expand_env_var(shell, ft_strdup("$HOME")));
+		res = search_and_expand_env_var(shell, ft_strdup("$HOME"));
 	else
 	{
-		temp = ft_strdup(search_and_expand_env_var(shell, ft_strdup("$HOME")));
+		temp = search_and_expand_env_var(shell, ft_strdup("$HOME"));
 		if (!temp)
 			print_str_error_and_exit();
 		res = ft_expand(arg, arg, "~", temp);
@@ -90,6 +86,7 @@ int	execute_change_dir_to_old_pwd(t_shell *shell, char *path)
 		str = NULL;
 		str = getcwd(str, NAME_MAX);
 		update_env_var(shell, "PWD=", str);
+		free(str);
 	}
 	free(path);
 	return (result);

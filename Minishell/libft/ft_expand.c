@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:26:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/05 09:08:47 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:27:57 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_expand(char *str, char *start, char *cut, char *paste)
 
 	len = ft_strlen(str) - ft_strlen(cut) + ft_strlen(paste);
 	new_str = malloc(sizeof(char) * (len + 1));
-	if (!new_str)
+	if (!new_str || !str)
 		return (NULL);
 	old_str = str;
 	result = new_str;

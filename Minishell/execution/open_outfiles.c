@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 13:27:28 by cmartino          #+#    #+#             */
-/*   Updated: 2023/07/05 10:51:57 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/05 10:58:54 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,3 @@ int	ft_open_outfile(t_shell *shell, t_redir_datas *output_lst)
 		next_file(temp_lst, fd, output_lst->value, 'o');
 	return (fd);
 }
- 

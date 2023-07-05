@@ -6,14 +6,11 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:03:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 16:17:38 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:12:41 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/*This function can be launched in multiples pipe in forks or
-as a single pipe in a fork*/
 
 char	*ft_strjoin_and_free_input(char *input, char *to_add)
 {

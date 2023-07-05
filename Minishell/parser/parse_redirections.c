@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/20 15:02:15 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/04 08:31:01 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:11:41 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,13 @@ t_redir_datas	*init_redir_datas(char *val, int mode, char type)
 	return (result);
 }
 
-void	*print_err_and_update_status(t_shell *shell)
+void	*print_err_and_update_status(t_shell *shell, t_token *token, int err)
 {
-	printf("minishell: syntax error near unexpected token `newline'\n");
+	if (err == 0)
+		printf("minishell: syntax error near unexpected token `newline'\n");
+	else if (err == 1)
+		printf("minishell: syntax error near unexpected token `%s'\n",
+			token->next->value);
 	shell->last_exit_status = 2;
 	return (NULL);
 }
@@ -41,7 +45,10 @@ t_token	*get_input(t_shell *shell, t_pipe_node *node, t_token *token)
 
 	mode = 2;
 	if (!token->next)
-		return (print_err_and_update_status(shell));
+		return (print_err_and_update_status(shell, token, 0));
+	else if (token->next->value && (token->next->value[0] == '>'
+			|| token->next->value[0] == '<' || token->next->value[0] == '|'))
+		return (print_err_and_update_status(shell, token, 1));
 	if (token->value[1] == '\0')
 		mode = 1;
 	value = expander(shell, token->next->value);
@@ -67,7 +74,10 @@ t_token	*get_output(t_shell *shell, t_pipe_node *node, t_token *token)
 
 	mode = 2;
 	if (!token->next)
-		return (print_err_and_update_status(shell));
+		return (print_err_and_update_status(shell, token, 0));
+	else if (token->next->value && (token->next->value[0] == '>'
+			|| token->next->value[0] == '<' || token->next->value[0] == '|'))
+		return (print_err_and_update_status(shell, token, 1));
 	value = expander(shell, token->next->value);
 	if (token->value[1] == '\0')
 		mode = 1;

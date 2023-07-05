@@ -6,7 +6,7 @@
 /*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/30 13:27:15 by cmartino          #+#    #+#             */
-/*   Updated: 2023/06/30 13:40:14 by cmartino         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:13:31 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_open_infile(t_shell *shell, t_redir_datas *input_lst)
 	fd = open(input_lst->value, O_RDONLY);
 	if (fd == -1)
 	{
+		write(1, "minishell: ", 11);
 		perror(input_lst->value);
 		ft_exit_cmd(shell, 127);
 	}

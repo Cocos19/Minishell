@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
+/*   By: cmartino <cmartino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 13:26:35 by mprofett          #+#    #+#             */
-/*   Updated: 2023/06/20 15:11:41 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/05 09:09:28 by cmartino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_expand(char *str, char *start, char *cut, char *paste)
 
 	len = ft_strlen(str) - ft_strlen(cut) + ft_strlen(paste);
 	new_str = malloc(sizeof(char) * (len + 1));
-	if (!str)
+	if (!new_str || !str)
 		return (NULL);
 	old_str = str;
 	result = new_str;

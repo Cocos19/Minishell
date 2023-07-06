@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/03 15:14:30 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/05 10:11:05 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:04:15 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,9 @@ char	*get_path(t_shell *shell, t_pipe_node *node)
 		printf("minishell: cd: too many arguments\n");
 	else if (node->arguments[1][0] == '~')
 		path = get_home_relative_path(shell, node->arguments[1]);
-	else if (node->arguments[1][0] == '.')
-		path = get_dot_relative_path(shell, node);
 	else
 	{
-		path = strdup(node->arguments[1]);
+		path = ft_strdup(node->arguments[1]);
 		if (!path)
 			print_str_error_and_exit();
 	}

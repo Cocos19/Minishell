@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/20 10:37:09 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/05 10:28:54 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:04:21 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,6 @@ char	*handle_getcwd_error(t_shell *shell)
 	printf("getcwd: cannot access parent directories: \n");
 	shell->last_exit_status = EPERM;
 	return (NULL);
-}
-
-char	*get_dot_relative_path(t_shell *shell, t_pipe_node *node)
-{
-	char	*result;
-	char	*temp;
-	char	*new_str_end;
-
-	temp = NULL;
-	temp = getcwd(temp, NAME_MAX);
-	if (!temp)
-		return (handle_getcwd_error(shell));
-	if (node->arguments[1][1] == '.')
-	{
-		if (temp[0] == '/' && ft_strlen(temp) == 1)
-			return (temp);
-		new_str_end = ft_strrchr(temp, '/');
-		result = ft_substr_delimited(temp, new_str_end - 1);
-	}
-	else
-		result = ft_strjoin_protected(temp, node->arguments[1] + 1);
-	if (!result)
-		print_str_error_and_exit();
-	free(temp);
-	return (result);
 }
 
 char	*get_home_relative_path(t_shell *shell, char *arg)

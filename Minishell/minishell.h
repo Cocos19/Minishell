@@ -6,7 +6,7 @@
 /*   By: mprofett <mprofett@student.s19.be>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 09:43:59 by mprofett          #+#    #+#             */
-/*   Updated: 2023/07/05 10:09:32 by mprofett         ###   ########.fr       */
+/*   Updated: 2023/07/06 10:00:45 by mprofett         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_shell_infos
 	/*CD*/
 
 int			builtin_cd(t_shell *shell, t_pipe_node *node);
-char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
+// char		*get_dot_relative_path(t_shell *shell, t_pipe_node *node);
 char		*get_home_relative_path(t_shell *shell, char *arg);
 int			get_old_pwd_path(t_shell *shell);
 char		*handle_getcwd_error(t_shell *shell);
